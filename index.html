@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>Expositions</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="page">
+
+    <header class="header">
+      <a href="#maintenant" class="section-link active">Maintenant</a>
+      <a href="#bientot" class="section-link">Bientôt</a>
+    </header>
+
+    <section id="maintenant" class="exhibition-section">
+      <div class="section-heading">
+        <h1>Maintenant</h1>
+      </div>
+
+      <div id="current-list" class="exhibition-list">
+        <p class="loading">Chargement…</p>
+      </div>
+    </section>
+
+    <section id="bientot" class="exhibition-section upcoming-section">
+      <div class="section-heading">
+        <h2>Bientôt</h2>
+      </div>
+
+      <div id="upcoming-list" class="exhibition-list">
+        <p class="loading">Chargement…</p>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="detail" class="detail" aria-hidden="true">
+    <div class="detail-inner">
+
+      <button id="detail-close" class="detail-close" type="button">
+        Fermer
+      </button>
+
+      <div id="detail-content"></div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
