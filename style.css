@@ -4,6 +4,8 @@
   --yellow: #e7ff00;
   --grey: #8a8a8a;
   --line: #292929;
+
+  --header-height: 48px;
 }
 
 * {
@@ -37,6 +39,11 @@ button {
   text-transform: inherit;
 }
 
+
+/* ==================================================
+   PAGE
+   ================================================== */
+
 .page {
   width: 100%;
   max-width: 900px;
@@ -44,109 +51,190 @@ button {
   padding: 0 22px;
 }
 
-/* =========================
-   SECTION HEADERS
-   ========================= */
 
-.exhibition-section {
-  position: relative;
-}
+/* ==================================================
+   SECTION HEADERS
+   ================================================== */
+
+/*
+  IMPORTANT:
+  These headers are direct children of .page.
+
+  MAINTENANT remains sticky for the whole page.
+  BIENTÔT becomes sticky when it reaches the top
+  and then sits immediately below MAINTENANT.
+*/
 
 .section-heading {
   position: sticky;
-  top: 0;
-  z-index: 20;
-  width: 100%;
-  height: 48px;
+  z-index: 30;
+
+  height: var(--header-height);
+
   display: flex;
   align-items: center;
+
   padding: 0 12px;
+
   background: var(--yellow);
   color: var(--black);
+
+  cursor: pointer;
+
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 .section-heading h1,
 .section-heading h2 {
   margin: 0;
+
   font-size: 18px;
   line-height: 1;
+
   font-weight: 600;
+
   letter-spacing: 0.055em;
 }
 
-.upcoming-section {
-  margin-top: 70px;
-  padding-bottom: 80px;
-}
 
 /*
-  When BIENTÔT becomes sticky, it sits below
-  the already-sticky MAINTENANT header.
+  MAINTENANT is always the upper sticky header.
 */
-.upcoming-section .section-heading {
-  top: 48px;
+
+.section-heading-now {
+  top: 0;
 }
 
-/* =========================
+
+/*
+  BIENTÔT sticks underneath MAINTENANT.
+*/
+
+.section-heading-upcoming {
+  top: var(--header-height);
+}
+
+
+/*
+  Small visual indication that the headers are clickable.
+  No hover effect.
+*/
+
+.section-heading:active {
+  opacity: 0.88;
+}
+
+
+/* ==================================================
    EXHIBITION LIST
-   ========================= */
+   ================================================== */
 
 .exhibition-list {
   width: 100%;
 }
 
+.upcoming-list {
+  padding-bottom: 80px;
+}
+
+
+/* ==================================================
+   EXHIBITION
+   ================================================== */
+
 .exhibition {
   position: relative;
+
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+
   column-gap: 30px;
+
   padding: 19px 0 20px;
+
   border-bottom: 1px solid var(--line);
+
   cursor: pointer;
 
-  /*
-    Prevent the browser from selecting text during
-    a horizontal swipe.
-  */
   user-select: none;
+
+  /*
+    Critical for mobile:
+    vertical movement belongs to the page,
+    horizontal movement belongs to the exhibition.
+  */
   touch-action: pan-y;
-  transform: translateX(0);
-  transition: transform 180ms ease;
+
+  transform: translate3d(0, 0, 0);
+
+  -webkit-tap-highlight-color: transparent;
 }
+
+
+/*
+  NO HOVER EFFECT.
+*/
+
+.exhibition:hover {
+  color: inherit;
+}
+
+.exhibition:hover .exhibition-title {
+  color: inherit;
+}
+
+
+/* ==================================================
+   EXHIBITION TEXT
+   ================================================== */
 
 .exhibition-title {
   margin: 0;
+
+  color: var(--white);
+
   font-size: 15px;
   line-height: 1.25;
+
   font-weight: 500;
+
   letter-spacing: 0.035em;
-  transition: color 160ms ease;
 }
 
 .exhibition-venue {
   margin-top: 5px;
+
   color: var(--grey);
+
   font-size: 15px;
   line-height: 1.25;
+
   font-weight: 500;
+
   letter-spacing: 0.035em;
-  transition: color 160ms ease;
 }
 
 .exhibition-date {
   align-self: center;
+
   min-width: 125px;
+
   color: var(--grey);
+
   font-size: 10px;
   line-height: 1.3;
+
   letter-spacing: 0.08em;
+
   text-align: right;
-  transition: color 160ms ease;
 }
 
-/* =========================
+
+/* ==================================================
    FAVORITES
-   ========================= */
+   ================================================== */
 
 .exhibition.favorite .exhibition-title,
 .exhibition.favorite .exhibition-venue,
@@ -154,44 +242,57 @@ button {
   color: var(--yellow);
 }
 
+
 /*
-  Small visual movement during the swipe.
-  It disappears automatically when the gesture ends.
+  Temporary movement during swipe.
 */
+
 .exhibition.swiping {
   transition: none;
 }
 
-/* =========================
+
+/* ==================================================
    LOADING / EMPTY
-   ========================= */
+   ================================================== */
 
 .loading {
   margin: 20px 0;
+
   color: var(--grey);
+
   font-size: 10px;
   letter-spacing: 0.08em;
 }
 
 .empty {
   padding: 25px 0;
+
   color: var(--grey);
+
   font-size: 10px;
   letter-spacing: 0.08em;
 }
 
-/* =========================
-   DETAIL VIEW
-   ========================= */
+
+/* ==================================================
+   DETAIL
+   ================================================== */
 
 .detail {
   position: fixed;
+
   inset: 0;
+
   z-index: 100;
+
   overflow-y: auto;
+
   background: var(--black);
+
   opacity: 0;
   visibility: hidden;
+
   transition:
     opacity 180ms ease,
     visibility 180ms ease;
@@ -205,71 +306,103 @@ button {
 .detail-inner {
   width: 100%;
   max-width: 900px;
+
   min-height: 100%;
+
   margin: 0 auto;
+
   padding: 22px;
 }
 
 .detail-close {
   appearance: none;
+
   margin: 0 0 80px;
   padding: 0 0 7px;
+
   border: 0;
   border-bottom: 1px solid var(--yellow);
+
   background: none;
+
   color: var(--yellow);
+
   font-size: 11px;
+
   letter-spacing: 0.08em;
+
   cursor: pointer;
 }
 
 .detail-title {
   max-width: 700px;
+
   margin: 0 0 35px;
+
   font-size: 25px;
   line-height: 1.15;
+
   font-weight: 500;
+
   letter-spacing: 0.025em;
 }
 
 .detail-meta {
   margin-bottom: 40px;
+
   color: var(--grey);
+
   font-size: 10px;
   line-height: 1.5;
+
   letter-spacing: 0.08em;
 }
 
 .detail-description {
   max-width: 620px;
+
   margin: 0 0 50px;
+
   color: var(--white);
+
   font-size: 13px;
   line-height: 1.6;
+
   text-transform: none;
 }
 
 .detail-source {
   display: inline-block;
+
   padding-bottom: 6px;
+
   border-bottom: 1px solid var(--yellow);
+
   color: var(--yellow);
+
   font-size: 10px;
+
   letter-spacing: 0.08em;
 }
 
-/* =========================
+
+/* ==================================================
    MOBILE
-   ========================= */
+   ================================================== */
 
 @media (max-width: 600px) {
+
+  :root {
+    --header-height: 46px;
+  }
 
   .page {
     padding: 0 16px;
   }
 
   .section-heading {
-    height: 46px;
+    height: var(--header-height);
+
     padding: 0 10px;
   }
 
@@ -278,22 +411,11 @@ button {
     font-size: 17px;
   }
 
-  /*
-    BIENTÔT stacks below MAINTENANT
-    when both are sticky.
-  */
-  .upcoming-section .section-heading {
-    top: 46px;
-  }
-
-  .upcoming-section {
-    margin-top: 58px;
-    padding-bottom: 60px;
-  }
-
   .exhibition {
     grid-template-columns: 1fr;
+
     row-gap: 7px;
+
     padding: 17px 0 18px;
   }
 
@@ -303,13 +425,20 @@ button {
 
   .exhibition-venue {
     margin-top: 0;
+
     font-size: 14px;
   }
 
   .exhibition-date {
     min-width: 0;
+
     text-align: left;
+
     font-size: 9px;
+  }
+
+  .upcoming-list {
+    padding-bottom: 60px;
   }
 
   .detail-inner {
