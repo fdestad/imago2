@@ -367,12 +367,23 @@ button {
 }
 
 .detail-meta {
-  margin-bottom: 40px;
+  margin-bottom: 0;
 
   color: var(--grey);
 
   font-size: 10px;
   line-height: 1.5;
+
+  letter-spacing: 0.08em;
+}
+
+.detail-hours {
+  margin: 0 0 50px;
+
+  color: var(--grey);
+
+  font-size: 10px;
+  line-height: 1.3;
 
   letter-spacing: 0.08em;
 }
@@ -392,8 +403,17 @@ button {
 
 
 /* ==================================================
-   DETAIL LINKS / HOURS
+   DETAIL LINKS
    ================================================== */
+
+.detail-links {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: baseline;
+
+  width: 100%;
+}
 
 .detail-source,
 .detail-official {
@@ -410,21 +430,8 @@ button {
   letter-spacing: 0.08em;
 }
 
-.detail-hours {
-  margin-top: 28px;
-
-  color: var(--grey);
-
-  font-size: 10px;
-  line-height: 1.3;
-
-  letter-spacing: 0.08em;
-}
-
 .detail-official {
-  display: block;
-
-  margin-top: 8px;
+  text-align: right;
 }
 
 
