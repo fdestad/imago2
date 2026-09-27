@@ -1,11 +1,13 @@
 :root {
-  --black: #000000;
-  --white: #f5f5f2;
-  --yellow: #e7ff00;
+  --yellow: #ffff00;
+  --black: #000;
+  --white: #fff;
   --grey: #8a8a8a;
-  --line: #292929;
 
-  --header-height: 48px;
+  --page-width: 860px;
+
+  --heading-height: 54px;
+  --page-padding: 22px;
 }
 
 * {
@@ -13,8 +15,8 @@
 }
 
 html {
-  background: var(--black);
   scroll-behavior: smooth;
+  background: var(--black);
 }
 
 body {
@@ -22,430 +24,313 @@ body {
   background: var(--black);
   color: var(--white);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 1.35;
-  text-transform: uppercase;
-  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
+button,
 a {
-  color: inherit;
-  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button {
   font: inherit;
-  text-transform: inherit;
 }
 
-
-/* ==================================================
-   PAGE
-   ================================================== */
-
-.page {
-  width: 100%;
-  max-width: 900px;
+.app {
+  width: min(var(--page-width), calc(100% - 44px));
   margin: 0 auto;
-  padding: 0 22px;
+  padding-bottom: 100vh;
 }
 
-
-/* ==================================================
+/* --------------------------------------------------
    SECTION HEADERS
-   ================================================== */
+-------------------------------------------------- */
 
 .section-heading {
-  position: relative;
-
-  z-index: 30;
-
-  width: 100%;
-  height: var(--header-height);
+  height: var(--heading-height);
+  background: var(--yellow);
+  color: var(--black);
 
   display: flex;
   align-items: center;
 
-  padding: 0 12px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
 
-  background: var(--yellow);
-  color: var(--black);
+  width: min(var(--page-width), calc(100% - 44px));
+
+  z-index: 20;
+}
+
+.section-heading button {
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+  background: transparent;
+  color: inherit;
+
+  text-align: left;
+  padding: 0 14px;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
 
   cursor: pointer;
-
-  user-select: none;
-
-  -webkit-tap-highlight-color: transparent;
 }
 
-.section-heading h1,
-.section-heading h2 {
-  margin: 0;
-
-  font-size: 18px;
-  line-height: 1;
-
-  font-weight: 600;
-
-  letter-spacing: 0.055em;
-}
-
-
-/*
-  MAINTENANT reste fixé tout en haut
-  lorsqu'il a atteint le haut de l'écran.
-*/
-
-.section-heading-now.is-fixed {
-  position: fixed;
-
+.section-heading-now {
   top: 0;
-  left: 50%;
-
-  width: min(
-    calc(100% - 44px),
-    856px
-  );
-
-  transform: translateX(-50%);
-
-  z-index: 40;
 }
 
+.section-heading-upcoming {
+  bottom: 0;
+}
 
 /*
-  BIENTÔT se fixe juste sous MAINTENANT.
+  The real content starts below MAINTENANT.
+  BIENTÔT is visually fixed at the bottom,
+  so it doesn't need to occupy normal flow here.
 */
 
-.section-heading-upcoming.is-fixed {
-  position: fixed;
-
-  top: var(--header-height);
-  left: 50%;
-
-  width: min(
-    calc(100% - 44px),
-    856px
-  );
-
-  transform: translateX(-50%);
-
-  z-index: 39;
+.exhibition-section {
+  width: 100%;
 }
 
-
-/*
-  Aucun effet de surbrillance au survol.
-  Seulement une légère réaction tactile.
-*/
-
-.section-heading:active {
-  opacity: 0.88;
+#current-section {
+  padding-top: calc(var(--heading-height) + 10px);
 }
 
+#upcoming-section {
+  /*
+    Extra bottom space prevents the last upcoming
+    exhibition from disappearing behind the BIENTÔT header.
+  */
+  padding-bottom: calc(var(--heading-height) + 30px);
+}
 
-/* ==================================================
-   EXHIBITION LIST
-   ================================================== */
+/* --------------------------------------------------
+   EXHIBITIONS
+-------------------------------------------------- */
 
 .exhibition-list {
   width: 100%;
 }
 
-.upcoming-list {
-  padding-bottom: 80px;
-}
-
-
-/* ==================================================
-   EXHIBITION
-   ================================================== */
-
 .exhibition {
   position: relative;
 
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 18px 0 19px;
 
-  column-gap: 30px;
-
-  padding: 19px 0 20px;
-
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid #303030;
 
   cursor: pointer;
 
-  user-select: none;
-
-  /*
-    Le doigt peut continuer à faire défiler
-    verticalement la page.
-  */
   touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 
-  transform: translate3d(0, 0, 0);
-
-  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 180ms ease,
+    color 180ms ease;
 }
 
-
-/*
-  Aucun effet au survol.
-*/
-
-.exhibition:hover {
-  color: inherit;
+.exhibition:first-child {
+  padding-top: 12px;
 }
-
-.exhibition:hover .exhibition-title {
-  color: inherit;
-}
-
-
-/* ==================================================
-   EXHIBITION TEXT
-   ================================================== */
 
 .exhibition-title {
   margin: 0;
 
-  color: var(--white);
-
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   line-height: 1.25;
-
-  font-weight: 500;
-
-  letter-spacing: 0.035em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .exhibition-venue {
   margin-top: 5px;
 
-  color: var(--grey);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 1.15;
+  font-style: italic;
+  font-weight: 400;
 
-  font-size: 15px;
-  line-height: 1.25;
-
-  font-weight: 500;
-
-  letter-spacing: 0.035em;
+  color: #9b9b9b;
 }
 
 .exhibition-date {
-  align-self: center;
+  margin-top: 7px;
 
-  min-width: 125px;
-
-  color: var(--grey);
-
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
-  line-height: 1.3;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 
-  letter-spacing: 0.08em;
-
-  text-align: right;
+  color: #777;
 }
 
-
-/* ==================================================
-   FAVORITES
-   ================================================== */
-
-.exhibition.favorite .exhibition-title,
-.exhibition.favorite .exhibition-venue,
-.exhibition.favorite .exhibition-date {
+.exhibition.is-favorite .exhibition-title,
+.exhibition.is-favorite .exhibition-venue,
+.exhibition.is-favorite .exhibition-date {
   color: var(--yellow);
 }
 
-
 /*
-  Pendant le swipe, aucune transition ne vient
-  ralentir le déplacement du doigt.
+  No hover effect:
+  the app is designed primarily for mobile.
 */
 
-.exhibition.swiping {
+.exhibition.is-swiping {
   transition: none;
 }
 
+/* --------------------------------------------------
+   DETAIL VIEW
+-------------------------------------------------- */
 
-/* ==================================================
-   LOADING / EMPTY
-   ================================================== */
-
-.loading {
-  margin: 20px 0;
-
-  color: var(--grey);
-
-  font-size: 10px;
-  letter-spacing: 0.08em;
-}
-
-.empty {
-  padding: 25px 0;
-
-  color: var(--grey);
-
-  font-size: 10px;
-  letter-spacing: 0.08em;
-}
-
-
-/* ==================================================
-   DETAIL
-   ================================================== */
-
-.detail {
+.detail-view {
   position: fixed;
-
   inset: 0;
 
   z-index: 100;
 
-  overflow-y: auto;
-
   background: var(--black);
+  color: var(--white);
+
+  overflow-y: auto;
 
   opacity: 0;
   visibility: hidden;
 
   transition:
-    opacity 180ms ease,
-    visibility 180ms ease;
+    opacity 160ms ease,
+    visibility 160ms ease;
 }
 
-.detail.open {
+.detail-view.is-open {
   opacity: 1;
   visibility: visible;
 }
 
-.detail-inner {
-  width: 100%;
-  max-width: 900px;
-
-  min-height: 100%;
-
+.detail-content {
+  width: min(var(--page-width), calc(100% - 44px));
   margin: 0 auto;
 
-  padding: 22px;
+  padding-top: 100px;
+  padding-bottom: 80px;
 }
 
 .detail-close {
-  appearance: none;
+  position: fixed;
+  top: 18px;
+  right: max(22px, calc((100vw - var(--page-width)) / 2));
 
-  margin: 0 0 80px;
-  padding: 0 0 7px;
+  z-index: 110;
+
+  width: 40px;
+  height: 40px;
 
   border: 0;
-  border-bottom: 1px solid var(--yellow);
+  background: transparent;
+  color: var(--white);
 
-  background: none;
-
-  color: var(--yellow);
-
-  font-size: 11px;
-
-  letter-spacing: 0.08em;
+  font-size: 34px;
+  font-weight: 200;
+  line-height: 1;
 
   cursor: pointer;
 }
 
-.detail-title {
-  max-width: 700px;
+.detail-venue {
+  margin-bottom: 14px;
 
-  margin: 0 0 35px;
-
-  font-size: 25px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 21px;
   line-height: 1.15;
+  font-style: italic;
 
-  font-weight: 500;
-
-  letter-spacing: 0.025em;
+  color: #aaa;
 }
 
-.detail-meta {
-  margin-bottom: 40px;
+.detail-content h1 {
+  margin: 0;
 
-  color: var(--grey);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
 
-  font-size: 10px;
-  line-height: 1.5;
+.detail-date {
+  margin-top: 18px;
 
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  color: #777;
 }
 
 .detail-description {
-  max-width: 620px;
+  max-width: 700px;
 
-  margin: 0 0 50px;
+  margin-top: 45px;
 
-  color: var(--white);
-
-  font-size: 13px;
-  line-height: 1.6;
-
-  text-transform: none;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #ddd;
 }
 
 .detail-source {
   display: inline-block;
 
-  padding-bottom: 6px;
+  margin-top: 45px;
+  padding-bottom: 3px;
+
+  color: var(--yellow);
+  text-decoration: none;
 
   border-bottom: 1px solid var(--yellow);
 
-  color: var(--yellow);
-
-  font-size: 10px;
-
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  letter-spacing: 0.04em;
 }
 
-
-/* ==================================================
+/* --------------------------------------------------
    MOBILE
-   ================================================== */
+-------------------------------------------------- */
 
 @media (max-width: 600px) {
 
   :root {
-    --header-height: 46px;
+    --heading-height: 48px;
   }
 
-  .page {
-    padding: 0 16px;
-  }
-
-  .section-heading {
-    height: var(--header-height);
-
-    padding: 0 10px;
-  }
-
-  .section-heading h1,
-  .section-heading h2 {
-    font-size: 17px;
-  }
-
-
-  /*
-    Sur mobile, les headers fixes ont exactement
-    la largeur du contenu.
-  */
-
-  .section-heading-now.is-fixed,
-  .section-heading-upcoming.is-fixed {
+  .app {
     width: calc(100% - 32px);
   }
 
+  .section-heading {
+    width: calc(100% - 32px);
+  }
+
+  .section-heading button {
+    padding: 0 11px;
+    font-size: 20px;
+  }
+
+  #current-section {
+    padding-top: calc(var(--heading-height) + 8px);
+  }
 
   .exhibition {
-    grid-template-columns: 1fr;
-
-    row-gap: 7px;
-
     padding: 17px 0 18px;
   }
 
@@ -454,32 +339,19 @@ button {
   }
 
   .exhibition-venue {
-    margin-top: 0;
-
-    font-size: 14px;
+    font-size: 17px;
   }
 
   .exhibition-date {
-    min-width: 0;
-
-    text-align: left;
-
     font-size: 9px;
   }
 
-  .upcoming-list {
-    padding-bottom: 60px;
-  }
-
-  .detail-inner {
-    padding: 18px 16px 50px;
+  .detail-content {
+    width: calc(100% - 32px);
+    padding-top: 80px;
   }
 
   .detail-close {
-    margin-bottom: 65px;
-  }
-
-  .detail-title {
-    font-size: 22px;
+    right: 12px;
   }
 }
