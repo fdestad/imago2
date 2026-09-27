@@ -1,7 +1,8 @@
 import re
 import html
+import json
 import requests
-from datetime import date
+from datetime import date, timedelta
 from urllib.parse import urljoin
 
 
@@ -32,6 +33,7 @@ VENUES = [
 
 
 TODAY = date.today()
+UPCOMING_LIMIT = TODAY + timedelta(days=30)
 
 HEADERS = {
     "User-Agent": (
@@ -61,20 +63,16 @@ def clean_text(value):
 
 def parse_exhibitions(source_url, text):
     """
-    Extracts exhibition cards from L'Officiel's HTML.
+    Extract all exhibition cards from L'Officiel.
 
-    The useful structure is:
-
-        <div ... class="column ... A_musees_expositions ...">
-            ...
-            <span itemprop="name">TITLE</span>
-            ...
-            <meta itemprop="startDate" content="YYYY-MM-DD">
-            <meta itemprop="endDate" content="YYYY-MM-DD">
-        </div>
+    L'Officiel uses schema.org VisualArtsEvent markup:
+      - itemprop="name"
+      - itemprop="startDate"
+      - itemprop="endDate"
+      - itemprop="url"
+      - itemprop="description"
     """
 
-    # Each exhibition card has this class.
     pattern = re.compile(
         r'<div[^>]+class="[^"]*\bA_musees_expositions\b[^"]*"'
         r'[^>]*>(.*?)(?=<div[^>]+class="[^"]*\bA_musees_expositions\b|'
@@ -85,6 +83,7 @@ def parse_exhibitions(source_url, text):
     exhibitions = []
 
     for block in pattern.findall(text):
+
         title_match = re.search(
             r'<span[^>]+itemprop="name"[^>]*>(.*?)</span>',
             block,
@@ -128,7 +127,6 @@ def parse_exhibitions(source_url, text):
         except ValueError:
             continue
 
-        # Ignore obviously non-exhibition entries.
         if not title:
             continue
 
@@ -152,8 +150,9 @@ def parse_exhibitions(source_url, text):
             "description": description,
         })
 
-    # Deduplicate.
+    # Remove duplicates
     unique = {}
+
     for exhibition in exhibitions:
         key = (
             exhibition["title"],
@@ -165,61 +164,162 @@ def parse_exhibitions(source_url, text):
     return list(unique.values())
 
 
+def classify(exhibition):
+    """
+    Determine whether an exhibition is current, upcoming or irrelevant.
+    """
+
+    start = exhibition["start"]
+    end = exhibition["end"]
+
+    if start <= TODAY <= end:
+        return "current"
+
+    if TODAY < start <= UPCOMING_LIMIT:
+        return "upcoming"
+
+    return None
+
+
+def serialize(exhibition, venue):
+    """
+    Convert internal date objects to the JSON format used by the app.
+    """
+
+    status = classify(exhibition)
+
+    return {
+        "title": exhibition["title"],
+        "venue": venue,
+        "start": exhibition["start"].isoformat(),
+        "end": exhibition["end"].isoformat(),
+        "status": status,
+        "url": exhibition["url"],
+        "description": exhibition["description"],
+    }
+
+
 def main():
+
+    current = []
+    upcoming = []
+
+    errors = []
+    successful_sources = 0
+
     print("=" * 80)
-    print("IMAGO — TEST DU SCRAPER")
+    print("IMAGO — PRODUCTION SCRAPER TEST")
     print("Date :", TODAY.isoformat())
+    print("Bientôt jusqu'au :", UPCOMING_LIMIT.isoformat())
     print("=" * 80)
 
-    total = 0
-    errors = 0
+    for venue_name, source_url in VENUES:
 
-    for venue_name, url in VENUES:
         print()
         print("-" * 80)
         print(venue_name)
         print("-" * 80)
 
         try:
-            text = fetch(url)
-            exhibitions = parse_exhibitions(url, text)
+            source = fetch(source_url)
+            all_exhibitions = parse_exhibitions(source_url, source)
 
-            if not exhibitions:
-                print("Aucune exposition détectée.")
-                continue
+            successful_sources += 1
 
-            for exhibition in sorted(
-                exhibitions,
-                key=lambda x: x["start"]
-            ):
-                status = (
-                    "EN CE MOMENT"
-                    if exhibition["start"] <= TODAY <= exhibition["end"]
-                    else "BIENTÔT"
-                    if TODAY < exhibition["start"]
-                    else "TERMINÉE"
-                )
+            venue_current = []
+            venue_upcoming = []
 
+            for exhibition in all_exhibitions:
+
+                status = classify(exhibition)
+
+                if status == "current":
+                    item = serialize(exhibition, venue_name)
+                    current.append(item)
+                    venue_current.append(item)
+
+                elif status == "upcoming":
+                    item = serialize(exhibition, venue_name)
+                    upcoming.append(item)
+                    venue_upcoming.append(item)
+
+            for item in venue_current:
                 print(
-                    f"[{status}] "
-                    f"{exhibition['title']} | "
-                    f"{exhibition['start']} → {exhibition['end']}"
+                    f"[EN CE MOMENT] "
+                    f"{item['title']} | "
+                    f"jusqu'au {item['end']}"
                 )
 
-            total += len(exhibitions)
+            for item in venue_upcoming:
+                print(
+                    f"[BIENTÔT] "
+                    f"{item['title']} | "
+                    f"à partir du {item['start']}"
+                )
+
+            if not venue_current and not venue_upcoming:
+                print("Aucune exposition pertinente.")
 
         except Exception as error:
-            errors += 1
+
+            errors.append({
+                "venue": venue_name,
+                "url": source_url,
+                "error": str(error),
+            })
+
             print("ERREUR :", error)
+
+    # Current exhibitions: soonest ending first
+    current.sort(
+        key=lambda x: x["end"]
+    )
+
+    # Upcoming exhibitions: soonest starting first
+    upcoming.sort(
+        key=lambda x: x["start"]
+    )
+
+    data = {
+        "updated": TODAY.isoformat(),
+        "current": current,
+        "upcoming": upcoming,
+    }
+
+    with open(
+        "exhibitions.json",
+        "w",
+        encoding="utf-8",
+    ) as file:
+
+        json.dump(
+            data,
+            file,
+            ensure_ascii=False,
+            indent=2,
+        )
 
     print()
     print("=" * 80)
     print("RÉSUMÉ")
     print("=" * 80)
-    print("Lieux testés       :", len(VENUES))
-    print("Expositions trouvées :", total)
-    print("Erreurs             :", errors)
+    print("Lieux testés          :", len(VENUES))
+    print("Sources réussies      :", successful_sources)
+    print("Sources en erreur     :", len(errors))
+    print("En ce moment          :", len(current))
+    print("Bientôt               :", len(upcoming))
+    print("Total affichable      :", len(current) + len(upcoming))
+    print("Fichier généré        : exhibitions.json")
     print("=" * 80)
+
+    if errors:
+        print()
+        print("ERREURS")
+        for error in errors:
+            print(
+                f"- {error['venue']} : "
+                f"{error['error']}"
+            )
 
 
 if __name__ == "__main__":
