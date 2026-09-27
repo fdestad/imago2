@@ -4,41 +4,38 @@ import re
 URL = "https://www.offi.fr/expositions-musees/musee-du-louvre-2615.html"
 
 response = requests.get(
-    "https://r.jina.ai/" + URL,
+    URL,
     timeout=30,
-    headers={"User-Agent": "Mozilla/5.0"},
+    headers={
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/130.0 Safari/537.36"
+    },
 )
 
-response.raise_for_status()
+print("STATUS:", response.status_code)
+print("URL:", response.url)
+print("TAILLE:", len(response.text))
 
-text = response.text.replace("\r\n", "\n")
-
-match = re.search(
-    r"Événements programmés en Expositions",
-    text,
-    re.IGNORECASE,
-)
-
-if not match:
-    print("SECTION INTROUVABLE")
+if response.status_code != 200:
+    print(response.text[:2000])
     raise SystemExit(1)
 
-start = match.start()
+text = response.text
 
-next_heading = re.search(
-    r"(?m)^##\s+",
-    text[match.end():],
-)
+# Cherche les deux titres connus dans le HTML
+for title in ["Zurbarán", "Sculpter la couleur"]:
+    print()
+    print("=" * 80)
+    print("RECHERCHE:", title)
+    print("=" * 80)
 
-if next_heading:
-    end = match.end() + next_heading.start()
-else:
-    end = len(text)
+    match = re.search(title, text, re.IGNORECASE)
 
-section = text[start:end]
+    if not match:
+        print("TITRE INTROUVABLE DANS LE HTML")
+        continue
 
-print("=" * 80)
-print("CONTENU BRUT DE LA SECTION LOUVRE")
-print("=" * 80)
-print(section)
-print("=" * 80)
+    start = max(0, match.start() - 1000)
+    end = min(len(text), match.end() + 2000)
+
+    print(text[start:end])
