@@ -1,4 +1,4 @@
-const CACHE_NAME = "expositions-v1";
+const CACHE_NAME = "expositions-v2";
 
 const APP_FILES = [
   "./",
@@ -7,8 +7,7 @@ const APP_FILES = [
   "./app.js",
   "./manifest.json",
   "./icon-192.png",
-  "./icon-512.png",
-  "./exhibitions.json"
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", event => {
@@ -36,15 +35,31 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+  const url = new URL(event.request.url);
+
+  if (url.pathname.endsWith("/exhibitions.json")) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const copy = response.clone();
+
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, copy);
+          });
+
+          return response;
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      return fetch(event.request).then(response => {
-        return response;
-      });
+      return cachedResponse || fetch(event.request);
     })
   );
 });
