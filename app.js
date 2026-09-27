@@ -112,14 +112,8 @@ function openDetail(exhibition) {
   venue.textContent = exhibition.venue;
 
   const dates = document.createElement("div");
-
-  if (exhibition.status === "current") {
-    dates.textContent =
-      `${formatDate(exhibition.start)} → ${formatDate(exhibition.end)}`;
-  } else {
-    dates.textContent =
-      `${formatDate(exhibition.start)} → ${formatDate(exhibition.end)}`;
-  }
+  dates.textContent =
+    `${formatDate(exhibition.start)} → ${formatDate(exhibition.end)}`;
 
   meta.appendChild(venue);
   meta.appendChild(dates);
@@ -208,7 +202,20 @@ async function loadExhibitions() {
       throw new Error(`HTTP ${response.status}`);
     }
 
-    exhibitions = await response.json();
+    const data = await response.json();
+
+    /*
+     * exhibitions.json peut être :
+     * - directement un tableau
+     * - un objet contenant le tableau dans "exhibitions"
+     */
+    if (Array.isArray(data)) {
+      exhibitions = data;
+    } else if (Array.isArray(data.exhibitions)) {
+      exhibitions = data.exhibitions;
+    } else {
+      throw new Error("Format inattendu de exhibitions.json");
+    }
 
     const current = exhibitions.filter(
       (exhibition) => exhibition.status === "current"
