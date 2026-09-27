@@ -32,6 +32,8 @@ const detailClose =
 
 let exhibitions = [];
 
+let venues = {};
+
 
 const FAVORITES_KEY =
   "imago2-favorites";
@@ -860,6 +862,10 @@ function openDetail(
     "Description non disponible.";
 
 
+  /* ----------------------------------------------
+     SOURCE L'OFFICIEL
+     ---------------------------------------------- */
+
   const source =
     document.createElement("a");
 
@@ -884,21 +890,85 @@ function openDetail(
     "Voir la source";
 
 
+  /* ----------------------------------------------
+     HORAIRES
+     ---------------------------------------------- */
+
+  const venueInfo =
+    venues[exhibition.venue];
+
+
+  const hours =
+    document.createElement("div");
+
+
+  hours.className =
+    "detail-hours";
+
+
+  hours.textContent =
+    venueInfo?.hours || "";
+
+
+  /* ----------------------------------------------
+     SITE OFFICIEL
+     ---------------------------------------------- */
+
+  const official =
+    document.createElement("a");
+
+
+  official.className =
+    "detail-official";
+
+
+  official.href =
+    venueInfo?.official_url || "#";
+
+
+  official.target =
+    "_blank";
+
+
+  official.rel =
+    "noopener noreferrer";
+
+
+  official.textContent =
+    "Voir le site officiel";
+
+
   detailContent.appendChild(
     title
   );
+
 
   detailContent.appendChild(
     meta
   );
 
+
   detailContent.appendChild(
     description
   );
 
+
   detailContent.appendChild(
     source
   );
+
+
+  if (venueInfo) {
+
+    detailContent.appendChild(
+      hours
+    );
+
+    detailContent.appendChild(
+      official
+    );
+
+  }
 
 
   detail.classList.add(
@@ -1005,6 +1075,10 @@ async function loadExhibitions() {
       await response.json();
 
 
+    venues =
+      data.venues || {};
+
+
     exhibitions = [
 
       ...(data.current || []),
@@ -1061,10 +1135,16 @@ async function loadExhibitions() {
 
 }
 
+
 loadExhibitions();
 
+
 if ("serviceWorker" in navigator) {
+
   window.addEventListener("load", () => {
+
     navigator.serviceWorker.register("./sw.js");
+
   });
+
 }
