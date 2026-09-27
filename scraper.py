@@ -386,10 +386,11 @@ def main():
     )
 
     data = {
-        "updated": TODAY.isoformat(),
-        "current": current,
-        "upcoming": upcoming,
-    }
+    "updated": TODAY.isoformat(),
+    "venues": VENUE_INFO,
+    "current": current,
+    "upcoming": upcoming,
+}
 
     with open(
         "exhibitions.json",
