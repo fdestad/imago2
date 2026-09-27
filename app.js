@@ -204,6 +204,10 @@ async function loadExhibitions() {
 
     const data = await response.json();
 
+console.log("CONTENU JSON :", data);
+console.log("TYPE JSON :", typeof data);
+console.log("TABLEAU ? :", Array.isArray(data));
+
     /*
      * exhibitions.json peut être :
      * - directement un tableau
