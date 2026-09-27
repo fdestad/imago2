@@ -29,6 +29,8 @@ VENUES = [
     ("Fondation Cartier-Bresson", "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335.html"),
     ("Cité de l’architecture", "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851.html"),
     ("Galliera", "https://www.offi.fr/expositions-musees/musee-galliera-2366.html"),
+    ("BnF", "https://www.offi.fr/a-travers-paris/bibliotheque-nationale-de-france-site-francois-mitterrand-1553.html"),
+    ("Agnès B.", "https://www.offi.fr/expositions-musees/galerie-du-jour-agnes-b-4569.html"),
 ]
 
 
