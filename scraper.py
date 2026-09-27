@@ -31,6 +31,7 @@ VENUES = [
     ("Galliera", "https://www.offi.fr/expositions-musees/musee-galliera-2366.html"),
     ("BnF", "https://www.offi.fr/a-travers-paris/bibliotheque-nationale-de-france-site-francois-mitterrand-1553.html"),
     ("Agnès B.", "https://www.offi.fr/expositions-musees/galerie-du-jour-agnes-b-4569.html"),
+    ("Palais de Tokyo", "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905.html"),
 ]
 
 
