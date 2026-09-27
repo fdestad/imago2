@@ -202,32 +202,16 @@ async function loadExhibitions() {
       throw new Error(`HTTP ${response.status}`);
     }
 
-    const data = await response.json();
+const data = await response.json();
 
-console.log("CONTENU JSON :", data);
-console.log("TYPE JSON :", typeof data);
-console.log("TABLEAU ? :", Array.isArray(data));
+exhibitions = [
+  ...(data.current || []),
+  ...(data.upcoming || [])
+];
 
-    /*
-     * exhibitions.json peut être :
-     * - directement un tableau
-     * - un objet contenant le tableau dans "exhibitions"
-     */
-    if (Array.isArray(data)) {
-      exhibitions = data;
-    } else if (Array.isArray(data.exhibitions)) {
-      exhibitions = data.exhibitions;
-    } else {
-      throw new Error("Format inattendu de exhibitions.json");
-    }
+const current = data.current || [];
 
-    const current = exhibitions.filter(
-      (exhibition) => exhibition.status === "current"
-    );
-
-    const upcoming = exhibitions.filter(
-      (exhibition) => exhibition.status === "upcoming"
-    );
+const upcoming = data.upcoming || [];
 
     renderList(currentList, current);
     renderList(upcomingList, upcoming);
