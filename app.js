@@ -7,35 +7,82 @@ const detailClose = document.getElementById("detail-close");
 
 let exhibitions = [];
 
+const FAVORITES_KEY = "imago2-favorites";
 
-/* -------------------------
-   DATE FORMATTING
-------------------------- */
+/* =========================
+   DATE
+   ========================= */
 
 function formatDate(dateString) {
   if (!dateString) return "";
 
   const date = new Date(`${dateString}T00:00:00`);
 
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "numeric",
-    month: "long",
+  return date.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
     year: "numeric"
-  }).format(date);
+  });
 }
 
+/* =========================
+   FAVORITES
+   ========================= */
 
-/* -------------------------
-   EXHIBITION RENDERING
-------------------------- */
+function getFavorites() {
+  try {
+    return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFavorites(favorites) {
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+}
+
+function getExhibitionId(exhibition) {
+  return [
+    exhibition.title,
+    exhibition.venue,
+    exhibition.start || "",
+    exhibition.end || ""
+  ].join("|");
+}
+
+function isFavorite(exhibition) {
+  return getFavorites().includes(getExhibitionId(exhibition));
+}
+
+function toggleFavorite(exhibition, element) {
+  const id = getExhibitionId(exhibition);
+  const favorites = getFavorites();
+
+  const index = favorites.indexOf(id);
+
+  if (index === -1) {
+    favorites.push(id);
+  } else {
+    favorites.splice(index, 1);
+  }
+
+  saveFavorites(favorites);
+
+  element.classList.toggle("favorite", index === -1);
+}
+
+/* =========================
+   EXHIBITION ELEMENT
+   ========================= */
 
 function createExhibitionElement(exhibition) {
-  const article = document.createElement("article");
+  const element = document.createElement("article");
 
-  article.className = "exhibition";
-  article.tabIndex = 0;
+  element.className = "exhibition";
 
-  const text = document.createElement("div");
+  if (isFavorite(exhibition)) {
+    element.classList.add("favorite");
+  }
 
   const title = document.createElement("h3");
   title.className = "exhibition-title";
@@ -45,58 +92,157 @@ function createExhibitionElement(exhibition) {
   venue.className = "exhibition-venue";
   venue.textContent = exhibition.venue;
 
-  text.appendChild(title);
-  text.appendChild(venue);
-
   const date = document.createElement("div");
   date.className = "exhibition-date";
 
-  if (exhibition.status === "current") {
-    date.textContent = `Jusqu'au ${formatDate(exhibition.end)}`;
-  } else {
+  if (exhibition.status === "upcoming") {
     date.textContent = `À partir du ${formatDate(exhibition.start)}`;
+  } else {
+    date.textContent = `Jusqu'au ${formatDate(exhibition.end)}`;
   }
 
-  article.appendChild(text);
-  article.appendChild(date);
+  const information = document.createElement("div");
 
-  article.addEventListener("click", () => {
+  information.appendChild(title);
+  information.appendChild(venue);
+
+  element.appendChild(information);
+  element.appendChild(date);
+
+  /* =========================
+     OPEN DETAIL
+     ========================= */
+
+  element.addEventListener("click", () => {
+    if (Math.abs(swipeDistance) > 10) return;
+
     openDetail(exhibition);
   });
 
-  article.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      openDetail(exhibition);
-    }
-  });
+  /* =========================
+     SWIPE RIGHT → FAVORITE
+     ========================= */
 
-  return article;
+  let startX = 0;
+  let startY = 0;
+  let swipeDistance = 0;
+  let isSwiping = false;
+
+  element.addEventListener(
+    "touchstart",
+    (event) => {
+      if (event.touches.length !== 1) return;
+
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+      swipeDistance = 0;
+      isSwiping = false;
+
+      element.classList.add("swiping");
+    },
+    { passive: true }
+  );
+
+  element.addEventListener(
+    "touchmove",
+    (event) => {
+      if (event.touches.length !== 1) return;
+
+      const currentX = event.touches[0].clientX;
+      const currentY = event.touches[0].clientY;
+
+      const deltaX = currentX - startX;
+      const deltaY = currentY - startY;
+
+      /*
+        Only interpret the gesture as a horizontal swipe
+        when the horizontal movement clearly dominates.
+      */
+      if (!isSwiping) {
+        if (Math.abs(deltaX) < 8) return;
+
+        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+          return;
+        }
+
+        isSwiping = true;
+      }
+
+      if (!isSwiping) return;
+
+      /*
+        Only allow movement to the right.
+      */
+      swipeDistance = Math.max(0, deltaX);
+
+      /*
+        Limit movement so the item does not disappear.
+      */
+      const visualDistance = Math.min(swipeDistance, 120);
+
+      element.style.transform = `translateX(${visualDistance}px)`;
+    },
+    { passive: true }
+  );
+
+  element.addEventListener(
+    "touchend",
+    () => {
+      element.classList.remove("swiping");
+
+      /*
+        Roughly 70px is enough to validate the gesture.
+      */
+      if (swipeDistance >= 70) {
+        toggleFavorite(exhibition, element);
+      }
+
+      element.style.transform = "";
+      swipeDistance = 0;
+      isSwiping = false;
+    },
+    { passive: true }
+  );
+
+  element.addEventListener(
+    "touchcancel",
+    () => {
+      element.classList.remove("swiping");
+      element.style.transform = "";
+      swipeDistance = 0;
+      isSwiping = false;
+    },
+    { passive: true }
+  );
+
+  return element;
 }
 
+/* =========================
+   RENDER
+   ========================= */
 
-function renderList(listElement, items) {
-  listElement.innerHTML = "";
+function renderList(container, items) {
+  container.innerHTML = "";
 
   if (!items.length) {
     const empty = document.createElement("p");
     empty.className = "empty";
     empty.textContent = "Aucune exposition";
-    listElement.appendChild(empty);
+    container.appendChild(empty);
     return;
   }
 
   items.forEach((exhibition) => {
-    listElement.appendChild(
+    container.appendChild(
       createExhibitionElement(exhibition)
     );
   });
 }
 
-
-/* -------------------------
+/* =========================
    DETAIL
-------------------------- */
+   ========================= */
 
 function openDetail(exhibition) {
   detailContent.innerHTML = "";
@@ -108,37 +254,30 @@ function openDetail(exhibition) {
   const meta = document.createElement("div");
   meta.className = "detail-meta";
 
-  const venue = document.createElement("div");
-  venue.textContent = exhibition.venue;
+  if (exhibition.status === "upcoming") {
+    meta.textContent =
+      `${exhibition.venue} · À partir du ${formatDate(exhibition.start)}`;
+  } else {
+    meta.textContent =
+      `${exhibition.venue} · Jusqu'au ${formatDate(exhibition.end)}`;
+  }
 
-  const dates = document.createElement("div");
-  dates.textContent =
-    `${formatDate(exhibition.start)} → ${formatDate(exhibition.end)}`;
+  const description = document.createElement("p");
+  description.className = "detail-description";
+  description.textContent =
+    exhibition.description || "Description non disponible.";
 
-  meta.appendChild(venue);
-  meta.appendChild(dates);
+  const source = document.createElement("a");
+  source.className = "detail-source";
+  source.href = exhibition.url;
+  source.target = "_blank";
+  source.rel = "noopener noreferrer";
+  source.textContent = "Voir la source";
 
   detailContent.appendChild(title);
   detailContent.appendChild(meta);
-
-  if (exhibition.description) {
-    const description = document.createElement("div");
-    description.className = "detail-description";
-    description.textContent = exhibition.description;
-
-    detailContent.appendChild(description);
-  }
-
-  if (exhibition.url) {
-    const source = document.createElement("a");
-    source.className = "detail-source";
-    source.href = exhibition.url;
-    source.target = "_blank";
-    source.rel = "noopener noreferrer";
-    source.textContent = "Voir la source";
-
-    detailContent.appendChild(source);
-  }
+  detailContent.appendChild(description);
+  detailContent.appendChild(source);
 
   detail.classList.add("open");
   detail.setAttribute("aria-hidden", "false");
@@ -146,14 +285,12 @@ function openDetail(exhibition) {
   document.body.style.overflow = "hidden";
 }
 
-
 function closeDetail() {
   detail.classList.remove("open");
   detail.setAttribute("aria-hidden", "true");
 
   document.body.style.overflow = "";
 }
-
 
 detailClose.addEventListener("click", closeDetail);
 
@@ -163,68 +300,49 @@ detail.addEventListener("click", (event) => {
   }
 });
 
-
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && detail.classList.contains("open")) {
+  if (event.key === "Escape") {
     closeDetail();
   }
 });
 
-
-/* -------------------------
-   NAVIGATION
-------------------------- */
-
-const sectionLinks = document.querySelectorAll(".section-link");
-
-sectionLinks.forEach((link) => {
-  link.addEventListener("click", () => {
-    sectionLinks.forEach((item) => {
-      item.classList.remove("active");
-    });
-
-    link.classList.add("active");
-  });
-});
-
-
-/* -------------------------
+/* =========================
    LOAD DATA
-------------------------- */
+   ========================= */
 
 async function loadExhibitions() {
   try {
-    const response = await fetch("exhibitions.json", {
-      cache: "no-store"
-    });
+    const response = await fetch(
+      "exhibitions.json",
+      { cache: "no-store" }
+    );
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      throw new Error("Impossible de charger les données.");
     }
 
-const data = await response.json();
+    const data = await response.json();
 
-exhibitions = [
-  ...(data.current || []),
-  ...(data.upcoming || [])
-];
+    exhibitions = [
+      ...(data.current || []),
+      ...(data.upcoming || [])
+    ];
 
-const current = data.current || [];
-
-const upcoming = data.upcoming || [];
+    const current = data.current || [];
+    const upcoming = data.upcoming || [];
 
     renderList(currentList, current);
     renderList(upcomingList, upcoming);
 
   } catch (error) {
-    console.error("Impossible de charger les expositions :", error);
+    console.error(error);
 
     currentList.innerHTML =
-      '<p class="empty">Impossible de charger les expositions.</p>';
+      '<p class="empty">Données indisponibles.</p>';
 
-    upcomingList.innerHTML = "";
+    upcomingList.innerHTML =
+      '<p class="empty">Données indisponibles.</p>';
   }
 }
-
 
 loadExhibitions();
