@@ -32,6 +32,32 @@ VENUES = [
 JINA_PREFIX = "https://r.jina.ai/"
 
 
+MONTHS = (
+    "janvier|février|mars|avril|mai|juin|juillet|août|"
+    "septembre|octobre|novembre|décembre"
+)
+
+
+DATE_RANGE_RE = re.compile(
+    rf"""
+    Du\s+
+    (\d{{1,2}})\s+({MONTHS})\s+(\d{{4}})
+    \s+au\s+
+    (\d{{1,2}})\s+({MONTHS})\s+(\d{{4}})
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+
+
+UNTIL_RE = re.compile(
+    rf"""
+    Jusqu['’]au\s+
+    (\d{{1,2}})\s+({MONTHS})\s+(\d{{4}})
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+
+
 def fetch_page(url):
     response = requests.get(
         JINA_PREFIX + url,
@@ -42,30 +68,40 @@ def fetch_page(url):
     return response.text
 
 
-def extract_exhibition_section(text):
-    """
-    Extract only the section:
-    'Événements programmés en Expositions'
+def normalize_text(text):
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    text = text.replace("\u00a0", " ")
+    return text
 
-    It ends at the next top-level Markdown heading.
-    """
-    match = re.search(
-        r"(?im)^##\s+\d+\s+Événements programmés en Expositions\b.*$",
-        text,
-    )
 
-    if not match:
-        # Some pages may use singular/plural or slightly different formatting.
-        match = re.search(
-            r"(?im)^##\s+.*Événement[s]? programmé[s]? en Expositions\b.*$",
-            text,
-        )
+def find_programmed_section(text):
+    """
+    Find the part of the page containing current/upcoming exhibitions.
+
+    We deliberately stop at the next major Markdown heading so that
+    historical exhibitions are never considered.
+    """
+
+    text = normalize_text(text)
+
+    patterns = [
+        r"Événements programmés en Expositions",
+        r"Événement programmé en Expositions",
+    ]
+
+    match = None
+
+    for pattern in patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            break
 
     if not match:
         return None
 
     start = match.start()
 
+    # Find the next level-2 Markdown heading.
     next_heading = re.search(
         r"(?m)^##\s+",
         text[match.end():],
@@ -78,54 +114,15 @@ def extract_exhibition_section(text):
     return text[start:]
 
 
-def extract_title_and_url(heading):
-    """
-    Extract a Markdown link from a ##### heading.
-
-    Example:
-    ##### [Zurbarán 1598-1664](https://www.offi.fr/...)
-    """
-    match = re.search(
-        r"\[([^\]]+)\]\(([^)]+)\)",
-        heading,
-    )
-
-    if match:
-        title = match.group(1).strip()
-        url = urljoin("https://www.offi.fr/", match.group(2).strip())
-        return title, url
-
-    # Fallback if Jina gives the heading without Markdown link.
-    title = re.sub(r"^#+\s*", "", heading).strip()
-    return title, None
-
-
-def parse_dates(block):
-    """
-    Parse the date range inside one exhibition block.
-
-    Supports:
-    - Du 7 octobre 2026 au 25 janvier 2027
-    - Jusqu'au 27 septembre 2026
-    """
-
-    match = re.search(
-        r"Du\s+(\d{1,2})\s+([A-Za-zÀ-ÿ]+)\s+(\d{4})"
-        r"\s+au\s+(\d{1,2})\s+([A-Za-zÀ-ÿ]+)\s+(\d{4})",
-        block,
-        re.IGNORECASE,
-    )
+def extract_dates(text):
+    match = DATE_RANGE_RE.search(text)
 
     if match:
         start = " ".join(match.group(i) for i in (1, 2, 3))
         end = " ".join(match.group(i) for i in (4, 5, 6))
         return start, end
 
-    match = re.search(
-        r"Jusqu['’]au\s+(\d{1,2})\s+([A-Za-zÀ-ÿ]+)\s+(\d{4})",
-        block,
-        re.IGNORECASE,
-    )
+    match = UNTIL_RE.search(text)
 
     if match:
         end = " ".join(match.group(i) for i in (1, 2, 3))
@@ -134,79 +131,183 @@ def parse_dates(block):
     return None, None
 
 
-def parse_exhibitions(section):
+def is_probable_title(line):
     """
-    Parse each ##### exhibition block inside the dedicated section.
+    Detect likely exhibition-title lines without depending on
+    one exact Markdown heading level.
     """
 
-    headings = list(re.finditer(r"(?m)^#####\s+.*$", section))
+    line = line.strip()
 
-    exhibitions = []
-    status = None
+    if not line:
+        return False
 
-    for i, heading_match in enumerate(headings):
-        heading = heading_match.group(0).strip()
+    if line.startswith("#"):
+        line = re.sub(r"^#+\s*", "", line)
 
-        # Everything until the next ##### belongs to this exhibition.
-        block_start = heading_match.start()
-        block_end = (
-            headings[i + 1].start()
-            if i + 1 < len(headings)
-            else len(section)
-        )
+    if not line:
+        return False
 
-        block = section[block_start:block_end]
+    lower = line.lower()
 
-        # Status can appear before the exhibition heading.
-        before = section[:heading_match.start()]
-        status_matches = list(
-            re.finditer(
-                r"(?im)^(Actuellement|Prochainement)\s*$",
-                before,
+    excluded = [
+        "actuellement",
+        "prochainement",
+        "collections permanentes",
+        "visite des collections",
+        "fermé",
+        "fermeture",
+        "horaires",
+        "tarifs",
+    ]
+
+    if any(x in lower for x in excluded):
+        return False
+
+    # A title generally isn't a date line or a category/navigation line.
+    if DATE_RANGE_RE.search(line) or UNTIL_RE.search(line):
+        return False
+
+    if line.startswith("[") and "](" in line:
+        return True
+
+    # Markdown headings are strong title candidates.
+    if re.match(r"^#+\s+", line):
+        return True
+
+    return False
+
+
+def clean_title(line):
+    line = line.strip()
+    line = re.sub(r"^#+\s*", "", line)
+
+    match = re.search(r"\[([^\]]+)\]\([^)]+\)", line)
+
+    if match:
+        return match.group(1).strip()
+
+    return line.strip()
+
+
+def extract_url(line):
+    match = re.search(
+        r"\[[^\]]+\]\(([^)]+)\)",
+        line,
+    )
+
+    if not match:
+        return None
+
+    return urljoin(
+        "https://www.offi.fr/",
+        match.group(1).strip(),
+    )
+
+
+def parse_section(section):
+    """
+    Parse the programming section.
+
+    Instead of assuming a particular heading level, we use each
+    date occurrence to identify an exhibition block and search
+    backwards for its nearest plausible title.
+    """
+
+    lines = section.splitlines()
+
+    results = []
+
+    current_status = None
+
+    # Track all plausible title lines.
+    title_candidates = []
+
+    for index, raw_line in enumerate(lines):
+        line = raw_line.strip()
+
+        if re.fullmatch(r"Actuellement", line, re.IGNORECASE):
+            current_status = "currently"
+            continue
+
+        if re.fullmatch(r"Prochainement", line, re.IGNORECASE):
+            current_status = "upcoming"
+            continue
+
+        if is_probable_title(line):
+            title_candidates.append(
+                (index, clean_title(line), extract_url(line))
             )
-        )
 
-        if status_matches:
-            status = status_matches[-1].group(1).lower()
+    # Every date range belongs to the closest preceding title.
+    date_lines = []
 
-        title, url = extract_title_and_url(heading)
+    for index, raw_line in enumerate(lines):
+        start, end = extract_dates(raw_line)
 
-        # Permanent collections are explicitly excluded.
+        if end:
+            date_lines.append(
+                (index, start, end)
+            )
+
+    for date_index, start, end in date_lines:
+        candidates = [
+            item
+            for item in title_candidates
+            if item[0] < date_index
+        ]
+
+        if not candidates:
+            continue
+
+        title_index, title, url = candidates[-1]
+
         if "collections permanentes" in title.lower():
             continue
 
-        start_date, end_date = parse_dates(block)
-
-        # An actual exhibition should have dates.
-        if not end_date:
+        if any(
+            existing["title"] == title
+            and existing["start"] == start
+            and existing["end"] == end
+            for existing in results
+        ):
             continue
 
-        exhibitions.append(
+        # Determine status from the text between the title and date.
+        status = None
+
+        for line in lines[title_index:date_index]:
+            if re.fullmatch(r"Actuellement", line.strip(), re.IGNORECASE):
+                status = "currently"
+            elif re.fullmatch(r"Prochainement", line.strip(), re.IGNORECASE):
+                status = "upcoming"
+
+        results.append(
             {
                 "title": title,
-                "start": start_date,
-                "end": end_date,
+                "start": start,
+                "end": end,
                 "status": status,
                 "url": url,
             }
         )
 
-    return exhibitions
+    return results
 
 
 def scrape_venue(name, url):
     text = fetch_page(url)
 
-    section = extract_exhibition_section(text)
+    section = find_programmed_section(text)
 
-    # A venue can legitimately have no exhibition section/current event.
     if section is None:
+        # Lafayette can legitimately have no events listed.
         if "Nous ne référençons actuellement aucun événement culturel" in text:
             return []
 
-        raise RuntimeError("Section expositions introuvable")
+        raise RuntimeError("Section des expositions introuvable")
 
-    return parse_exhibitions(section)
+    return parse_section(section)
 
 
 def main():
@@ -214,7 +315,7 @@ def main():
     errors = 0
 
     print("=" * 60)
-    print("IMAGO — TEST DU SCRAPER V3")
+    print("IMAGO — TEST DU SCRAPER V4")
     print("=" * 60)
 
     for name, url in VENUES:
