@@ -93,22 +93,19 @@ button {
 
 
 /*
-  MAINTENANT reste fixé tout en haut
-  lorsqu'il a atteint le haut de l'écran.
+  MAINTENANT reste fixé en haut
+  sans sortir du flux de la page.
 */
 
 .section-heading-now.is-fixed {
-  position: fixed;
+  position: sticky;
 
   top: 0;
-  left: 50%;
+  left: auto;
 
-  width: min(
-    calc(100% - 44px),
-    856px
-  );
+  width: 100%;
 
-  transform: translateX(-50%);
+  transform: none;
 
   z-index: 40;
 }
@@ -178,10 +175,6 @@ button {
 
   user-select: none;
 
-  /*
-    Le doigt peut continuer à faire défiler
-    verticalement la page.
-  */
   touch-action: pan-y;
 
   transform: translate3d(0, 0, 0);
@@ -220,17 +213,25 @@ button {
   letter-spacing: 0.035em;
 }
 
+
+/*
+  Police spécifique aux noms de musées :
+  serif, italique, plus élégante.
+*/
+
 .exhibition-venue {
   margin-top: 5px;
 
   color: var(--grey);
 
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 15px;
   line-height: 1.25;
 
-  font-weight: 500;
+  font-style: italic;
+  font-weight: 400;
 
-  letter-spacing: 0.035em;
+  letter-spacing: 0.01em;
 }
 
 .exhibition-date {
@@ -431,11 +432,10 @@ button {
 
 
   /*
-    Sur mobile, les headers fixes ont exactement
+    Sur mobile, BIENTÔT garde exactement
     la largeur du contenu.
   */
 
-  .section-heading-now.is-fixed,
   .section-heading-upcoming.is-fixed {
     width: calc(100% - 32px);
   }
@@ -456,7 +456,11 @@ button {
   .exhibition-venue {
     margin-top: 0;
 
+    font-family: Georgia, "Times New Roman", Times, serif;
     font-size: 14px;
+
+    font-style: italic;
+    font-weight: 400;
   }
 
   .exhibition-date {
