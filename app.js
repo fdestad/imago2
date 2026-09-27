@@ -1,510 +1,1062 @@
+const currentList =
+  document.getElementById("current-list");
+
+const upcomingList =
+  document.getElementById("upcoming-list");
+
+
+const maintenantHeading =
+  document.getElementById(
+    "maintenant-heading"
+  );
+
+const bientotHeading =
+  document.getElementById(
+    "bientot-heading"
+  );
+
+
+const detail =
+  document.getElementById("detail");
+
+const detailContent =
+  document.getElementById(
+    "detail-content"
+  );
+
+const detailClose =
+  document.getElementById(
+    "detail-close"
+  );
+
+
 let exhibitions = [];
-let favorites = new Set();
-
-const maintenantHeading = document.getElementById("maintenant-heading");
-const bientotHeading = document.getElementById("bientot-heading");
-
-const maintenantButton = document.getElementById("maintenant-button");
-const bientotButton = document.getElementById("bientot-button");
-
-const currentList = document.getElementById("current-list");
-const upcomingList = document.getElementById("upcoming-list");
-
-const detailView = document.getElementById("detail-view");
-const detailClose = document.getElementById("detail-close");
-const detailVenue = document.getElementById("detail-venue");
-const detailTitle = document.getElementById("detail-title");
-const detailDate = document.getElementById("detail-date");
-const detailDescription = document.getElementById("detail-description");
-const detailSource = document.getElementById("detail-source");
-
-let currentSectionTop = 0;
-let upcomingSectionTop = 0;
 
 
-/* --------------------------------------------------
-   FAVORITES
--------------------------------------------------- */
+const FAVORITES_KEY =
+  "imago2-favorites";
 
-function loadFavorites() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("imago-favorites") || "[]");
-    favorites = new Set(saved);
-  } catch {
-    favorites = new Set();
+
+/* ==================================================
+   DATE
+   ================================================== */
+
+function formatDate(dateString) {
+
+  if (!dateString) {
+    return "";
   }
-}
 
-function saveFavorites() {
-  localStorage.setItem(
-    "imago-favorites",
-    JSON.stringify([...favorites])
+  const date =
+    new Date(`${dateString}T00:00:00`);
+
+  return date.toLocaleDateString(
+    "fr-FR",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    }
   );
 }
 
-function getFavoriteId(exhibition) {
+
+/* ==================================================
+   FAVORITES
+   ================================================== */
+
+function getFavorites() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        FAVORITES_KEY
+      )
+    ) || [];
+
+  } catch {
+
+    return [];
+
+  }
+}
+
+
+function saveFavorites(favorites) {
+
+  localStorage.setItem(
+    FAVORITES_KEY,
+    JSON.stringify(favorites)
+  );
+
+}
+
+
+function getExhibitionId(exhibition) {
+
   return [
     exhibition.title,
     exhibition.venue,
-    exhibition.start,
-    exhibition.end
+    exhibition.start || "",
+    exhibition.end || ""
   ].join("|");
+
 }
 
 
-/* --------------------------------------------------
-   DATA
--------------------------------------------------- */
+function isFavorite(exhibition) {
 
-async function loadData() {
-  try {
-    const response = await fetch("exhibitions.json", {
-      cache: "no-store"
-    });
+  return getFavorites().includes(
+    getExhibitionId(exhibition)
+  );
 
-    if (!response.ok) {
-      throw new Error("Impossible de charger exhibitions.json");
-    }
-
-    const data = await response.json();
-
-    exhibitions = [
-      ...(data.current || []),
-      ...(data.upcoming || [])
-    ];
-
-    renderList(
-      data.current || [],
-      currentList
-    );
-
-    renderList(
-      data.upcoming || [],
-      upcomingList
-    );
-
-    /*
-      We measure after rendering because the actual height
-      of the current section determines when the transition
-      to BIENTÔT happens.
-    */
-    requestAnimationFrame(() => {
-      measureSections();
-      updateLayout();
-    });
-
-  } catch (error) {
-    console.error(error);
-
-    currentList.innerHTML = `
-      <div class="exhibition">
-        <p class="exhibition-title">
-          Impossible de charger les expositions.
-        </p>
-      </div>
-    `;
-
-    upcomingList.innerHTML = "";
-  }
 }
 
 
-/* --------------------------------------------------
-   RENDERING
--------------------------------------------------- */
+function toggleFavorite(
+  exhibition,
+  element
+) {
 
-function renderList(list, container) {
-  container.innerHTML = "";
+  const id =
+    getExhibitionId(exhibition);
 
-  list.forEach((exhibition) => {
-    const element = createExhibitionElement(exhibition);
-    container.appendChild(element);
-  });
-}
+  const favorites =
+    getFavorites();
 
-function createExhibitionElement(exhibition) {
-  const element = document.createElement("article");
+  const index =
+    favorites.indexOf(id);
 
-  element.className = "exhibition";
 
-  const favoriteId = getFavoriteId(exhibition);
+  if (index === -1) {
 
-  if (favorites.has(favoriteId)) {
-    element.classList.add("is-favorite");
-  }
+    favorites.push(id);
 
-  const title = document.createElement("h2");
-  title.className = "exhibition-title";
-  title.textContent = exhibition.title;
-
-  const venue = document.createElement("div");
-  venue.className = "exhibition-venue";
-  venue.textContent = exhibition.venue;
-
-  const date = document.createElement("div");
-  date.className = "exhibition-date";
-
-  if (exhibition.status === "current") {
-    date.textContent = `JUSQU'AU ${formatDate(exhibition.end)}`;
   } else {
-    date.textContent = `À PARTIR DU ${formatDate(exhibition.start)}`;
+
+    favorites.splice(index, 1);
+
   }
 
-  element.appendChild(title);
-  element.appendChild(venue);
-  element.appendChild(date);
+
+  saveFavorites(favorites);
+
+
+  element.classList.toggle(
+    "favorite",
+    index === -1
+  );
+
+}
+
+
+/* ==================================================
+   STICKY SECTION HEADERS
+   ================================================== */
+
+function updateStickyHeaders() {
 
   /*
-    Opening the detail view must not interfere with
-    the horizontal swipe gesture.
+    On utilise la position réelle des éléments
+    dans le document plutôt que getBoundingClientRect()
+    pour éviter les problèmes lorsque l'un des
+    headers devient fixed.
   */
-  element.addEventListener("click", () => {
-    if (!element.dataset.wasSwiping) {
-      openDetail(exhibition);
+
+  const maintenantOffset =
+    maintenantHeading.dataset.offset
+      ? Number(
+          maintenantHeading.dataset.offset
+        )
+      : maintenantHeading.offsetTop;
+
+
+  const bientotOffset =
+    bientotHeading.dataset.offset
+      ? Number(
+          bientotHeading.dataset.offset
+        )
+      : bientotHeading.offsetTop;
+
+
+  const headerHeight =
+    maintenantHeading.offsetHeight;
+
+
+  /*
+    MAINTENANT
+  */
+
+  if (
+    window.scrollY >=
+    maintenantOffset
+  ) {
+
+    maintenantHeading.classList.add(
+      "is-fixed"
+    );
+
+  } else {
+
+    maintenantHeading.classList.remove(
+      "is-fixed"
+    );
+
+  }
+
+
+  /*
+    BIENTÔT.
+    Il devient fixe lorsqu'il atteint
+    le dessous de MAINTENANT.
+  */
+
+  const bientotThreshold =
+    bientotOffset - headerHeight;
+
+
+  if (
+    window.scrollY >=
+    bientotThreshold
+  ) {
+
+    bientotHeading.classList.add(
+      "is-fixed"
+    );
+
+  } else {
+
+    bientotHeading.classList.remove(
+      "is-fixed"
+    );
+
+  }
+
+}
+
+
+/*
+  Recalcule les positions naturelles
+  des headers.
+
+  On le fait avant d'activer le système
+  sticky/fixed.
+*/
+
+function measureSectionHeaders() {
+
+  /*
+    On retire temporairement les classes fixed
+    pour mesurer leur position naturelle.
+  */
+
+  maintenantHeading.classList.remove(
+    "is-fixed"
+  );
+
+  bientotHeading.classList.remove(
+    "is-fixed"
+  );
+
+
+  maintenantHeading.dataset.offset =
+    maintenantHeading.offsetTop;
+
+
+  bientotHeading.dataset.offset =
+    bientotHeading.offsetTop;
+
+
+  updateStickyHeaders();
+
+}
+
+
+window.addEventListener(
+  "scroll",
+  updateStickyHeaders,
+  {
+    passive: true
+  }
+);
+
+
+window.addEventListener(
+  "resize",
+  measureSectionHeaders
+);
+
+
+/* ==================================================
+   SECTION HEADER NAVIGATION
+   ================================================== */
+
+function goToMaintenant() {
+
+  const target =
+    Number(
+      maintenantHeading.dataset.offset
+    );
+
+
+  window.scrollTo({
+
+    top: target,
+
+    behavior: "smooth"
+
+  });
+
+}
+
+
+function goToBientot() {
+
+  const bientotOffset =
+    Number(
+      bientotHeading.dataset.offset
+    );
+
+
+  const headerHeight =
+    maintenantHeading.offsetHeight;
+
+
+  const target =
+    bientotOffset - headerHeight;
+
+
+  window.scrollTo({
+
+    top: target,
+
+    behavior: "smooth"
+
+  });
+
+}
+
+
+maintenantHeading.addEventListener(
+  "click",
+  goToMaintenant
+);
+
+
+bientotHeading.addEventListener(
+  "click",
+  goToBientot
+);
+
+
+/* ==================================================
+   KEYBOARD ACCESSIBILITY
+   ================================================== */
+
+maintenantHeading.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (
+      event.key === "Enter" ||
+      event.key === " "
+    ) {
+
+      event.preventDefault();
+
+      goToMaintenant();
+
     }
 
-    delete element.dataset.wasSwiping;
-  });
-
-  setupSwipe(element, exhibition);
-
-  return element;
-}
-
-function formatDate(dateString) {
-  const date = new Date(`${dateString}T12:00:00`);
-
-  return date.toLocaleDateString("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  });
-}
+  }
+);
 
 
-/* --------------------------------------------------
-   SWIPE TO FAVORITE
-   KEEP THIS BEHAVIOR INTACT
--------------------------------------------------- */
+bientotHeading.addEventListener(
+  "keydown",
+  (event) => {
 
-function setupSwipe(element, exhibition) {
+    if (
+      event.key === "Enter" ||
+      event.key === " "
+    ) {
+
+      event.preventDefault();
+
+      goToBientot();
+
+    }
+
+  }
+);
+
+
+/* ==================================================
+   EXHIBITION ELEMENT
+   ================================================== */
+
+function createExhibitionElement(
+  exhibition
+) {
+
+  const element =
+    document.createElement("article");
+
+
+  element.className =
+    "exhibition";
+
+
+  if (
+    isFavorite(exhibition)
+  ) {
+
+    element.classList.add(
+      "favorite"
+    );
+
+  }
+
+
+  /* ----------------------------------------------
+     TEXT
+     ---------------------------------------------- */
+
+  const information =
+    document.createElement("div");
+
+
+  const title =
+    document.createElement("h3");
+
+
+  title.className =
+    "exhibition-title";
+
+
+  title.textContent =
+    exhibition.title;
+
+
+  const venue =
+    document.createElement("div");
+
+
+  venue.className =
+    "exhibition-venue";
+
+
+  venue.textContent =
+    exhibition.venue;
+
+
+  information.appendChild(title);
+
+  information.appendChild(venue);
+
+
+  /* ----------------------------------------------
+     DATE
+     ---------------------------------------------- */
+
+  const date =
+    document.createElement("div");
+
+
+  date.className =
+    "exhibition-date";
+
+
+  if (
+    exhibition.status === "upcoming"
+  ) {
+
+    date.textContent =
+      `À partir du ${formatDate(
+        exhibition.start
+      )}`;
+
+  } else {
+
+    date.textContent =
+      `Jusqu'au ${formatDate(
+        exhibition.end
+      )}`;
+
+  }
+
+
+  element.appendChild(
+    information
+  );
+
+  element.appendChild(
+    date
+  );
+
+
+  /* ==================================================
+     SWIPE
+     ================================================== */
+
   let startX = 0;
   let startY = 0;
 
   let currentX = 0;
 
   let dragging = false;
-  let swiping = false;
+  let horizontalSwipe = false;
 
-  const threshold = 70;
+  let suppressClick = false;
 
-  element.addEventListener("pointerdown", (event) => {
-    /*
-      Only the primary pointer is relevant.
-    */
-    if (event.pointerType !== "touch" && event.pointerType !== "pen") {
-      return;
+
+  element.addEventListener(
+    "touchstart",
+    (event) => {
+
+      if (
+        event.touches.length !== 1
+      ) {
+        return;
+      }
+
+
+      startX =
+        event.touches[0].clientX;
+
+      startY =
+        event.touches[0].clientY;
+
+
+      currentX = 0;
+
+      dragging = true;
+
+      horizontalSwipe = false;
+
+      suppressClick = false;
+
+    },
+    {
+      passive: true
     }
+  );
 
-    startX = event.clientX;
-    startY = event.clientY;
 
-    currentX = 0;
-    dragging = true;
-    swiping = false;
+  element.addEventListener(
+    "touchmove",
+    (event) => {
 
-    element.dataset.wasSwiping = "false";
-  });
+      if (!dragging) {
+        return;
+      }
 
-  element.addEventListener("pointermove", (event) => {
-    if (!dragging) {
-      return;
-    }
 
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
+      const touch =
+        event.touches[0];
 
-    /*
-      If the gesture is clearly vertical, let the browser
-      handle normal page scrolling.
-    */
-    if (!swiping && Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 8) {
-      dragging = false;
-      element.style.transform = "";
-      return;
-    }
 
-    /*
-      We only allow a rightward swipe.
-    */
-    if (deltaX <= 0) {
-      return;
-    }
+      const deltaX =
+        touch.clientX - startX;
 
-    if (deltaX > 8) {
-      swiping = true;
-      element.classList.add("is-swiping");
-    }
 
-    currentX = deltaX;
+      const deltaY =
+        touch.clientY - startY;
 
-    /*
-      Slight resistance makes the gesture feel natural.
-    */
-    const translatedX = Math.min(currentX * 0.9, 120);
 
-    element.style.transform = `translateX(${translatedX}px)`;
-  });
+      /*
+        On attend que le geste soit suffisamment
+        marqué pour déterminer sa direction.
+      */
 
-  element.addEventListener("pointerup", () => {
-    if (!dragging) {
-      return;
-    }
+      if (
+        !horizontalSwipe
+      ) {
 
-    dragging = false;
-
-    if (swiping) {
-      element.dataset.wasSwiping = "true";
-
-      if (currentX >= threshold) {
-        const favoriteId = getFavoriteId(exhibition);
-
-        if (favorites.has(favoriteId)) {
-          favorites.delete(favoriteId);
-          element.classList.remove("is-favorite");
-        } else {
-          favorites.add(favoriteId);
-          element.classList.add("is-favorite");
+        if (
+          Math.abs(deltaX) < 10
+        ) {
+          return;
         }
 
-        saveFavorites();
+
+        /*
+          Si le mouvement est surtout vertical,
+          on laisse le navigateur faire défiler.
+        */
+
+        if (
+          Math.abs(deltaY) >
+          Math.abs(deltaX)
+        ) {
+
+          return;
+
+        }
+
+
+        horizontalSwipe = true;
+
+        element.classList.add(
+          "swiping"
+        );
+
       }
+
+
+      if (
+        !horizontalSwipe
+      ) {
+        return;
+      }
+
+
+      /*
+        Seulement vers la droite.
+      */
+
+      currentX =
+        Math.max(
+          0,
+          deltaX
+        );
+
+
+      const movement =
+        Math.min(
+          currentX,
+          120
+        );
+
+
+      element.style.transform =
+        `translate3d(${movement}px, 0, 0)`;
+
+    },
+    {
+      passive: true
     }
+  );
 
-    /*
-      Return to the original position.
-    */
-    element.style.transform = "";
 
-    /*
-      Wait for the transition before allowing a click
-      to be interpreted as a normal tap.
-    */
-    setTimeout(() => {
-      element.classList.remove("is-swiping");
-    }, 20);
-  });
+  element.addEventListener(
+    "touchend",
+    () => {
 
-  element.addEventListener("pointercancel", () => {
-    dragging = false;
-    swiping = false;
+      if (!dragging) {
+        return;
+      }
 
-    element.style.transform = "";
-    element.classList.remove("is-swiping");
-  });
+
+      dragging = false;
+
+
+      /*
+        70 px vers la droite =
+        favori.
+      */
+
+      if (
+        horizontalSwipe &&
+        currentX >= 70
+      ) {
+
+        toggleFavorite(
+          exhibition,
+          element
+        );
+
+
+        suppressClick = true;
+
+      }
+
+
+      element.classList.remove(
+        "swiping"
+      );
+
+
+      element.style.transform =
+        "";
+
+
+      currentX = 0;
+
+      horizontalSwipe = false;
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  element.addEventListener(
+    "touchcancel",
+    () => {
+
+      dragging = false;
+
+      horizontalSwipe = false;
+
+      currentX = 0;
+
+
+      element.classList.remove(
+        "swiping"
+      );
+
+
+      element.style.transform =
+        "";
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  /* ==================================================
+     CLICK → DETAIL
+     ================================================== */
+
+  element.addEventListener(
+    "click",
+    () => {
+
+      if (suppressClick) {
+
+        suppressClick = false;
+
+        return;
+
+      }
+
+
+      openDetail(exhibition);
+
+    }
+  );
+
+
+  return element;
 }
 
 
-/* --------------------------------------------------
-   DETAIL
--------------------------------------------------- */
+/* ==================================================
+   RENDER
+   ================================================== */
 
-function openDetail(exhibition) {
-  detailVenue.textContent = exhibition.venue;
-  detailTitle.textContent = exhibition.title;
+function renderList(
+  container,
+  items
+) {
 
-  if (exhibition.status === "current") {
-    detailDate.textContent =
-      `JUSQU'AU ${formatDate(exhibition.end)}`;
-  } else {
-    detailDate.textContent =
-      `À PARTIR DU ${formatDate(exhibition.start)}`;
+  container.innerHTML = "";
+
+
+  if (!items.length) {
+
+    const empty =
+      document.createElement("p");
+
+
+    empty.className =
+      "empty";
+
+
+    empty.textContent =
+      "Aucune exposition";
+
+
+    container.appendChild(
+      empty
+    );
+
+
+    return;
+
   }
 
-  detailDescription.textContent =
-    exhibition.description || "";
 
-  detailSource.href = exhibition.url;
+  items.forEach(
+    (exhibition) => {
 
-  detailView.classList.add("is-open");
-  detailView.setAttribute("aria-hidden", "false");
+      container.appendChild(
+        createExhibitionElement(
+          exhibition
+        )
+      );
 
-  document.body.style.overflow = "hidden";
+    }
+  );
+
 }
+
+
+/* ==================================================
+   DETAIL
+   ================================================== */
+
+function openDetail(
+  exhibition
+) {
+
+  detailContent.innerHTML = "";
+
+
+  const title =
+    document.createElement("h1");
+
+
+  title.className =
+    "detail-title";
+
+
+  title.textContent =
+    exhibition.title;
+
+
+  const meta =
+    document.createElement("div");
+
+
+  meta.className =
+    "detail-meta";
+
+
+  if (
+    exhibition.status === "upcoming"
+  ) {
+
+    meta.textContent =
+      `${exhibition.venue} · À partir du ${formatDate(
+        exhibition.start
+      )}`;
+
+  } else {
+
+    meta.textContent =
+      `${exhibition.venue} · Jusqu'au ${formatDate(
+        exhibition.end
+      )}`;
+
+  }
+
+
+  const description =
+    document.createElement("p");
+
+
+  description.className =
+    "detail-description";
+
+
+  description.textContent =
+    exhibition.description ||
+    "Description non disponible.";
+
+
+  const source =
+    document.createElement("a");
+
+
+  source.className =
+    "detail-source";
+
+
+  source.href =
+    exhibition.url;
+
+
+  source.target =
+    "_blank";
+
+
+  source.rel =
+    "noopener noreferrer";
+
+
+  source.textContent =
+    "Voir la source";
+
+
+  detailContent.appendChild(
+    title
+  );
+
+  detailContent.appendChild(
+    meta
+  );
+
+  detailContent.appendChild(
+    description
+  );
+
+  detailContent.appendChild(
+    source
+  );
+
+
+  detail.classList.add(
+    "open"
+  );
+
+
+  detail.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
 
 function closeDetail() {
-  detailView.classList.remove("is-open");
-  detailView.setAttribute("aria-hidden", "true");
 
-  document.body.style.overflow = "";
+  detail.classList.remove(
+    "open"
+  );
+
+
+  detail.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+
+  document.body.style.overflow =
+    "";
+
 }
 
-detailClose.addEventListener("click", closeDetail);
 
-detailView.addEventListener("click", (event) => {
-  if (event.target === detailView) {
-    closeDetail();
+detailClose.addEventListener(
+  "click",
+  closeDetail
+);
+
+
+detail.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target === detail
+    ) {
+
+      closeDetail();
+
+    }
+
   }
-});
+);
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeDetail();
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      closeDetail();
+
+    }
+
   }
-});
+);
 
 
-/* --------------------------------------------------
-   TWO-HEADER SCROLL LOGIC
--------------------------------------------------- */
+/* ==================================================
+   LOAD DATA
+   ================================================== */
 
-/*
-  The key idea:
+async function loadExhibitions() {
 
-  MAINTENANT is permanently fixed at the top.
+  try {
 
-  BIENTÔT is permanently fixed at the bottom while
-  the user is inside the MAINTENANT section.
-
-  Once the user reaches the end of the current exhibitions,
-  the normal document position of BIENTÔT becomes visible
-  immediately below MAINTENANT.
-
-  Clicking BIENTÔT simply scrolls to that transition point.
-*/
-
-function measureSections() {
-  /*
-    The current section starts immediately after the
-    MAINTENANT header.
-
-    The upcoming section's natural position tells us
-    where the second state begins.
-  */
-
-  const currentRect = document
-    .getElementById("current-section")
-    .getBoundingClientRect();
-
-  const upcomingRect = document
-    .getElementById("upcoming-section")
-    .getBoundingClientRect();
-
-  currentSectionTop =
-    currentRect.top + window.scrollY;
-
-  upcomingSectionTop =
-    upcomingRect.top + window.scrollY;
-}
+    const response =
+      await fetch(
+        "exhibitions.json",
+        {
+          cache: "no-store"
+        }
+      );
 
 
-/*
-  When the user reaches the beginning of the upcoming
-  section, we want:
+    if (!response.ok) {
 
-      MAINTENANT
-      BIENTÔT
-      upcoming exhibitions
+      throw new Error(
+        "Impossible de charger les données."
+      );
 
-  rather than BIENTÔT remaining at the bottom.
-*/
-function updateLayout() {
-  const viewportHeight = window.innerHeight;
-
-  const upcomingHeadingHeight =
-    bientotHeading.offsetHeight;
-
-  /*
-    The natural beginning of the upcoming section is
-    immediately below the BIENTÔT heading.
-
-    We transition when the bottom-fixed BIENTÔT would
-    otherwise collide with its natural document position.
-  */
-  const transitionPoint =
-    upcomingSectionTop -
-    viewportHeight +
-    upcomingHeadingHeight;
-
-  if (window.scrollY >= transitionPoint) {
-    enterUpcomingState();
-  } else {
-    enterCurrentState();
-  }
-}
-
-function enterCurrentState() {
-  maintenantHeading.classList.add("is-current-fixed");
-  bientotHeading.classList.remove("is-transitioned");
-}
-
-function enterUpcomingState() {
-  maintenantHeading.classList.add("is-current-fixed");
-  bientotHeading.classList.add("is-transitioned");
-}
+    }
 
 
-/* --------------------------------------------------
-   NAVIGATION
--------------------------------------------------- */
-
-maintenantButton.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-});
-
-bientotButton.addEventListener("click", () => {
-  /*
-    Place the upcoming section directly underneath
-    the MAINTENANT header.
-  */
-
-  const target =
-    upcomingSectionTop -
-    maintenantHeading.offsetHeight;
-
-  window.scrollTo({
-    top: Math.max(0, target),
-    behavior: "smooth"
-  });
-});
+    const data =
+      await response.json();
 
 
-/* --------------------------------------------------
-   SCROLL
--------------------------------------------------- */
+    exhibitions = [
 
-let scrollTicking = false;
+      ...(data.current || []),
 
-window.addEventListener("scroll", () => {
-  if (scrollTicking) {
-    return;
+      ...(data.upcoming || [])
+
+    ];
+
+
+    const current =
+      data.current || [];
+
+
+    const upcoming =
+      data.upcoming || [];
+
+
+    renderList(
+      currentList,
+      current
+    );
+
+
+    renderList(
+      upcomingList,
+      upcoming
+    );
+
+
+    /*
+      Les listes sont maintenant rendues,
+      donc les positions naturelles des headers
+      peuvent être mesurées correctement.
+    */
+
+    requestAnimationFrame(
+      measureSectionHeaders
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    currentList.innerHTML =
+      '<p class="empty">Données indisponibles.</p>';
+
+
+    upcomingList.innerHTML =
+      '<p class="empty">Données indisponibles.</p>';
+
   }
 
-  scrollTicking = true;
-
-  requestAnimationFrame(() => {
-    updateLayout();
-    scrollTicking = false;
-  });
-});
-
-
-/* --------------------------------------------------
-   RESIZE
--------------------------------------------------- */
-
-window.addEventListener("resize", () => {
-  measureSections();
-  updateLayout();
-});
-
-
-/* --------------------------------------------------
-   INIT
--------------------------------------------------- */
-
-loadFavorites();
-loadData();
+}
