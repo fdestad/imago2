@@ -56,19 +56,12 @@ button {
    SECTION HEADERS
    ================================================== */
 
-/*
-  IMPORTANT:
-  These headers are direct children of .page.
-
-  MAINTENANT remains sticky for the whole page.
-  BIENTÔT becomes sticky when it reaches the top
-  and then sits immediately below MAINTENANT.
-*/
-
 .section-heading {
-  position: sticky;
+  position: relative;
+
   z-index: 30;
 
+  width: 100%;
   height: var(--header-height);
 
   display: flex;
@@ -100,26 +93,51 @@ button {
 
 
 /*
-  MAINTENANT is always the upper sticky header.
+  MAINTENANT reste fixé tout en haut
+  lorsqu'il a atteint le haut de l'écran.
 */
 
-.section-heading-now {
+.section-heading-now.is-fixed {
+  position: fixed;
+
   top: 0;
+  left: 50%;
+
+  width: min(
+    calc(100% - 44px),
+    856px
+  );
+
+  transform: translateX(-50%);
+
+  z-index: 40;
 }
 
 
 /*
-  BIENTÔT sticks underneath MAINTENANT.
+  BIENTÔT se fixe juste sous MAINTENANT.
 */
 
-.section-heading-upcoming {
+.section-heading-upcoming.is-fixed {
+  position: fixed;
+
   top: var(--header-height);
+  left: 50%;
+
+  width: min(
+    calc(100% - 44px),
+    856px
+  );
+
+  transform: translateX(-50%);
+
+  z-index: 39;
 }
 
 
 /*
-  Small visual indication that the headers are clickable.
-  No hover effect.
+  Aucun effet de surbrillance au survol.
+  Seulement une légère réaction tactile.
 */
 
 .section-heading:active {
@@ -161,9 +179,8 @@ button {
   user-select: none;
 
   /*
-    Critical for mobile:
-    vertical movement belongs to the page,
-    horizontal movement belongs to the exhibition.
+    Le doigt peut continuer à faire défiler
+    verticalement la page.
   */
   touch-action: pan-y;
 
@@ -174,7 +191,7 @@ button {
 
 
 /*
-  NO HOVER EFFECT.
+  Aucun effet au survol.
 */
 
 .exhibition:hover {
@@ -244,7 +261,8 @@ button {
 
 
 /*
-  Temporary movement during swipe.
+  Pendant le swipe, aucune transition ne vient
+  ralentir le déplacement du doigt.
 */
 
 .exhibition.swiping {
@@ -410,6 +428,18 @@ button {
   .section-heading h2 {
     font-size: 17px;
   }
+
+
+  /*
+    Sur mobile, les headers fixes ont exactement
+    la largeur du contenu.
+  */
+
+  .section-heading-now.is-fixed,
+  .section-heading-upcoming.is-fixed {
+    width: calc(100% - 32px);
+  }
+
 
   .exhibition {
     grid-template-columns: 1fr;
