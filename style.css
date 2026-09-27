@@ -1,13 +1,11 @@
 :root {
-  --yellow: #ffff00;
-  --black: #000;
-  --white: #fff;
+  --black: #000000;
+  --white: #f5f5f2;
+  --yellow: #e7ff00;
   --grey: #8a8a8a;
+  --line: #292929;
 
-  --page-width: 860px;
-
-  --heading-height: 54px;
-  --page-padding: 22px;
+  --header-height: 48px;
 }
 
 * {
@@ -15,8 +13,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background: var(--black);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -24,313 +22,430 @@ body {
   background: var(--black);
   color: var(--white);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.35;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-button,
 a {
-  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  text-decoration: none;
 }
 
 button {
   font: inherit;
+  text-transform: inherit;
 }
 
-.app {
-  width: min(var(--page-width), calc(100% - 44px));
+
+/* ==================================================
+   PAGE
+   ================================================== */
+
+.page {
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
-  padding-bottom: 100vh;
+  padding: 0 22px;
 }
 
-/* --------------------------------------------------
+
+/* ==================================================
    SECTION HEADERS
--------------------------------------------------- */
+   ================================================== */
 
 .section-heading {
-  height: var(--heading-height);
-  background: var(--yellow);
-  color: var(--black);
+  position: relative;
+
+  z-index: 30;
+
+  width: 100%;
+  height: var(--header-height);
 
   display: flex;
   align-items: center;
 
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
+  padding: 0 12px;
 
-  width: min(var(--page-width), calc(100% - 44px));
-
-  z-index: 20;
-}
-
-.section-heading button {
-  width: 100%;
-  height: 100%;
-
-  border: 0;
-  background: transparent;
-  color: inherit;
-
-  text-align: left;
-  padding: 0 14px;
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  background: var(--yellow);
+  color: var(--black);
 
   cursor: pointer;
+
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
-.section-heading-now {
-  top: 0;
+.section-heading h1,
+.section-heading h2 {
+  margin: 0;
+
+  font-size: 18px;
+  line-height: 1;
+
+  font-weight: 600;
+
+  letter-spacing: 0.055em;
 }
 
-.section-heading-upcoming {
-  bottom: 0;
-}
 
 /*
-  The real content starts below MAINTENANT.
-  BIENTÔT is visually fixed at the bottom,
-  so it doesn't need to occupy normal flow here.
+  MAINTENANT reste fixé tout en haut
+  lorsqu'il a atteint le haut de l'écran.
 */
 
-.exhibition-section {
-  width: 100%;
+.section-heading-now.is-fixed {
+  position: fixed;
+
+  top: 0;
+  left: 50%;
+
+  width: min(
+    calc(100% - 44px),
+    856px
+  );
+
+  transform: translateX(-50%);
+
+  z-index: 40;
 }
 
-#current-section {
-  padding-top: calc(var(--heading-height) + 10px);
+
+/*
+  BIENTÔT se fixe juste sous MAINTENANT.
+*/
+
+.section-heading-upcoming.is-fixed {
+  position: fixed;
+
+  top: var(--header-height);
+  left: 50%;
+
+  width: min(
+    calc(100% - 44px),
+    856px
+  );
+
+  transform: translateX(-50%);
+
+  z-index: 39;
 }
 
-#upcoming-section {
-  /*
-    Extra bottom space prevents the last upcoming
-    exhibition from disappearing behind the BIENTÔT header.
-  */
-  padding-bottom: calc(var(--heading-height) + 30px);
+
+/*
+  Aucun effet de surbrillance au survol.
+  Seulement une légère réaction tactile.
+*/
+
+.section-heading:active {
+  opacity: 0.88;
 }
 
-/* --------------------------------------------------
-   EXHIBITIONS
--------------------------------------------------- */
+
+/* ==================================================
+   EXHIBITION LIST
+   ================================================== */
 
 .exhibition-list {
   width: 100%;
 }
 
+.upcoming-list {
+  padding-bottom: 80px;
+}
+
+
+/* ==================================================
+   EXHIBITION
+   ================================================== */
+
 .exhibition {
   position: relative;
 
-  padding: 18px 0 19px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
 
-  border-bottom: 1px solid #303030;
+  column-gap: 30px;
+
+  padding: 19px 0 20px;
+
+  border-bottom: 1px solid var(--line);
 
   cursor: pointer;
 
-  touch-action: pan-y;
   user-select: none;
-  -webkit-user-select: none;
 
-  transition:
-    transform 180ms ease,
-    color 180ms ease;
+  /*
+    Le doigt peut continuer à faire défiler
+    verticalement la page.
+  */
+  touch-action: pan-y;
+
+  transform: translate3d(0, 0, 0);
+
+  -webkit-tap-highlight-color: transparent;
 }
 
-.exhibition:first-child {
-  padding-top: 12px;
+
+/*
+  Aucun effet au survol.
+*/
+
+.exhibition:hover {
+  color: inherit;
 }
+
+.exhibition:hover .exhibition-title {
+  color: inherit;
+}
+
+
+/* ==================================================
+   EXHIBITION TEXT
+   ================================================== */
 
 .exhibition-title {
   margin: 0;
 
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--white);
+
   font-size: 15px;
   line-height: 1.25;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+
+  font-weight: 500;
+
+  letter-spacing: 0.035em;
 }
 
 .exhibition-venue {
   margin-top: 5px;
 
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 18px;
-  line-height: 1.15;
-  font-style: italic;
-  font-weight: 400;
+  color: var(--grey);
 
-  color: #9b9b9b;
+  font-size: 15px;
+  line-height: 1.25;
+
+  font-weight: 500;
+
+  letter-spacing: 0.035em;
 }
 
 .exhibition-date {
-  margin-top: 7px;
+  align-self: center;
 
-  font-family: Arial, Helvetica, sans-serif;
+  min-width: 125px;
+
+  color: var(--grey);
+
   font-size: 10px;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  line-height: 1.3;
 
-  color: #777;
+  letter-spacing: 0.08em;
+
+  text-align: right;
 }
 
-.exhibition.is-favorite .exhibition-title,
-.exhibition.is-favorite .exhibition-venue,
-.exhibition.is-favorite .exhibition-date {
+
+/* ==================================================
+   FAVORITES
+   ================================================== */
+
+.exhibition.favorite .exhibition-title,
+.exhibition.favorite .exhibition-venue,
+.exhibition.favorite .exhibition-date {
   color: var(--yellow);
 }
 
+
 /*
-  No hover effect:
-  the app is designed primarily for mobile.
+  Pendant le swipe, aucune transition ne vient
+  ralentir le déplacement du doigt.
 */
 
-.exhibition.is-swiping {
+.exhibition.swiping {
   transition: none;
 }
 
-/* --------------------------------------------------
-   DETAIL VIEW
--------------------------------------------------- */
 
-.detail-view {
+/* ==================================================
+   LOADING / EMPTY
+   ================================================== */
+
+.loading {
+  margin: 20px 0;
+
+  color: var(--grey);
+
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.empty {
+  padding: 25px 0;
+
+  color: var(--grey);
+
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+
+/* ==================================================
+   DETAIL
+   ================================================== */
+
+.detail {
   position: fixed;
+
   inset: 0;
 
   z-index: 100;
 
-  background: var(--black);
-  color: var(--white);
-
   overflow-y: auto;
+
+  background: var(--black);
 
   opacity: 0;
   visibility: hidden;
 
   transition:
-    opacity 160ms ease,
-    visibility 160ms ease;
+    opacity 180ms ease,
+    visibility 180ms ease;
 }
 
-.detail-view.is-open {
+.detail.open {
   opacity: 1;
   visibility: visible;
 }
 
-.detail-content {
-  width: min(var(--page-width), calc(100% - 44px));
+.detail-inner {
+  width: 100%;
+  max-width: 900px;
+
+  min-height: 100%;
+
   margin: 0 auto;
 
-  padding-top: 100px;
-  padding-bottom: 80px;
+  padding: 22px;
 }
 
 .detail-close {
-  position: fixed;
-  top: 18px;
-  right: max(22px, calc((100vw - var(--page-width)) / 2));
+  appearance: none;
 
-  z-index: 110;
-
-  width: 40px;
-  height: 40px;
+  margin: 0 0 80px;
+  padding: 0 0 7px;
 
   border: 0;
-  background: transparent;
-  color: var(--white);
+  border-bottom: 1px solid var(--yellow);
 
-  font-size: 34px;
-  font-weight: 200;
-  line-height: 1;
+  background: none;
+
+  color: var(--yellow);
+
+  font-size: 11px;
+
+  letter-spacing: 0.08em;
 
   cursor: pointer;
 }
 
-.detail-venue {
-  margin-bottom: 14px;
+.detail-title {
+  max-width: 700px;
 
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 21px;
+  margin: 0 0 35px;
+
+  font-size: 25px;
   line-height: 1.15;
-  font-style: italic;
 
-  color: #aaa;
+  font-weight: 500;
+
+  letter-spacing: 0.025em;
 }
 
-.detail-content h1 {
-  margin: 0;
+.detail-meta {
+  margin-bottom: 40px;
 
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(28px, 5vw, 52px);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-}
+  color: var(--grey);
 
-.detail-date {
-  margin-top: 18px;
+  font-size: 10px;
+  line-height: 1.5;
 
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-
-  color: #777;
+  letter-spacing: 0.08em;
 }
 
 .detail-description {
-  max-width: 700px;
+  max-width: 620px;
 
-  margin-top: 45px;
+  margin: 0 0 50px;
 
-  font-size: 16px;
-  line-height: 1.55;
-  color: #ddd;
+  color: var(--white);
+
+  font-size: 13px;
+  line-height: 1.6;
+
+  text-transform: none;
 }
 
 .detail-source {
   display: inline-block;
 
-  margin-top: 45px;
-  padding-bottom: 3px;
-
-  color: var(--yellow);
-  text-decoration: none;
+  padding-bottom: 6px;
 
   border-bottom: 1px solid var(--yellow);
 
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  color: var(--yellow);
+
+  font-size: 10px;
+
+  letter-spacing: 0.08em;
 }
 
-/* --------------------------------------------------
+
+/* ==================================================
    MOBILE
--------------------------------------------------- */
+   ================================================== */
 
 @media (max-width: 600px) {
 
   :root {
-    --heading-height: 48px;
+    --header-height: 46px;
   }
 
-  .app {
-    width: calc(100% - 32px);
+  .page {
+    padding: 0 16px;
   }
 
   .section-heading {
+    height: var(--header-height);
+
+    padding: 0 10px;
+  }
+
+  .section-heading h1,
+  .section-heading h2 {
+    font-size: 17px;
+  }
+
+
+  /*
+    Sur mobile, les headers fixes ont exactement
+    la largeur du contenu.
+  */
+
+  .section-heading-now.is-fixed,
+  .section-heading-upcoming.is-fixed {
     width: calc(100% - 32px);
   }
 
-  .section-heading button {
-    padding: 0 11px;
-    font-size: 20px;
-  }
-
-  #current-section {
-    padding-top: calc(var(--heading-height) + 8px);
-  }
 
   .exhibition {
+    grid-template-columns: 1fr;
+
+    row-gap: 7px;
+
     padding: 17px 0 18px;
   }
 
@@ -339,19 +454,32 @@ button {
   }
 
   .exhibition-venue {
-    font-size: 17px;
+    margin-top: 0;
+
+    font-size: 14px;
   }
 
   .exhibition-date {
+    min-width: 0;
+
+    text-align: left;
+
     font-size: 9px;
   }
 
-  .detail-content {
-    width: calc(100% - 32px);
-    padding-top: 80px;
+  .upcoming-list {
+    padding-bottom: 60px;
+  }
+
+  .detail-inner {
+    padding: 18px 16px 50px;
   }
 
   .detail-close {
-    right: 12px;
+    margin-bottom: 65px;
+  }
+
+  .detail-title {
+    font-size: 22px;
   }
 }
