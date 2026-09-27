@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+from urllib.parse import urljoin
 
 import requests
 
@@ -105,13 +106,11 @@ DATE_PATTERN = re.compile(
 
 def get_page(url):
     """
-    Récupère la page L'Officiel via Jina Reader.
+    Récupère une page L'Officiel via Jina Reader.
     """
 
-    jina_url = "https://r.jina.ai/" + url
-
     response = requests.get(
-        jina_url,
+        "https://r.jina.ai/" + url,
         timeout=60,
         headers=HEADERS,
     )
@@ -121,37 +120,25 @@ def get_page(url):
     text = response.text.strip()
 
     if not text:
-        raise RuntimeError("Réponse vide de Jina Reader.")
+        raise RuntimeError("Réponse vide.")
 
     return text
 
 
-def parse_date(day, month_name, year):
-    """
-    Convertit une date française en YYYY-MM-DD.
-    """
+def parse_date(day, month, year):
+    month_number = MONTHS.get(month.lower())
 
-    month = MONTHS.get(month_name.lower())
-
-    if month is None:
+    if month_number is None:
         return None
 
-    date = datetime(
+    return datetime(
         int(year),
-        month,
+        month_number,
         int(day),
-    )
-
-    return date.strftime("%Y-%m-%d")
+    ).strftime("%Y-%m-%d")
 
 
 def extract_dates(text):
-    """
-    Recherche une période du type :
-
-    Du 26 septembre 2026 au 14 février 2027
-    """
-
     match = DATE_PATTERN.search(text)
 
     if not match:
@@ -169,23 +156,16 @@ def extract_dates(text):
         match.group(6),
     )
 
-    if start is None or end is None:
+    if not start or not end:
         return None
 
     return start, end
 
 
-def clean_title(line):
-    """
-    Nettoie un titre Markdown.
-    """
+def clean_title(title):
+    title = title.strip()
 
-    title = line.strip()
-
-    if title.startswith("#####"):
-        title = title[5:].strip()
-
-    # [Titre](URL)
+    # Markdown link
     match = re.match(
         r"\[([^\]]+)\]\([^)]+\)",
         title,
@@ -200,96 +180,50 @@ def clean_title(line):
     return title.strip()
 
 
-def find_exhibition_section(lines):
+def find_exhibition_links(markdown):
     """
-    Cherche la section consacrée aux expositions.
+    Cherche les liens d'expositions dans la page du lieu.
 
-    On accepte plusieurs formulations afin de ne pas dépendre
-    d'une seule structure exacte.
-    """
-
-    possible_markers = [
-        "Événements programmés en Expositions",
-        "événements programmés en Expositions",
-        "Événements programmés en expositions",
-        "événements programmés en expositions",
-    ]
-
-    for index, line in enumerate(lines):
-        for marker in possible_markers:
-            if marker in line:
-                return index + 1
-
-    return None
-
-
-def find_section_end(lines, start):
-    """
-    Cherche la prochaine grande section Markdown.
-    """
-
-    for index in range(start, len(lines)):
-        line = lines[index].strip()
-
-        if (
-            line.startswith("## ")
-            or line.startswith("# ")
-        ):
-            return index
-
-    return len(lines)
-
-
-def extract_exhibitions(markdown, venue):
-    """
-    Extrait les expositions programmées.
-
-    Les collections permanentes sont explicitement exclues.
+    On ne cherche pas une formulation précise de section :
+    on identifie les liens vers les fiches /expositions-musees/
+    et on les associe à leur bloc de contenu.
     """
 
     lines = markdown.splitlines()
 
-    section_start = find_exhibition_section(lines)
+    links = []
 
-    if section_start is None:
-        raise RuntimeError(
-            "Section expositions introuvable."
+    for index, line in enumerate(lines):
+
+        # Les titres d'événements apparaissent sous forme
+        # de titres Markdown de niveau 5.
+        if not line.strip().startswith("#####"):
+            continue
+
+        title_line = line.strip()
+
+        # Recherche d'un lien Markdown dans le titre.
+        match = re.search(
+            r"\[([^\]]+)\]\((https?://www\.offi\.fr/[^)]+)\)",
+            title_line,
         )
 
-    section_end = find_section_end(
-        lines,
-        section_start,
-    )
-
-    section = lines[
-        section_start:section_end
-    ]
-
-    exhibitions = []
-
-    for index, line in enumerate(section):
-
-        stripped = line.strip()
-
-        if not stripped.startswith("#####"):
+        if not match:
             continue
 
-        title = clean_title(stripped)
+        title = clean_title(match.group(1))
+        url = match.group(2)
 
-        if not title:
+        # On ne conserve que les fiches relevant des expositions.
+        if "/expositions-musees/" not in url:
             continue
 
-        # Collections permanentes = pas une exposition temporaire.
-        if (
-            "collections permanentes"
-            in title.lower()
-        ):
+        # Les collections permanentes ne sont pas une exposition.
+        if "collections permanentes" in title.lower():
             continue
 
-        # Les informations utiles se trouvent généralement
-        # dans les lignes suivant le titre.
         context = "\n".join(
-            section[index:index + 20]
+            lines[index:index + 12]
         )
 
         dates = extract_dates(context)
@@ -299,43 +233,57 @@ def extract_exhibitions(markdown, venue):
 
         start, end = dates
 
-        exhibitions.append({
+        links.append({
             "title": title,
-            "venue": venue,
             "start": start,
             "end": end,
+            "url": url,
         })
 
-    return exhibitions
+    return links
 
 
 def scrape_venue(venue, url):
     print()
     print("=" * 80)
     print(venue)
-    print(url)
     print("=" * 80)
 
     markdown = get_page(url)
 
-    exhibitions = extract_exhibitions(
-        markdown,
-        venue,
-    )
+    exhibitions = find_exhibition_links(markdown)
 
     if not exhibitions:
-        print("ZERO — aucune exposition détectée")
-        return []
+        raise RuntimeError(
+            "Aucune exposition détectée."
+        )
+
+    # Suppression des doublons.
+    unique = {}
+
+    for exhibition in exhibitions:
+        unique[
+            (
+                exhibition["title"],
+                exhibition["url"],
+            )
+        ] = exhibition
+
+    exhibitions = list(unique.values())
+
+    for exhibition in exhibitions:
+        exhibition["venue"] = venue
 
     print(
-        f"OK — {len(exhibitions)} exposition(s)"
+        f"{len(exhibitions)} exposition(s) détectée(s)"
     )
 
     for exhibition in exhibitions:
         print(
             f"  - {exhibition['title']} | "
             f"{exhibition['start']} → "
-            f"{exhibition['end']}"
+            f"{exhibition['end']} | "
+            f"{exhibition['url']}"
         )
 
     return exhibitions
@@ -343,14 +291,11 @@ def scrape_venue(venue, url):
 
 def main():
     all_exhibitions = []
-
     errors = []
-    zero_results = []
 
     print("=" * 80)
-    print("TEST DU SCRAPER IMAGO — L'OFFICIEL")
+    print("TEST SCRAPER IMAGO — L'OFFICIEL")
     print("=" * 80)
-
     print(
         f"{len(VENUES)} lieux à tester."
     )
@@ -363,16 +308,12 @@ def main():
                 url,
             )
 
-            if not exhibitions:
-                zero_results.append(venue)
-
             all_exhibitions.extend(
                 exhibitions
             )
 
         except Exception as error:
 
-            print()
             print(
                 f"ERREUR — {venue}: {error}"
             )
@@ -388,35 +329,21 @@ def main():
     print("=" * 80)
 
     print(
-        f"Lieux testés       : {len(VENUES)}"
+        f"Lieux testés : {len(VENUES)}"
     )
 
     print(
-        f"Expositions trouvées : "
+        f"Expositions détectées : "
         f"{len(all_exhibitions)}"
     )
 
     print(
-        f"Erreurs             : "
-        f"{len(errors)}"
+        f"Erreurs : {len(errors)}"
     )
-
-    print(
-        f"Résultats à zéro    : "
-        f"{len(zero_results)}"
-    )
-
-    if zero_results:
-        print()
-        print("ZERO — À VÉRIFIER")
-        print("-" * 80)
-
-        for venue in zero_results:
-            print(f"- {venue}")
 
     if errors:
         print()
-        print("ERREURS — À VÉRIFIER")
+        print("ERREURS")
         print("-" * 80)
 
         for error in errors:
