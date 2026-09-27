@@ -11,8 +11,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background: var(--black);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -24,6 +24,7 @@ body {
   line-height: 1.35;
   text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 a {
@@ -43,147 +44,127 @@ button {
   padding: 0 22px;
 }
 
-/* -------------------------
-   HEADER / NAVIGATION
-------------------------- */
-
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-
-  display: flex;
-  align-items: center;
-  gap: 28px;
-
-  height: 58px;
-
-  background: rgba(0, 0, 0, 0.94);
-  border-bottom: 1px solid var(--line);
-}
-
-.section-link {
-  position: relative;
-
-  color: var(--grey);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  transition: color 160ms ease;
-}
-
-.section-link:hover,
-.section-link.active {
-  color: var(--yellow);
-}
-
-.section-link.active::after {
-  content: "";
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -7px;
-
-  height: 1px;
-
-  background: var(--yellow);
-}
-
-/* -------------------------
-   SECTIONS
-------------------------- */
+/* =========================
+   SECTION HEADERS
+   ========================= */
 
 .exhibition-section {
-  scroll-margin-top: 58px;
-  padding-top: 34px;
-}
-
-.upcoming-section {
-  margin-top: 80px;
-  padding-bottom: 80px;
+  position: relative;
 }
 
 .section-heading {
-  border-bottom: 1px solid var(--white);
-  padding-bottom: 9px;
-  margin-bottom: 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--yellow);
+  color: var(--black);
 }
 
 .section-heading h1,
 .section-heading h2 {
   margin: 0;
-
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--yellow);
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.055em;
 }
 
-/* -------------------------
+.upcoming-section {
+  margin-top: 70px;
+  padding-bottom: 80px;
+}
+
+/*
+  When BIENTÔT becomes sticky, it sits below
+  the already-sticky MAINTENANT header.
+*/
+.upcoming-section .section-heading {
+  top: 48px;
+}
+
+/* =========================
    EXHIBITION LIST
-------------------------- */
+   ========================= */
 
 .exhibition-list {
   width: 100%;
 }
 
 .exhibition {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 30px;
-
   padding: 19px 0 20px;
-
   border-bottom: 1px solid var(--line);
-
   cursor: pointer;
 
-  transition:
-    padding-left 160ms ease,
-    color 160ms ease;
-}
-
-.exhibition:hover {
-  padding-left: 8px;
-}
-
-.exhibition:hover .exhibition-title {
-  color: var(--yellow);
+  /*
+    Prevent the browser from selecting text during
+    a horizontal swipe.
+  */
+  user-select: none;
+  touch-action: pan-y;
+  transform: translateX(0);
+  transition: transform 180ms ease;
 }
 
 .exhibition-title {
   margin: 0;
-
   font-size: 15px;
   line-height: 1.25;
   font-weight: 500;
   letter-spacing: 0.035em;
-
   transition: color 160ms ease;
 }
 
 .exhibition-venue {
   margin-top: 5px;
-
   color: var(--grey);
-
-  font-size: 10px;
-  line-height: 1.3;
-  letter-spacing: 0.09em;
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: 0.035em;
+  transition: color 160ms ease;
 }
 
 .exhibition-date {
   align-self: center;
-
   min-width: 125px;
-
   color: var(--grey);
-
   font-size: 10px;
   line-height: 1.3;
   letter-spacing: 0.08em;
   text-align: right;
+  transition: color 160ms ease;
 }
+
+/* =========================
+   FAVORITES
+   ========================= */
+
+.exhibition.favorite .exhibition-title,
+.exhibition.favorite .exhibition-venue,
+.exhibition.favorite .exhibition-date {
+  color: var(--yellow);
+}
+
+/*
+  Small visual movement during the swipe.
+  It disappears automatically when the gesture ends.
+*/
+.exhibition.swiping {
+  transition: none;
+}
+
+/* =========================
+   LOADING / EMPTY
+   ========================= */
 
 .loading {
   margin: 20px 0;
@@ -199,22 +180,18 @@ button {
   letter-spacing: 0.08em;
 }
 
-/* -------------------------
-   DETAIL PANEL
-------------------------- */
+/* =========================
+   DETAIL VIEW
+   ========================= */
 
 .detail {
   position: fixed;
   inset: 0;
   z-index: 100;
-
   overflow-y: auto;
-
   background: var(--black);
-
   opacity: 0;
   visibility: hidden;
-
   transition:
     opacity 180ms ease,
     visibility 180ms ease;
@@ -229,35 +206,26 @@ button {
   width: 100%;
   max-width: 900px;
   min-height: 100%;
-
   margin: 0 auto;
   padding: 22px;
 }
 
 .detail-close {
   appearance: none;
-
   margin: 0 0 80px;
   padding: 0 0 7px;
-
   border: 0;
   border-bottom: 1px solid var(--yellow);
-
   background: none;
-
   color: var(--yellow);
-
   font-size: 11px;
   letter-spacing: 0.08em;
-
   cursor: pointer;
 }
 
 .detail-title {
   max-width: 700px;
-
   margin: 0 0 35px;
-
   font-size: 25px;
   line-height: 1.15;
   font-weight: 500;
@@ -266,9 +234,7 @@ button {
 
 .detail-meta {
   margin-bottom: 40px;
-
   color: var(--grey);
-
   font-size: 10px;
   line-height: 1.5;
   letter-spacing: 0.08em;
@@ -276,33 +242,25 @@ button {
 
 .detail-description {
   max-width: 620px;
-
   margin: 0 0 50px;
-
   color: var(--white);
-
   font-size: 13px;
   line-height: 1.6;
-
   text-transform: none;
 }
 
 .detail-source {
   display: inline-block;
-
   padding-bottom: 6px;
-
   border-bottom: 1px solid var(--yellow);
-
   color: var(--yellow);
-
   font-size: 10px;
   letter-spacing: 0.08em;
 }
 
-/* -------------------------
+/* =========================
    MOBILE
-------------------------- */
+   ========================= */
 
 @media (max-width: 600px) {
 
@@ -310,34 +268,33 @@ button {
     padding: 0 16px;
   }
 
-  .header {
-    height: 54px;
-    gap: 22px;
+  .section-heading {
+    height: 46px;
+    padding: 0 10px;
   }
 
-  .section-link {
-    font-size: 11px;
+  .section-heading h1,
+  .section-heading h2 {
+    font-size: 17px;
   }
 
-  .exhibition-section {
-    scroll-margin-top: 54px;
-    padding-top: 28px;
+  /*
+    BIENTÔT stacks below MAINTENANT
+    when both are sticky.
+  */
+  .upcoming-section .section-heading {
+    top: 46px;
   }
 
   .upcoming-section {
-    margin-top: 62px;
+    margin-top: 58px;
     padding-bottom: 60px;
   }
 
   .exhibition {
     grid-template-columns: 1fr;
-    row-gap: 8px;
-
+    row-gap: 7px;
     padding: 17px 0 18px;
-  }
-
-  .exhibition:hover {
-    padding-left: 0;
   }
 
   .exhibition-title {
@@ -345,14 +302,13 @@ button {
   }
 
   .exhibition-venue {
-    font-size: 9px;
+    margin-top: 0;
+    font-size: 14px;
   }
 
   .exhibition-date {
     min-width: 0;
-
     text-align: left;
-
     font-size: 9px;
   }
 
