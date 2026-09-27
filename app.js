@@ -1060,3 +1060,5 @@ async function loadExhibitions() {
   }
 
 }
+
+loadExhibitions();
