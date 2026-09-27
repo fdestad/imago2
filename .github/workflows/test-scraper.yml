@@ -1,13 +1,15 @@
-name: Test Imago scraper
+name: Update Imago data
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * *"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  test:
+  update:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,5 +24,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run scraper test
+      - name: Run scraper
         run: python scraper.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add exhibitions.json
+          git diff --cached --quiet || git commit -m "Update exhibition data"
+          git push
