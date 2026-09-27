@@ -849,6 +849,30 @@ function openDetail(
   }
 
 
+  const venueInfo =
+    venues[exhibition.venue];
+
+
+  /* ----------------------------------------------
+     HORAIRES
+     ---------------------------------------------- */
+
+  const hours =
+    document.createElement("div");
+
+
+  hours.className =
+    "detail-hours";
+
+
+  hours.textContent =
+    venueInfo?.hours || "";
+
+
+  /* ----------------------------------------------
+     DESCRIPTION
+     ---------------------------------------------- */
+
   const description =
     document.createElement("p");
 
@@ -863,8 +887,16 @@ function openDetail(
 
 
   /* ----------------------------------------------
-     SOURCE L'OFFICIEL
+     LIENS
      ---------------------------------------------- */
+
+  const links =
+    document.createElement("div");
+
+
+  links.className =
+    "detail-links";
+
 
   const source =
     document.createElement("a");
@@ -887,32 +919,8 @@ function openDetail(
 
 
   source.textContent =
-    "Voir la source";
+    "Source";
 
-
-  /* ----------------------------------------------
-     HORAIRES
-     ---------------------------------------------- */
-
-  const venueInfo =
-    venues[exhibition.venue];
-
-
-  const hours =
-    document.createElement("div");
-
-
-  hours.className =
-    "detail-hours";
-
-
-  hours.textContent =
-    venueInfo?.hours || "";
-
-
-  /* ----------------------------------------------
-     SITE OFFICIEL
-     ---------------------------------------------- */
 
   const official =
     document.createElement("a");
@@ -935,28 +943,29 @@ function openDetail(
 
 
   official.textContent =
-    "Voir le site officiel";
+    "Site officiel";
 
+
+  links.appendChild(
+    source
+  );
+
+  links.appendChild(
+    official
+  );
+
+
+  /* ----------------------------------------------
+     ORDRE DU DETAIL
+     ---------------------------------------------- */
 
   detailContent.appendChild(
     title
   );
 
-
   detailContent.appendChild(
     meta
   );
-
-
-  detailContent.appendChild(
-    description
-  );
-
-
-  detailContent.appendChild(
-    source
-  );
-
 
   if (venueInfo) {
 
@@ -964,11 +973,15 @@ function openDetail(
       hours
     );
 
-    detailContent.appendChild(
-      official
-    );
-
   }
+
+  detailContent.appendChild(
+    description
+  );
+
+  detailContent.appendChild(
+    links
+  );
 
 
   detail.classList.add(
