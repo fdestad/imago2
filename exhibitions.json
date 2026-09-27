@@ -1,5 +1,107 @@
 {
   "updated": "2026-09-27",
+  "venues": {
+    "Louvre": {
+      "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
+      "official_url": "https://www.louvre.fr/"
+    },
+    "Jeu de Paume": {
+      "hours": "LUN fermé · MAR 11:00–21:00 · MER–DIM 11:00–19:00",
+      "official_url": "https://jeudepaume.org/"
+    },
+    "Orangerie": {
+      "hours": "LUN 09:00–18:00 · MAR fermé · MER–JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
+      "official_url": "https://www.musee-orangerie.fr/"
+    },
+    "Orsay": {
+      "hours": "LUN fermé · MAR–MER 09:30–18:00 · JEU 09:30–21:45 · VEN–DIM 09:30–18:00",
+      "official_url": "https://www.musee-orsay.fr/"
+    },
+    "MEP": {
+      "hours": "LUN–MAR fermé · MER 11:00–20:00 · JEU 11:00–22:00 · VEN 11:00–20:00 · SAM–DIM 10:00–20:00",
+      "official_url": "https://www.mep-fr.org/"
+    },
+    "IMA": {
+      "hours": "LUN fermé · MAR–VEN 10:00–18:00 · SAM–DIM 10:00–19:00",
+      "official_url": "https://www.imarabe.org/"
+    },
+    "MAD": {
+      "hours": "LUN fermé · MAR–DIM 11:00–18:00 · JEU jusqu’à 21:00",
+      "official_url": "https://madparis.fr/"
+    },
+    "FLV": {
+      "hours": "LUN 11:00–20:00 · MAR fermé · MER–VEN 11:00–20:00 · SAM–DIM 10:00–20:00",
+      "official_url": "https://www.fondationlouisvuitton.fr/"
+    },
+    "Bourse": {
+      "hours": "LUN 11:00–19:00 · MAR fermé · MER–DIM 11:00–19:00 · VEN jusqu’à 21:00",
+      "official_url": "https://www.pinaultcollection.com/fr/boursedecommerce"
+    },
+    "MAC VAL": {
+      "hours": "LUN fermé · MAR–DIM 11:00–18:00",
+      "official_url": "https://www.macval.fr/"
+    },
+    "Fondation Cartier": {
+      "hours": "LUN fermé · MAR–JEU 11:00–19:00 · VEN 11:00–22:00 · SAM–DIM 11:00–19:00",
+      "official_url": "https://www.fondationcartier.com/"
+    },
+    "Grand Palais": {
+      "hours": "LUN fermé · MAR–JEU 10:00–19:30 · VEN 10:00–22:00 · SAM–DIM 10:00–19:30",
+      "official_url": "https://www.grandpalais.fr/"
+    },
+    "Petit Palais": {
+      "hours": "LUN fermé · MAR–JEU 10:00–18:00 · VEN–SAM 10:00–20:00 · DIM 10:00–18:00",
+      "official_url": "https://www.petitpalais.paris.fr/"
+    },
+    "Marmottan": {
+      "hours": "LUN fermé · MAR–MER 10:00–18:00 · JEU 10:00–21:00 · VEN–DIM 10:00–18:00",
+      "official_url": "https://www.marmottan.fr/"
+    },
+    "Luxembourg": {
+      "hours": "LUN 10:30–22:00 · MAR–DIM 10:30–19:00",
+      "official_url": "https://museeduluxembourg.fr/"
+    },
+    "Arsenal": {
+      "hours": "LUN fermé · MAR–DIM 11:00–19:00",
+      "official_url": "https://www.pavillon-arsenal.com/"
+    },
+    "Cernuschi": {
+      "hours": "LUN fermé · MAR–DIM 10:00–18:00",
+      "official_url": "https://www.parismusees.paris.fr/fr/musee-cernuschi"
+    },
+    "MAM": {
+      "hours": "LUN fermé · MAR–MER 10:00–18:00 · JEU 10:00–22:00 · VEN–DIM 10:00–18:00",
+      "official_url": "https://www.mam.paris.fr/"
+    },
+    "Lafayette": {
+      "hours": "LUN–MAR fermé · MER–SAM 12:00–19:00 · DIM 12:00–17:00",
+      "official_url": "https://www.lafayetteanticipations.com/"
+    },
+    "Fondation Cartier-Bresson": {
+      "hours": "LUN fermé · MAR–DIM 11:00–19:00",
+      "official_url": "https://www.henricartierbresson.org/"
+    },
+    "Cité de l’architecture": {
+      "hours": "MAR fermé · LUN, MER, VEN–DIM 11:00–19:00 · JEU jusqu’à 21:00",
+      "official_url": "https://www.citedelarchitecture.fr/"
+    },
+    "Galliera": {
+      "hours": "LUN fermé · MAR–JEU 10:00–18:00 · VEN 10:00–21:00 · SAM–DIM 10:00–18:00",
+      "official_url": "https://www.palaisgalliera.paris.fr/"
+    },
+    "BnF": {
+      "hours": "LUN 14:00–20:00 · MAR–SAM 09:00–20:00 · DIM 13:00–19:00",
+      "official_url": "https://www.bnf.fr/"
+    },
+    "Agnès B.": {
+      "hours": "LUN fermé · MAR–SAM 11:00–19:00 · DIM 14:00–19:00",
+      "official_url": "https://www.agnesb.com/fr-eu/GalerieDuJour.html"
+    },
+    "Palais de Tokyo": {
+      "hours": "LUN–DIM 12:00–21:00 · MAR fermé",
+      "official_url": "https://palaisdetokyo.com/"
+    }
+  },
   "current": [
     {
       "title": "Une journée au XVIIIe siècle, chronique d'un hôtel particulier",
