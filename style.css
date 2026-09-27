@@ -355,3 +355,26 @@ button {
     right: 12px;
   }
 }
+/* --------------------------------------------------
+   UPCOMING TRANSITION
+-------------------------------------------------- */
+
+.section-heading-upcoming.is-transitioned {
+  position: absolute;
+  top: auto;
+  bottom: auto;
+
+  /*
+    JS places the page at the right scroll position.
+    The heading therefore becomes part of the document
+    exactly underneath MAINTENANT.
+  */
+
+  margin-top: 0;
+}
+
+.section-heading-upcoming.is-transitioned {
+  position: fixed;
+  top: var(--heading-height);
+  bottom: auto;
+}
