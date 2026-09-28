@@ -1112,16 +1112,16 @@ let venueNames = [];
 const MARQUEE_ROW_COUNT = 10;
 
 const MARQUEE_SPEEDS = [
-  30,
   55,
-  28,
+  29,
+  49,
   65,
   38,
-  22,
+  70,
   50,
-  32,
+  33,
   48,
-  26
+  89
 ];
 
 
