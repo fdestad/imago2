@@ -168,6 +168,44 @@ button {
 
 
 /* ==================================================
+   VENUE DETAIL HEADING
+   ================================================== */
+
+.venue-detail-heading {
+  position: sticky;
+
+  top: 0;
+
+  z-index: 30;
+
+  cursor: default;
+}
+
+
+.venue-detail-heading h1 {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    Times,
+    serif;
+
+  font-style: italic;
+
+  font-weight: 700;
+
+  text-transform: none;
+
+  letter-spacing: 0.01em;
+}
+
+
+/* ==================================================
    EXHIBITION LIST
    ================================================== */
 
@@ -529,32 +567,6 @@ button {
     0 22px 80px;
 
   touch-action: pan-y;
-}
-
-
-/*
-  Header spécifique à la venue.
-  Même traitement visuel que
-  "Maintenant" et "Bientôt".
-*/
-
-.venue-detail-heading {
-  position: sticky;
-
-  top: 0;
-
-  z-index: 30;
-
-  cursor: default;
-}
-
-
-.venue-detail-heading h1 {
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
 }
 
 
