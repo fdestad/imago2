@@ -384,12 +384,10 @@ button {
 
 .venue-marquee-group {
   display: flex;
-
   align-items: center;
-
   flex: 0 0 auto;
-
   width: max-content;
+  min-width: max-content;
   height: 100%;
 }
 
