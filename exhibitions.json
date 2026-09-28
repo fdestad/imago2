@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-27",
+  "updated": "2026-09-28",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -41,7 +41,7 @@
       "hours": "LUN fermé · MAR–DIM 11:00–18:00",
       "official_url": "https://www.macval.fr/"
     },
-    "Fondation Cartier": {
+    "Cartier": {
       "hours": "LUN fermé · MAR–JEU 11:00–19:00 · VEN 11:00–22:00 · SAM–DIM 11:00–19:00",
       "official_url": "https://www.fondationcartier.com/"
     },
@@ -77,7 +77,7 @@
       "hours": "LUN–MAR fermé · MER–SAM 12:00–19:00 · DIM 12:00–17:00",
       "official_url": "https://www.lafayetteanticipations.com/"
     },
-    "Fondation Cartier-Bresson": {
+    "Cartier-Bresson": {
       "hours": "LUN fermé · MAR–DIM 11:00–19:00",
       "official_url": "https://www.henricartierbresson.org/"
     },
@@ -114,7 +114,7 @@
     },
     {
       "title": "Nuits Balnéaires, Eboro",
-      "venue": "Fondation Cartier-Bresson",
+      "venue": "Cartier-Bresson",
       "start": "2026-05-20",
       "end": "2026-10-04",
       "status": "current",
@@ -123,7 +123,7 @@
     },
     {
       "title": "Daido Moriyama, Lettres d'amour à la photographie",
-      "venue": "Fondation Cartier-Bresson",
+      "venue": "Cartier-Bresson",
       "start": "2026-05-20",
       "end": "2026-10-04",
       "status": "current",
@@ -404,7 +404,7 @@
     },
     {
       "title": "Ibrahim Mahama, Le Temps des récoltes",
-      "venue": "Fondation Cartier",
+      "venue": "Cartier",
       "start": "2026-10-22",
       "end": "2027-02-28",
       "status": "upcoming",
