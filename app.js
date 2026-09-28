@@ -22,6 +22,9 @@ const bientotHeading =
 const venuesMarquee =
   document.getElementById("venues-marquee");
 
+const venueDetailTitle =
+  document.getElementById("venue-detail-title");
+
 const venueDetailList =
   document.getElementById("venue-detail-list");
 
@@ -146,11 +149,16 @@ function toggleFavorite(
 
   } else {
 
-    favorites.splice(index, 1);
+    favorites.splice(
+      index,
+      1
+    );
 
   }
 
-  saveFavorites(favorites);
+  saveFavorites(
+    favorites
+  );
 
   element.classList.toggle(
     "favorite",
@@ -166,22 +174,34 @@ function toggleFavorite(
 
 function updateStickyHeaders() {
 
-  if (currentPage !== "home") {
+  if (
+    currentPage !== "home"
+  ) {
+
     return;
+
   }
+
 
   const maintenantOffset =
     maintenantHeading.dataset.offset
-      ? Number(maintenantHeading.dataset.offset)
+      ? Number(
+          maintenantHeading.dataset.offset
+        )
       : maintenantHeading.offsetTop;
+
 
   const bientotOffset =
     bientotHeading.dataset.offset
-      ? Number(bientotHeading.dataset.offset)
+      ? Number(
+          bientotHeading.dataset.offset
+        )
       : bientotHeading.offsetTop;
+
 
   const headerHeight =
     maintenantHeading.offsetHeight;
+
 
   if (
     window.scrollY >=
@@ -200,9 +220,11 @@ function updateStickyHeaders() {
 
   }
 
+
   const bientotThreshold =
     bientotOffset -
     headerHeight;
+
 
   if (
     window.scrollY >=
@@ -234,11 +256,13 @@ function measureSectionHeaders() {
     "is-fixed"
   );
 
+
   maintenantHeading.dataset.offset =
     maintenantHeading.offsetTop;
 
   bientotHeading.dataset.offset =
     bientotHeading.offsetTop;
+
 
   updateStickyHeaders();
 
@@ -262,12 +286,21 @@ window.addEventListener(
   "resize",
   () => {
 
-    if (currentPage === "home") {
+    if (
+      currentPage === "home"
+    ) {
+
       measureSectionHeaders();
+
     }
 
-    if (currentPage === "venues") {
+
+    if (
+      currentPage === "venues"
+    ) {
+
       rebuildVenueMarquee();
+
     }
 
   }
@@ -286,6 +319,7 @@ function goToMaintenant() {
       maintenantHeading.offsetTop
     );
 
+
   window.scrollTo({
     top: target,
     behavior: "smooth"
@@ -302,8 +336,10 @@ function goToBientot() {
       bientotHeading.offsetTop
     );
 
+
   const headerHeight =
     maintenantHeading.offsetHeight;
+
 
   window.scrollTo({
     top:
@@ -340,12 +376,14 @@ maintenantHeading.addEventListener(
     ) {
 
       event.preventDefault();
+
       goToMaintenant();
 
     }
 
   }
 );
+
 
 bientotHeading.addEventListener(
   "keydown",
@@ -357,6 +395,7 @@ bientotHeading.addEventListener(
     ) {
 
       event.preventDefault();
+
       goToBientot();
 
     }
@@ -378,6 +417,7 @@ function createExhibitionElement(
 
   element.className =
     "exhibition";
+
 
   if (
     isFavorite(exhibition)
@@ -414,8 +454,13 @@ function createExhibitionElement(
     exhibition.venue;
 
 
-  information.appendChild(title);
-  information.appendChild(venue);
+  information.appendChild(
+    title
+  );
+
+  information.appendChild(
+    venue
+  );
 
 
   const date =
@@ -476,6 +521,7 @@ function createExhibitionElement(
 
       }
 
+
       startX =
         event.clientX;
 
@@ -532,7 +578,9 @@ function createExhibitionElement(
         startY;
 
 
-      if (!horizontal) {
+      if (
+        !horizontal
+      ) {
 
         if (
           Math.abs(dx) < 10 &&
@@ -563,8 +611,12 @@ function createExhibitionElement(
       }
 
 
-      if (!horizontal) {
+      if (
+        !horizontal
+      ) {
+
         return;
+
       }
 
 
@@ -608,6 +660,7 @@ function createExhibitionElement(
         return;
       }
 
+
       active =
         false;
 
@@ -626,7 +679,6 @@ function createExhibitionElement(
           true;
 
       }
-
 
       else if (
         horizontal &&
@@ -701,7 +753,9 @@ function createExhibitionElement(
     "click",
     () => {
 
-      if (suppressClick) {
+      if (
+        suppressClick
+      ) {
 
         suppressClick =
           false;
@@ -709,6 +763,7 @@ function createExhibitionElement(
         return;
 
       }
+
 
       openDetail(
         exhibition
@@ -736,7 +791,9 @@ function renderList(
     "";
 
 
-  if (!items.length) {
+  if (
+    !items.length
+  ) {
 
     const empty =
       document.createElement("p");
@@ -848,6 +905,10 @@ function openVenue(
     venueName;
 
 
+  venueDetailTitle.textContent =
+    venueName;
+
+
   renderList(
     venueDetailList,
     getVenueExhibitions(
@@ -867,6 +928,117 @@ function openVenue(
   });
 
 }
+
+
+/* ==================================================
+   VENUE DETAIL SWIPE
+   ================================================== */
+
+let venueDetailGesture = {
+
+  active: false,
+
+  startX: 0,
+
+  startY: 0
+
+};
+
+
+venueDetailPage.addEventListener(
+  "pointerdown",
+  (event) => {
+
+    if (
+      event.pointerType === "mouse"
+    ) {
+
+      return;
+
+    }
+
+
+    /*
+      Les cartes ont leur propre gestionnaire
+      pour les swipes droit/gauche.
+    */
+
+    if (
+      event.target.closest(
+        ".exhibition"
+      )
+    ) {
+
+      venueDetailGesture.active =
+        false;
+
+      return;
+
+    }
+
+
+    venueDetailGesture.active =
+      true;
+
+    venueDetailGesture.startX =
+      event.clientX;
+
+    venueDetailGesture.startY =
+      event.clientY;
+
+  }
+);
+
+
+venueDetailPage.addEventListener(
+  "pointerup",
+  (event) => {
+
+    if (
+      !venueDetailGesture.active
+    ) {
+
+      return;
+
+    }
+
+
+    const dx =
+      event.clientX -
+      venueDetailGesture.startX;
+
+    const dy =
+      event.clientY -
+      venueDetailGesture.startY;
+
+
+    venueDetailGesture.active =
+      false;
+
+
+    if (
+      dx <= -70 &&
+      Math.abs(dx) >
+      Math.abs(dy)
+    ) {
+
+      navigateVenueToVenues();
+
+    }
+
+  }
+);
+
+
+venueDetailPage.addEventListener(
+  "pointercancel",
+  () => {
+
+    venueDetailGesture.active =
+      false;
+
+  }
+);
 
 
 /* ==================================================
@@ -909,6 +1081,31 @@ function createVenueItem(
 
   item.className =
     "venue-marquee-item";
+
+
+  /*
+    Le poids est déterminé par la position
+    de la venue dans la liste globale :
+    une venue sur deux est en gras.
+  */
+
+  const venueIndex =
+    venueNames.indexOf(
+      venueName
+    );
+
+
+  if (
+    venueIndex >= 0 &&
+    venueIndex % 2 === 0
+  ) {
+
+    item.classList.add(
+      "is-bold"
+    );
+
+  }
+
 
   item.textContent =
     venueName;
@@ -971,9 +1168,9 @@ function buildMarqueeRow(
     Un groupe contient plusieurs répétitions
     de la séquence complète.
 
-    Le groupe est ensuite dupliqué exactement.
+    Il est ensuite dupliqué exactement.
     La largeur du premier groupe constitue
-    la période mathématique de la boucle.
+    la période de la boucle.
   */
 
   const group =
@@ -1053,16 +1250,18 @@ function buildMarqueeRow(
 
     position: 0,
 
+    /*
+      Toutes les lignes avancent désormais
+      vers la gauche.
+    */
+
     speed:
       MARQUEE_SPEEDS[
         rowIndex %
         MARQUEE_SPEEDS.length
       ],
 
-    direction:
-      rowIndex % 2 === 0
-        ? -1
-        : 1,
+    direction: -1,
 
     cycleWidth: 0,
 
@@ -1166,8 +1365,12 @@ function measureMarqueeRow(
     );
 
 
-  if (!firstGroup) {
+  if (
+    !firstGroup
+  ) {
+
     return;
+
   }
 
 
@@ -1196,8 +1399,12 @@ function normalizePosition(
   cycleWidth
 ) {
 
-  if (!cycleWidth) {
+  if (
+    !cycleWidth
+  ) {
+
     return position;
+
   }
 
 
@@ -1362,12 +1569,6 @@ function setupMarqueePointer(
         }
 
 
-        /*
-          Vertical gesture:
-          the row gives the gesture
-          to page navigation.
-        */
-
         if (
           Math.abs(dy) >
           Math.abs(dx)
@@ -1406,11 +1607,6 @@ function setupMarqueePointer(
 
         }
 
-
-        /*
-          Horizontal gesture:
-          this row owns it.
-        */
 
         state.horizontalDecision =
           true;
@@ -1800,6 +1996,7 @@ function setPageVisibility(
     visible
   );
 
+
   page.setAttribute(
     "aria-hidden",
     visible
@@ -1945,6 +2142,7 @@ function navigateVenueToVenues() {
     currentVenue =
       null;
 
+
     showPage(
       "venues"
     );
@@ -1983,9 +2181,22 @@ document.addEventListener(
 
 
     /*
-      Les expositions ont leur propre
-      gestionnaire de swipe.
+      Venue detail possède son propre
+      gestionnaire afin que le swipe
+      fonctionne partout sur la page.
     */
+
+    if (
+      currentPage === "venue-detail"
+    ) {
+
+      pageGesture.active =
+        false;
+
+      return;
+
+    }
+
 
     if (
       event.target.closest(
@@ -2000,11 +2211,6 @@ document.addEventListener(
 
     }
 
-
-    /*
-      Les lignes de venues ont leur propre
-      gestionnaire de swipe horizontal.
-    */
 
     if (
       event.target.closest(
@@ -2091,25 +2297,6 @@ document.addEventListener(
     ) {
 
       navigateVenuesToHome();
-
-      return;
-
-    }
-
-
-    /*
-      VENUE DETAIL
-      Swipe gauche → Venues
-    */
-
-    if (
-      currentPage === "venue-detail" &&
-      dx <= -70 &&
-      Math.abs(dx) >
-      Math.abs(dy)
-    ) {
-
-      navigateVenueToVenues();
 
     }
 
@@ -2385,7 +2572,9 @@ async function loadExhibitions() {
       );
 
 
-    if (!response.ok) {
+    if (
+      !response.ok
+    ) {
 
       throw new Error(
         "Impossible de charger les données."
