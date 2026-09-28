@@ -14,41 +14,115 @@
 
 <body>
 
-  <main class="page">
+  <!-- ==================================================
+       HOME
+       ================================================== -->
 
-    <div
-      id="maintenant-heading"
-      class="section-heading section-heading-now"
-      role="button"
-      tabindex="0"
-      aria-label="Aller aux expositions actuellement ouvertes"
-    >
-      <h1>Maintenant</h1>
-    </div>
+  <main id="home-page" class="app-page home-page">
 
-    <div id="current-list" class="exhibition-list">
-      <p class="loading">Chargement…</p>
-    </div>
+    <div class="page">
+
+      <div
+        id="maintenant-heading"
+        class="section-heading section-heading-now"
+        role="button"
+        tabindex="0"
+        aria-label="Aller aux expositions actuellement ouvertes"
+      >
+        <h1>Maintenant</h1>
+      </div>
+
+      <div id="current-list" class="exhibition-list">
+        <p class="loading">Chargement…</p>
+      </div>
 
 
-    <div
-      id="bientot-heading"
-      class="section-heading section-heading-upcoming"
-      role="button"
-      tabindex="0"
-      aria-label="Aller aux prochaines expositions"
-    >
-      <h2>Bientôt</h2>
-    </div>
+      <div
+        id="bientot-heading"
+        class="section-heading section-heading-upcoming"
+        role="button"
+        tabindex="0"
+        aria-label="Aller aux prochaines expositions"
+      >
+        <h2>Bientôt</h2>
+      </div>
 
-    <div id="upcoming-list" class="exhibition-list upcoming-list">
-      <p class="loading">Chargement…</p>
+      <div id="upcoming-list" class="exhibition-list upcoming-list">
+        <p class="loading">Chargement…</p>
+      </div>
+
     </div>
 
   </main>
 
 
-  <div id="detail" class="detail" aria-hidden="true">
+  <!-- ==================================================
+       VENUES
+       ================================================== -->
+
+  <main
+    id="venues-page"
+    class="app-page venues-page"
+    aria-hidden="true"
+  >
+
+    <div
+      id="venues-marquee"
+      class="venues-marquee"
+      aria-label="Lieux d'exposition"
+    >
+      <!-- Les lignes sont générées par JavaScript -->
+    </div>
+
+  </main>
+
+
+  <!-- ==================================================
+       VENUE DETAIL
+       ================================================== -->
+
+  <main
+    id="venue-detail-page"
+    class="app-page venue-detail-page"
+    aria-hidden="true"
+  >
+
+    <div class="venue-detail-inner">
+
+      <button
+        id="venue-detail-back"
+        class="venue-detail-back"
+        type="button"
+      >
+        Venues
+      </button>
+
+      <div
+        id="venue-detail-heading"
+        class="venue-detail-heading"
+      >
+        <h1 id="venue-detail-title"></h1>
+      </div>
+
+      <div
+        id="venue-detail-list"
+        class="exhibition-list venue-detail-list"
+      ></div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ==================================================
+       EXHIBITION DETAIL
+       ================================================== -->
+
+  <div
+    id="detail"
+    class="detail"
+    aria-hidden="true"
+  >
 
     <div class="detail-inner">
 
