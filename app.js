@@ -944,13 +944,7 @@ function buildMarqueeRow(
     "venue-marquee-group";
 
 
-  let repetition = 0;
-
-  while (
-    group.getBoundingClientRect().width <
-      window.innerWidth * 1.5 &&
-    repetition < 10
-  ) {
+  for (let repetition = 0; repetition < 8; repetition++) {
 
     sequence.forEach(
       (venueName) => {
@@ -963,8 +957,6 @@ function buildMarqueeRow(
 
       }
     );
-
-    repetition++;
 
   }
 
