@@ -7,69 +7,45 @@ const venuesPage =
 const venueDetailPage =
   document.getElementById("venue-detail-page");
 
-
 const currentList =
   document.getElementById("current-list");
 
 const upcomingList =
   document.getElementById("upcoming-list");
 
-
 const maintenantHeading =
-  document.getElementById(
-    "maintenant-heading"
-  );
+  document.getElementById("maintenant-heading");
 
 const bientotHeading =
-  document.getElementById(
-    "bientot-heading"
-  );
-
+  document.getElementById("bientot-heading");
 
 const venuesMarquee =
-  document.getElementById(
-    "venues-marquee"
-  );
-
+  document.getElementById("venues-marquee");
 
 const venueDetailBack =
-  document.getElementById(
-    "venue-detail-back"
-  );
+  document.getElementById("venue-detail-back");
 
 const venueDetailTitle =
-  document.getElementById(
-    "venue-detail-title"
-  );
+  document.getElementById("venue-detail-title");
 
 const venueDetailList =
-  document.getElementById(
-    "venue-detail-list"
-  );
-
+  document.getElementById("venue-detail-list");
 
 const detail =
   document.getElementById("detail");
 
 const detailContent =
-  document.getElementById(
-    "detail-content"
-  );
+  document.getElementById("detail-content");
 
 const detailClose =
-  document.getElementById(
-    "detail-close"
-  );
+  document.getElementById("detail-close");
 
 
 let exhibitions = [];
-
 let venues = {};
 
 let currentPage = "home";
-
 let currentVenue = null;
-
 
 const FAVORITES_KEY =
   "imago2-favorites";
@@ -125,9 +101,7 @@ function getFavorites() {
 }
 
 
-function saveFavorites(
-  favorites
-) {
+function saveFavorites(favorites) {
 
   localStorage.setItem(
     FAVORITES_KEY,
@@ -137,9 +111,7 @@ function saveFavorites(
 }
 
 
-function getExhibitionId(
-  exhibition
-) {
+function getExhibitionId(exhibition) {
 
   return [
     exhibition.title,
@@ -151,9 +123,7 @@ function getExhibitionId(
 }
 
 
-function isFavorite(
-  exhibition
-) {
+function isFavorite(exhibition) {
 
   return getFavorites().includes(
     getExhibitionId(exhibition)
@@ -176,25 +146,17 @@ function toggleFavorite(
   const index =
     favorites.indexOf(id);
 
-
   if (index === -1) {
 
     favorites.push(id);
 
   } else {
 
-    favorites.splice(
-      index,
-      1
-    );
+    favorites.splice(index, 1);
 
   }
 
-
-  saveFavorites(
-    favorites
-  );
-
+  saveFavorites(favorites);
 
   element.classList.toggle(
     "favorite",
@@ -205,37 +167,27 @@ function toggleFavorite(
 
 
 /* ==================================================
-   STICKY SECTION HEADERS
+   STICKY HEADERS
    ================================================== */
 
 function updateStickyHeaders() {
 
-  if (
-    currentPage !== "home"
-  ) {
+  if (currentPage !== "home") {
     return;
   }
 
-
   const maintenantOffset =
     maintenantHeading.dataset.offset
-      ? Number(
-          maintenantHeading.dataset.offset
-        )
+      ? Number(maintenantHeading.dataset.offset)
       : maintenantHeading.offsetTop;
-
 
   const bientotOffset =
     bientotHeading.dataset.offset
-      ? Number(
-          bientotHeading.dataset.offset
-        )
+      ? Number(bientotHeading.dataset.offset)
       : bientotHeading.offsetTop;
-
 
   const headerHeight =
     maintenantHeading.offsetHeight;
-
 
   if (
     window.scrollY >=
@@ -254,11 +206,9 @@ function updateStickyHeaders() {
 
   }
 
-
   const bientotThreshold =
     bientotOffset -
     headerHeight;
-
 
   if (
     window.scrollY >=
@@ -290,14 +240,11 @@ function measureSectionHeaders() {
     "is-fixed"
   );
 
-
   maintenantHeading.dataset.offset =
     maintenantHeading.offsetTop;
 
-
   bientotHeading.dataset.offset =
     bientotHeading.offsetTop;
-
 
   updateStickyHeaders();
 
@@ -312,6 +259,10 @@ window.addEventListener(
   }
 );
 
+
+/* ==================================================
+   RESIZE
+   ================================================== */
 
 window.addEventListener(
   "resize",
@@ -332,7 +283,7 @@ window.addEventListener(
 
 
 /* ==================================================
-   SECTION HEADER NAVIGATION
+   SECTION NAVIGATION
    ================================================== */
 
 function goToMaintenant() {
@@ -341,7 +292,6 @@ function goToMaintenant() {
     Number(
       maintenantHeading.dataset.offset
     );
-
 
   window.scrollTo({
     top: target,
@@ -358,18 +308,13 @@ function goToBientot() {
       bientotHeading.dataset.offset
     );
 
-
   const headerHeight =
     maintenantHeading.offsetHeight;
 
-
-  const target =
-    bientotOffset -
-    headerHeight;
-
-
   window.scrollTo({
-    top: target,
+    top:
+      bientotOffset -
+      headerHeight,
     behavior: "smooth"
   });
 
@@ -381,7 +326,6 @@ maintenantHeading.addEventListener(
   goToMaintenant
 );
 
-
 bientotHeading.addEventListener(
   "click",
   goToBientot
@@ -389,7 +333,7 @@ bientotHeading.addEventListener(
 
 
 /* ==================================================
-   KEYBOARD ACCESSIBILITY
+   KEYBOARD
    ================================================== */
 
 maintenantHeading.addEventListener(
@@ -402,14 +346,12 @@ maintenantHeading.addEventListener(
     ) {
 
       event.preventDefault();
-
       goToMaintenant();
 
     }
 
   }
 );
-
 
 bientotHeading.addEventListener(
   "keydown",
@@ -421,7 +363,6 @@ bientotHeading.addEventListener(
     ) {
 
       event.preventDefault();
-
       goToBientot();
 
     }
@@ -431,7 +372,7 @@ bientotHeading.addEventListener(
 
 
 /* ==================================================
-   EXHIBITION ELEMENT
+   EXHIBITION
    ================================================== */
 
 function createExhibitionElement(
@@ -441,10 +382,8 @@ function createExhibitionElement(
   const element =
     document.createElement("article");
 
-
   element.className =
     "exhibition";
-
 
   if (
     isFavorite(exhibition)
@@ -457,62 +396,39 @@ function createExhibitionElement(
   }
 
 
-  /* ----------------------------------------------
-     TEXT
-     ---------------------------------------------- */
-
   const information =
     document.createElement("div");
-
 
   const title =
     document.createElement("h3");
 
-
   title.className =
     "exhibition-title";
-
 
   title.textContent =
     exhibition.title;
 
-
   const venue =
     document.createElement("div");
-
 
   venue.className =
     "exhibition-venue";
 
-
   venue.textContent =
     exhibition.venue;
 
+  information.appendChild(title);
+  information.appendChild(venue);
 
-  information.appendChild(
-    title
-  );
-
-  information.appendChild(
-    venue
-  );
-
-
-  /* ----------------------------------------------
-     DATE
-     ---------------------------------------------- */
 
   const date =
     document.createElement("div");
 
-
   date.className =
     "exhibition-date";
 
-
   if (
-    exhibition.status ===
-    "upcoming"
+    exhibition.status === "upcoming"
   ) {
 
     date.textContent =
@@ -529,110 +445,84 @@ function createExhibitionElement(
 
   }
 
-
-  element.appendChild(
-    information
-  );
-
-  element.appendChild(
-    date
-  );
+  element.appendChild(information);
+  element.appendChild(date);
 
 
-  /* ==================================================
-     EXHIBITION SWIPE
-     DROITE = FAVORI
-     ================================================== */
+  /* ----------------------------------------------
+     SWIPE DROIT = FAVORI
+     ---------------------------------------------- */
 
   let startX = 0;
   let startY = 0;
 
+  let horizontal = false;
+  let active = false;
+
   let currentX = 0;
-
-  let dragging = false;
-  let horizontalSwipe = false;
-
   let suppressClick = false;
 
-
   element.addEventListener(
-    "touchstart",
+    "pointerdown",
     (event) => {
 
       if (
-        event.touches.length !== 1
+        event.pointerType === "mouse"
       ) {
         return;
       }
 
+      startX = event.clientX;
+      startY = event.clientY;
 
-      startX =
-        event.touches[0].clientX;
-
-      startY =
-        event.touches[0].clientY;
-
-
+      horizontal = false;
+      active = true;
       currentX = 0;
-
-      dragging = true;
-
-      horizontalSwipe = false;
-
       suppressClick = false;
 
-    },
-    {
-      passive: true
     }
   );
 
 
   element.addEventListener(
-    "touchmove",
+    "pointermove",
     (event) => {
 
-      if (!dragging) {
+      if (
+        !active ||
+        event.pointerType === "mouse"
+      ) {
         return;
       }
 
-
-      const touch =
-        event.touches[0];
-
-
-      const deltaX =
-        touch.clientX -
+      const dx =
+        event.clientX -
         startX;
 
-
-      const deltaY =
-        touch.clientY -
+      const dy =
+        event.clientY -
         startY;
 
-
-      if (
-        !horizontalSwipe
-      ) {
+      if (!horizontal) {
 
         if (
-          Math.abs(deltaX) < 10
+          Math.abs(dx) < 10 &&
+          Math.abs(dy) < 10
         ) {
           return;
         }
 
-
         if (
-          Math.abs(deltaY) >
-          Math.abs(deltaX)
+          Math.abs(dy) >
+          Math.abs(dx)
         ) {
 
+          active = false;
           return;
 
         }
 
-
-        horizontalSwipe = true;
+        horizontal = true;
 
         element.classList.add(
           "swiping"
@@ -640,57 +530,39 @@ function createExhibitionElement(
 
       }
 
-
-      if (
-        !horizontalSwipe
-      ) {
+      if (!horizontal) {
         return;
       }
 
-
       /*
-        Seul le mouvement vers la droite
-        est utilisé pour le favori.
+        Only rightward movement has an effect.
       */
 
       currentX =
-        Math.max(
-          0,
-          deltaX
-        );
-
-
-      const movement =
-        Math.min(
-          currentX,
-          120
-        );
-
+        Math.max(0, dx);
 
       element.style.transform =
-        `translate3d(${movement}px, 0, 0)`;
+        `translate3d(${Math.min(
+          currentX,
+          120
+        )}px, 0, 0)`;
 
-    },
-    {
-      passive: true
     }
   );
 
 
   element.addEventListener(
-    "touchend",
+    "pointerup",
     () => {
 
-      if (!dragging) {
+      if (!active) {
         return;
       }
 
-
-      dragging = false;
-
+      active = false;
 
       if (
-        horizontalSwipe &&
+        horizontal &&
         currentX >= 70
       ) {
 
@@ -699,61 +571,44 @@ function createExhibitionElement(
           element
         );
 
-
         suppressClick = true;
 
       }
-
 
       element.classList.remove(
         "swiping"
       );
 
-
-      element.style.transform =
-        "";
-
+      element.style.transform = "";
 
       currentX = 0;
+      horizontal = false;
 
-      horizontalSwipe = false;
-
-    },
-    {
-      passive: true
     }
   );
 
 
   element.addEventListener(
-    "touchcancel",
+    "pointercancel",
     () => {
 
-      dragging = false;
-
-      horizontalSwipe = false;
-
+      active = false;
+      horizontal = false;
       currentX = 0;
-
 
       element.classList.remove(
         "swiping"
       );
 
+      element.style.transform = "";
 
-      element.style.transform =
-        "";
-
-    },
-    {
-      passive: true
     }
   );
 
 
-  /* ==================================================
-     CLICK → DETAIL
-     ================================================== */
+  /* ----------------------------------------------
+     CLICK = DETAIL
+     ---------------------------------------------- */
 
   element.addEventListener(
     "click",
@@ -762,15 +617,11 @@ function createExhibitionElement(
       if (suppressClick) {
 
         suppressClick = false;
-
         return;
 
       }
 
-
-      openDetail(
-        exhibition
-      );
+      openDetail(exhibition);
 
     }
   );
@@ -792,30 +643,20 @@ function renderList(
 
   container.innerHTML = "";
 
-
   if (!items.length) {
 
     const empty =
       document.createElement("p");
 
-
-    empty.className =
-      "empty";
-
-
+    empty.className = "empty";
     empty.textContent =
       "Aucune exposition";
 
-
-    container.appendChild(
-      empty
-    );
-
+    container.appendChild(empty);
 
     return;
 
   }
-
 
   items.forEach(
     (exhibition) => {
@@ -833,7 +674,7 @@ function renderList(
 
 
 /* ==================================================
-   VENUE SORTING
+   VENUE DATA
    ================================================== */
 
 function getVenueExhibitions(
@@ -848,11 +689,6 @@ function getVenueExhibitions(
     .sort(
       (a, b) => {
 
-        /*
-          Les expositions actuellement ouvertes
-          apparaissent avant les futures.
-        */
-
         if (
           a.status !== b.status
         ) {
@@ -862,7 +698,6 @@ function getVenueExhibitions(
             : 1;
 
         }
-
 
         if (
           a.status === "current"
@@ -877,7 +712,6 @@ function getVenueExhibitions(
           );
 
         }
-
 
         return String(
           a.start || ""
@@ -901,30 +735,28 @@ function openVenue(
   venueName
 ) {
 
+  if (
+    !venues[venueName]
+  ) {
+    return;
+  }
+
   currentVenue =
     venueName;
-
 
   venueDetailTitle.textContent =
     venueName;
 
-
-  const items =
-    getVenueExhibitions(
-      venueName
-    );
-
-
   renderList(
     venueDetailList,
-    items
+    getVenueExhibitions(
+      venueName
+    )
   );
-
 
   showPage(
     "venue-detail"
   );
-
 
   window.scrollTo({
     top: 0,
@@ -938,9 +770,7 @@ function closeVenue() {
 
   currentVenue = null;
 
-  showPage(
-    "venues"
-  );
+  showPage("venues");
 
 }
 
@@ -952,29 +782,14 @@ venueDetailBack.addEventListener(
 
 
 /* ==================================================
-   VENUE MARQUEE
+   MARQUEE
    ================================================== */
 
 const marqueeRows = [];
 
 let venueNames = [];
 
-
-/*
-  Nombre de lignes souhaité.
-  Sur petit écran 9-10 lignes donnent
-  un mur dense sans écraser l'écran.
-*/
-
 const MARQUEE_ROW_COUNT = 10;
-
-
-/*
-  Vitesses en pixels/seconde.
-
-  Elles sont volontairement différentes
-  pour éviter un mouvement mécanique.
-*/
 
 const MARQUEE_SPEEDS = [
   30,
@@ -990,6 +805,10 @@ const MARQUEE_SPEEDS = [
 ];
 
 
+/* ==================================================
+   VENUE ITEM
+   ================================================== */
+
 function createVenueItem(
   venueName
 ) {
@@ -997,40 +816,26 @@ function createVenueItem(
   const item =
     document.createElement("button");
 
-
-  item.type =
-    "button";
-
-
+  item.type = "button";
   item.className =
     "venue-marquee-item";
 
-
   item.textContent =
     venueName;
-
 
   item.setAttribute(
     "aria-label",
     `Voir les expositions à ${venueName}`
   );
 
-
   item.addEventListener(
     "click",
     (event) => {
-
-      /*
-        Si l'utilisateur vient de faire
-        glisser la ligne, le click sera
-        neutralisé par la ligne.
-      */
 
       const row =
         event.currentTarget.closest(
           ".venue-marquee-row"
         );
-
 
       if (
         row?.dataset.dragged === "true"
@@ -1043,27 +848,19 @@ function createVenueItem(
 
       }
 
-
-      openVenue(
-        venueName
-      );
+      openVenue(venueName);
 
     }
   );
-
 
   return item;
 
 }
 
 
-/*
-  Pour chaque ligne, on crée une séquence
-  suffisamment longue puis on la duplique.
-
-  Le doublage permet une boucle parfaitement
-  continue.
-*/
+/* ==================================================
+   MARQUEE ROW
+   ================================================== */
 
 function buildMarqueeRow(
   rowIndex
@@ -1072,10 +869,8 @@ function buildMarqueeRow(
   const row =
     document.createElement("div");
 
-
   row.className =
     "venue-marquee-row";
-
 
   row.dataset.rowIndex =
     String(rowIndex);
@@ -1084,21 +879,18 @@ function buildMarqueeRow(
   const track =
     document.createElement("div");
 
-
   track.className =
     "venue-marquee-track";
 
 
   /*
-    On décale l'ordre des lieux d'une ligne
-    à l'autre afin d'éviter un effet de tableau
-    parfaitement aligné.
+    Every row starts at a different point in
+    the venue sequence.
   */
 
   const offset =
     rowIndex %
     venueNames.length;
-
 
   const sequence = [
     ...venueNames.slice(offset),
@@ -1107,13 +899,19 @@ function buildMarqueeRow(
 
 
   /*
-    Trois répétitions donnent suffisamment
-    de matière pour les écrans larges.
+    We create FOUR copies.
+
+    The loop itself is mathematical:
+    the visible position is always normalized
+    against one complete sequence width.
+
+    The extra copies simply guarantee that there
+    is always content on both sides of the viewport.
   */
 
   for (
     let repetition = 0;
-    repetition < 3;
+    repetition < 4;
     repetition++
   ) {
 
@@ -1132,13 +930,8 @@ function buildMarqueeRow(
   }
 
 
-  row.appendChild(
-    track
-  );
-
-  venuesMarquee.appendChild(
-    row
-  );
+  row.appendChild(track);
+  venuesMarquee.appendChild(row);
 
 
   const state = {
@@ -1154,9 +947,16 @@ function buildMarqueeRow(
         MARQUEE_SPEEDS.length
       ],
 
+    direction:
+      rowIndex % 2 === 0
+        ? -1
+        : 1,
+
     cycleWidth: 0,
 
     dragging: false,
+
+    pointerId: null,
 
     dragStartX: 0,
 
@@ -1164,44 +964,28 @@ function buildMarqueeRow(
 
     moved: false,
 
-    pointerId: null,
+    horizontalDecision: false,
 
-    lastTime: performance.now()
+    verticalGesture: false,
+
+    lastTime:
+      performance.now()
 
   };
 
 
-  marqueeRows.push(
-    state
-  );
+  marqueeRows.push(state);
 
-
-  /*
-    Une ligne sur deux part dans l'autre sens.
-  */
-
-  if (
-    rowIndex % 2 === 1
-  ) {
-
-    state.speed *= -1;
-
-  }
-
-
-  setupMarqueeTouch(
-    state
-  );
-
+  setupMarqueePointer(state);
 
   return state;
 
 }
 
 
-/*
-  Mesure la largeur d'une répétition.
-*/
+/* ==================================================
+   MEASURE
+   ================================================== */
 
 function measureMarqueeRow(
   state
@@ -1212,49 +996,36 @@ function measureMarqueeRow(
       state.track.children
     );
 
-
-  if (
-    !children.length
-  ) {
+  if (!children.length) {
     return;
   }
-
-
-  const totalItems =
-    children.length;
-
 
   const itemsPerSequence =
     venueNames.length;
 
-
   if (
-    totalItems <
+    children.length <
     itemsPerSequence * 2
   ) {
     return;
   }
 
+  /*
+    The first item of copy 1 and the first
+    item of copy 2 are exactly one cycle apart.
+  */
 
   const first =
     children[0];
 
-  const repeated =
+  const secondCopyFirst =
     children[
       itemsPerSequence
     ];
 
-
-  /*
-    Les deux éléments correspondants
-    sont séparés exactement par la largeur
-    d'une séquence complète.
-  */
-
   const cycleWidth =
-    repeated.offsetLeft -
+    secondCopyFirst.offsetLeft -
     first.offsetLeft;
-
 
   if (
     cycleWidth > 0
@@ -1268,13 +1039,9 @@ function measureMarqueeRow(
 }
 
 
-/*
-  Ramène une position dans la zone
-  [-cycleWidth, 0].
-
-  Cela permet de tourner indéfiniment
-  sans laisser le nombre devenir énorme.
-*/
+/* ==================================================
+   NORMALIZE LOOP POSITION
+   ================================================== */
 
 function normalizePosition(
   position,
@@ -1287,8 +1054,15 @@ function normalizePosition(
     return position;
   }
 
+  /*
+    Always normalize to [ -cycleWidth, 0 ).
+  */
 
-  while (
+  position =
+    position %
+    cycleWidth;
+
+  if (
     position > 0
   ) {
 
@@ -1297,26 +1071,14 @@ function normalizePosition(
 
   }
 
-
-  while (
-    position <=
-    -cycleWidth
-  ) {
-
-    position +=
-      cycleWidth;
-
-  }
-
-
   return position;
 
 }
 
 
-/*
-  Applique la position réelle au track.
-*/
+/* ==================================================
+   RENDER
+   ================================================== */
 
 function renderMarqueeRow(
   state
@@ -1328,7 +1090,6 @@ function renderMarqueeRow(
       state.cycleWidth
     );
 
-
   state.track.style.transform =
     `translate3d(${state.position}px, 0, 0)`;
 
@@ -1336,10 +1097,10 @@ function renderMarqueeRow(
 
 
 /* ==================================================
-   MARQUEE TOUCH
+   MARQUEE POINTER GESTURE
    ================================================== */
 
-function setupMarqueeTouch(
+function setupMarqueePointer(
   state
 ) {
 
@@ -1347,129 +1108,143 @@ function setupMarqueeTouch(
     state.row;
 
 
-  let startY = 0;
-
-  let horizontal =
-    false;
-
-  let touchActive =
-    false;
-
-
   row.addEventListener(
-    "touchstart",
+    "pointerdown",
     (event) => {
 
       if (
-        event.touches.length !== 1
+        event.pointerType === "mouse"
       ) {
         return;
       }
 
+      if (
+        event.isPrimary === false
+      ) {
+        return;
+      }
 
-      const touch =
-        event.touches[0];
-
-
-      state.dragging =
-        true;
-
-
-      state.moved =
-        false;
-
+      state.pointerId =
+        event.pointerId;
 
       state.dragStartX =
-        touch.clientX;
-
+        event.clientX;
 
       state.dragStartPosition =
         state.position;
 
+      state.dragging = true;
 
-      startY =
-        touch.clientY;
+      state.moved = false;
 
-
-      horizontal =
+      state.horizontalDecision =
         false;
 
-
-      touchActive =
-        true;
-
+      state.verticalGesture =
+        false;
 
       row.dataset.dragged =
         "false";
-
 
       row.classList.add(
         "is-dragging"
       );
 
-    },
-    {
-      passive: true
+      /*
+        Capture guarantees that the row continues
+        receiving pointer events even when the finger
+        leaves the exact row during the drag.
+      */
+
+      try {
+
+        row.setPointerCapture(
+          event.pointerId
+        );
+
+      } catch {
+        /* ignored */
+      }
+
     }
   );
 
 
   row.addEventListener(
-    "touchmove",
+    "pointermove",
     (event) => {
 
       if (
         !state.dragging ||
-        !touchActive
+        event.pointerId !== state.pointerId
       ) {
         return;
       }
 
-
-      const touch =
-        event.touches[0];
-
-
       const dx =
-        touch.clientX -
+        event.clientX -
         state.dragStartX;
 
-
       const dy =
-        touch.clientY -
-        startY;
+        event.clientY -
+        (
+          state.dragStartY ||
+          event.clientY
+        );
 
 
       /*
-        On attend quelques pixels avant
-        de décider que le geste est horizontal.
+        Store initial Y lazily because the pointer
+        object itself is enough for horizontal dragging.
       */
 
       if (
-        !horizontal &&
-        Math.abs(dx) < 8
-      ) {
-        return;
-      }
-
-
-      if (
-        !horizontal
+        !state.horizontalDecision
       ) {
 
         /*
-          Si le geste est vertical,
-          on rend immédiatement la main
-          au scroll de la page.
+          A vertical gesture belongs to page navigation.
+          A horizontal gesture belongs to this row.
         */
 
+        const startY =
+          state._startY ??
+          event.clientY;
+
         if (
-          Math.abs(dy) >
+          state._startY === undefined
+        ) {
+
+          state._startY =
+            event.clientY;
+
+        }
+
+        const verticalDistance =
+          event.clientY -
+          state._startY;
+
+        if (
+          Math.abs(dx) < 8 &&
+          Math.abs(verticalDistance) < 8
+        ) {
+
+          return;
+
+        }
+
+        if (
+          Math.abs(verticalDistance) >
           Math.abs(dx)
         ) {
 
-          state.dragging =
-            false;
+          state.verticalGesture =
+            true;
+
+          state.dragging = false;
+
+          state.horizontalDecision =
+            true;
 
           row.classList.remove(
             "is-dragging"
@@ -1479,8 +1254,7 @@ function setupMarqueeTouch(
 
         }
 
-
-        horizontal =
+        state.horizontalDecision =
           true;
 
         state.moved =
@@ -1493,32 +1267,23 @@ function setupMarqueeTouch(
 
 
       if (
-        !horizontal
+        state.verticalGesture
       ) {
         return;
       }
 
 
       /*
-        À partir du moment où le geste est
-        clairement horizontal, cette ligne
-        prend le contrôle du toucher.
-
-        Cela empêche le swipe global
-        de changer de page.
+        This row now owns the horizontal gesture.
       */
 
       event.preventDefault();
-
 
       state.position =
         state.dragStartPosition +
         dx;
 
-
-      renderMarqueeRow(
-        state
-      );
+      renderMarqueeRow(state);
 
     },
     {
@@ -1528,109 +1293,143 @@ function setupMarqueeTouch(
 
 
   row.addEventListener(
-    "touchend",
-    () => {
+    "pointerup",
+    (event) => {
 
       if (
-        !touchActive
+        event.pointerId !== state.pointerId
       ) {
         return;
       }
 
+      finishMarqueePointer(state);
 
-      touchActive =
-        false;
-
-
-      state.dragging =
-        false;
-
-
-      row.classList.remove(
-        "is-dragging"
-      );
-
-
-      /*
-        Un vrai drag est marqué pendant
-        quelques instants afin que le click
-        sur le bouton ne soit pas interprété
-        comme une sélection.
-      */
-
-      if (
-        state.moved
-      ) {
-
-        row.dataset.dragged =
-          "true";
-
-
-        window.setTimeout(
-          () => {
-
-            row.dataset.dragged =
-              "false";
-
-          },
-          80
-        );
-
-      }
-
-    },
-    {
-      passive: true
     }
   );
 
 
   row.addEventListener(
-    "touchcancel",
+    "pointercancel",
+    (event) => {
+
+      if (
+        event.pointerId !== state.pointerId
+      ) {
+        return;
+      }
+
+      cancelMarqueePointer(state);
+
+    }
+  );
+
+
+  row.addEventListener(
+    "lostpointercapture",
     () => {
 
-      touchActive =
-        false;
+      if (
+        state.dragging
+      ) {
 
-      state.dragging =
-        false;
+        finishMarqueePointer(state);
 
-      state.moved =
-        false;
+      }
 
-      row.classList.remove(
-        "is-dragging"
-      );
-
-      row.dataset.dragged =
-        "false";
-
-    },
-    {
-      passive: true
     }
   );
 
 }
 
 
+function finishMarqueePointer(
+  state
+) {
+
+  const row =
+    state.row;
+
+  state.dragging =
+    false;
+
+  row.classList.remove(
+    "is-dragging"
+  );
+
+  if (
+    state.moved
+  ) {
+
+    row.dataset.dragged =
+      "true";
+
+    window.setTimeout(
+      () => {
+
+        row.dataset.dragged =
+          "false";
+
+      },
+      100
+    );
+
+  }
+
+  state.pointerId =
+    null;
+
+  state._startY =
+    undefined;
+
+}
+
+
+function cancelMarqueePointer(
+  state
+) {
+
+  const row =
+    state.row;
+
+  state.dragging =
+    false;
+
+  state.moved =
+    false;
+
+  state.horizontalDecision =
+    false;
+
+  state.verticalGesture =
+    false;
+
+  state.pointerId =
+    null;
+
+  state._startY =
+    undefined;
+
+  row.classList.remove(
+    "is-dragging"
+  );
+
+  row.dataset.dragged =
+    "false";
+
+}
+
+
 /* ==================================================
-   MARQUEE BUILD
+   BUILD MARQUEE
    ================================================== */
 
 function rebuildVenueMarquee() {
 
-  marqueeRows.length =
-    0;
+  marqueeRows.length = 0;
 
+  venuesMarquee.innerHTML = "";
 
-  venuesMarquee.innerHTML =
-    "";
-
-
-  if (
-    !venueNames.length
-  ) {
+  if (!venueNames.length) {
     return;
   }
 
@@ -1641,50 +1440,50 @@ function rebuildVenueMarquee() {
     index++
   ) {
 
-    buildMarqueeRow(
-      index
-    );
+    buildMarqueeRow(index);
 
   }
 
-
-  /*
-    Les éléments doivent être rendus
-    avant de mesurer leurs dimensions.
-  */
 
   requestAnimationFrame(
     () => {
 
       marqueeRows.forEach(
-        (state) => {
+        (state, index) => {
 
-          measureMarqueeRow(
-            state
-          );
+          measureMarqueeRow(state);
 
+          if (
+            !state.cycleWidth
+          ) {
+            return;
+          }
 
           /*
-            Les lignes commencent avec
-            des positions légèrement différentes.
+            Different starting positions prevent the
+            rows from looking like a rigid table.
+          */
+
+          const initialOffset =
+            (
+              0.11 +
+              index * 0.043
+            ) *
+            state.cycleWidth;
+
+          /*
+            Right-moving rows start slightly further
+            into the negative range, so content is
+            immediately visible on both sides.
           */
 
           state.position =
-            -(
-              state.cycleWidth *
-              (
-                0.12 +
-                (
-                  state.row.dataset.rowIndex *
-                  0.037
-                )
-              )
-            );
+            -initialOffset;
 
+          renderMarqueeRow(state);
 
-          renderMarqueeRow(
-            state
-          );
+          state.lastTime =
+            performance.now();
 
         }
       );
@@ -1696,24 +1495,24 @@ function rebuildVenueMarquee() {
 
 
 /* ==================================================
-   MARQUEE ANIMATION LOOP
+   MARQUEE ANIMATION
    ================================================== */
 
-let marqueeAnimationFrame =
-  null;
+let marqueeAnimationFrame = null;
 
 
 function animateMarquee(
   timestamp
 ) {
 
+  const reducedMotion =
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+
   marqueeRows.forEach(
     (state) => {
-
-      /*
-        Une ligne touchée est complètement
-        contrôlée par l'utilisateur.
-      */
 
       if (
         state.dragging
@@ -1726,7 +1525,6 @@ function animateMarquee(
 
       }
 
-
       const elapsed =
         Math.min(
           timestamp -
@@ -1734,38 +1532,35 @@ function animateMarquee(
           50
         );
 
-
       state.lastTime =
         timestamp;
 
 
+      if (
+        reducedMotion
+      ) {
+        return;
+      }
+
+
       /*
-        Respect de prefers-reduced-motion.
-        Dans ce cas, les lignes restent fixes.
+        direction = -1 : left
+        direction = +1 : right
       */
 
-      const reducedMotion =
-        window.matchMedia(
-          "(prefers-reduced-motion: reduce)"
-        ).matches;
+      state.position +=
+        (
+          state.speed *
+          state.direction *
+          elapsed
+        ) / 1000;
 
+      /*
+        True continuous loop.
+        No endpoint exists.
+      */
 
-      if (
-        !reducedMotion
-      ) {
-
-        state.position +=
-          (
-            state.speed *
-            elapsed
-          ) / 1000;
-
-
-        renderMarqueeRow(
-          state
-        );
-
-      }
+      renderMarqueeRow(state);
 
     }
   );
@@ -1784,11 +1579,12 @@ function startMarqueeAnimation() {
   if (
     marqueeAnimationFrame
   ) {
+
     cancelAnimationFrame(
       marqueeAnimationFrame
     );
-  }
 
+  }
 
   marqueeAnimationFrame =
     requestAnimationFrame(
@@ -1799,7 +1595,7 @@ function startMarqueeAnimation() {
 
 
 /* ==================================================
-   PAGE NAVIGATION
+   PAGE VISIBILITY
    ================================================== */
 
 function setPageVisibility(
@@ -1811,7 +1607,6 @@ function setPageVisibility(
     "is-active",
     visible
   );
-
 
   page.setAttribute(
     "aria-hidden",
@@ -1829,7 +1624,6 @@ function showPage(
 
   currentPage =
     pageName;
-
 
   setPageVisibility(
     homePage,
@@ -1851,13 +1645,7 @@ function showPage(
     pageName === "home"
   ) {
 
-    document.body.style.overflow =
-      "";
-
-    /*
-      On revient à la position précédente
-      de la page Home.
-    */
+    document.body.style.overflow = "";
 
     requestAnimationFrame(
       () => {
@@ -1867,13 +1655,17 @@ function showPage(
       }
     );
 
-  } else if (
+    return;
+
+  }
+
+
+  if (
     pageName === "venues"
   ) {
 
     document.body.style.overflow =
       "hidden";
-
 
     if (
       !marqueeRows.length
@@ -1883,70 +1675,22 @@ function showPage(
 
     }
 
-  } else if (
+    return;
+
+  }
+
+
+  if (
     pageName === "venue-detail"
   ) {
 
     document.body.style.overflow =
       "";
 
-  }
-
-}
-
-
-/*
-  Navigation demandée :
-
-  HOME
-    ←
-  VENUES
-    ←
-  HOME
-    ←
-  VENUES
-    ...
-
-  Le geste droit global n'est PAS utilisé
-  pour naviguer : il reste réservé au favori
-  des expositions.
-*/
-
-function navigateLeft() {
-
-  if (
-    currentPage === "home"
-  ) {
-
-    showPage(
-      "venues"
-    );
-
-    return;
-
-  }
-
-
-  if (
-    currentPage === "venues"
-  ) {
-
-    showPage(
-      "home"
-    );
-
-    return;
-
-  }
-
-
-  if (
-    currentPage === "venue-detail"
-  ) {
-
-    showPage(
-      "venues"
-    );
+    window.scrollTo({
+      top: 0,
+      behavior: "auto"
+    });
 
   }
 
@@ -1954,33 +1698,109 @@ function navigateLeft() {
 
 
 /* ==================================================
-   GLOBAL LEFT SWIPE
+   PAGE NAVIGATION
    ================================================== */
 
-let globalTouchStartX = 0;
-let globalTouchStartY = 0;
+/*
+  HOME
+    swipe left
+      ↓
+  VENUES
 
-let globalTouchActive =
-  false;
+  VENUES
+    swipe up OR down
+      ↓
+  HOME
 
-let globalTouchBlocked =
-  false;
+  VENUE DETAIL
+    swipe left
+      ↓
+  VENUES
+
+  On VENUES, horizontal gestures are owned
+  exclusively by the rows.
+*/
+
+function navigateHomeToVenues() {
+
+  if (
+    currentPage === "home"
+  ) {
+
+    showPage("venues");
+
+  }
+
+}
+
+
+function navigateVenuesToHome() {
+
+  if (
+    currentPage === "venues"
+  ) {
+
+    showPage("home");
+
+  }
+
+}
+
+
+function navigateVenueToVenues() {
+
+  if (
+    currentPage === "venue-detail"
+  ) {
+
+    showPage("venues");
+
+  }
+
+}
+
+
+/* ==================================================
+   GLOBAL PAGE GESTURES
+   ================================================== */
+
+let pageGesture = {
+  active: false,
+  startX: 0,
+  startY: 0,
+  blocked: false
+};
 
 
 document.addEventListener(
-  "touchstart",
+  "pointerdown",
   (event) => {
 
+    if (
+      event.pointerType === "mouse"
+    ) {
+      return;
+    }
+
     /*
-      Une ligne du mur gère elle-même
-      son toucher.
+      Exhibition gestures have priority.
+    */
 
-      Une exposition gère elle-même
-      son swipe droit.
+    if (
+      event.target.closest(".exhibition")
+    ) {
 
-      Le navigateur ne doit donc pas
-      utiliser ces gestes pour la navigation
-      globale.
+      pageGesture.blocked = true;
+      pageGesture.active = false;
+
+      return;
+
+    }
+
+
+    /*
+      Marquee rows have complete priority over
+      horizontal gestures on the Venues page.
     */
 
     if (
@@ -1989,129 +1809,118 @@ document.addEventListener(
       )
     ) {
 
-      globalTouchBlocked =
-        true;
+      pageGesture.blocked = true;
+      pageGesture.active = false;
 
       return;
 
     }
 
 
-    if (
-      event.target.closest(
-        ".exhibition"
-      )
-    ) {
+    pageGesture.blocked = false;
 
-      /*
-        On laisse l'exposition gérer
-        son propre geste.
+    pageGesture.active = true;
 
-        Un swipe gauche sur une exposition
-        ne déclenche donc PAS le changement
-        de page : seule la zone extérieure
-        sert à la navigation globale.
-      */
+    pageGesture.startX =
+      event.clientX;
 
-      globalTouchBlocked =
-        true;
+    pageGesture.startY =
+      event.clientY;
 
-      return;
-
-    }
-
-
-    globalTouchBlocked =
-      false;
-
-
-    if (
-      event.touches.length !== 1
-    ) {
-      return;
-    }
-
-
-    const touch =
-      event.touches[0];
-
-
-    globalTouchStartX =
-      touch.clientX;
-
-    globalTouchStartY =
-      touch.clientY;
-
-
-    globalTouchActive =
-      true;
-
-  },
-  {
-    passive: true
   }
 );
 
 
 document.addEventListener(
-  "touchend",
+  "pointerup",
   (event) => {
 
     if (
-      globalTouchBlocked ||
-      !globalTouchActive
+      !pageGesture.active ||
+      pageGesture.blocked
     ) {
 
-      globalTouchActive =
-        false;
-
-      globalTouchBlocked =
-        false;
+      pageGesture.active = false;
+      pageGesture.blocked = false;
 
       return;
 
     }
 
 
-    const touch =
-      event.changedTouches[0];
+    const dx =
+      event.clientX -
+      pageGesture.startX;
+
+    const dy =
+      event.clientY -
+      pageGesture.startY;
 
 
-    const deltaX =
-      touch.clientX -
-      globalTouchStartX;
-
-
-    const deltaY =
-      touch.clientY -
-      globalTouchStartY;
-
-
-    globalTouchActive =
-      false;
+    pageGesture.active = false;
 
 
     /*
-      Navigation uniquement si :
-
-      - geste suffisamment long
-      - clairement horizontal
-      - vers la gauche
+      HOME:
+      left = Venues
     */
 
     if (
-      deltaX <= -70 &&
-      Math.abs(deltaX) >
-      Math.abs(deltaY)
+      currentPage === "home" &&
+      dx <= -70 &&
+      Math.abs(dx) >
+      Math.abs(dy)
     ) {
 
-      navigateLeft();
+      navigateHomeToVenues();
+
+      return;
 
     }
 
-  },
-  {
-    passive: true
+
+    /*
+      VENUES:
+      vertical gesture = Home
+
+      Both directions are deliberately accepted.
+      Horizontal gestures never reach this block
+      when they start on a row.
+    */
+
+    if (
+      currentPage === "venues" &&
+      Math.abs(dy) >= 70 &&
+      Math.abs(dy) >
+      Math.abs(dx)
+    ) {
+
+      navigateVenuesToHome();
+
+      return;
+
+    }
+
+
+    /*
+      VENUE DETAIL:
+      left = Venues
+
+      Vertical gestures remain normal page
+      scrolling and therefore do nothing here.
+    */
+
+    if (
+      currentPage === "venue-detail" &&
+      dx <= -70 &&
+      Math.abs(dx) >
+      Math.abs(dy)
+    ) {
+
+      navigateVenueToVenues();
+
+    }
+
   }
 );
 
@@ -2124,17 +1933,14 @@ function openDetail(
   exhibition
 ) {
 
-  detailContent.innerHTML =
-    "";
+  detailContent.innerHTML = "";
 
 
   const title =
     document.createElement("h1");
 
-
   title.className =
     "detail-title";
-
 
   title.textContent =
     exhibition.title;
@@ -2143,14 +1949,12 @@ function openDetail(
   const meta =
     document.createElement("div");
 
-
   meta.className =
     "detail-meta";
 
 
   if (
-    exhibition.status ===
-    "upcoming"
+    exhibition.status === "upcoming"
   ) {
 
     meta.textContent =
@@ -2174,46 +1978,29 @@ function openDetail(
     ];
 
 
-  /* ----------------------------------------------
-     HORAIRES
-     ---------------------------------------------- */
-
   const hours =
     document.createElement("div");
 
-
   hours.className =
     "detail-hours";
-
 
   hours.textContent =
     venueInfo?.hours || "";
 
 
-  /* ----------------------------------------------
-     DESCRIPTION
-     ---------------------------------------------- */
-
   const description =
     document.createElement("p");
 
-
   description.className =
     "detail-description";
-
 
   description.textContent =
     exhibition.description ||
     "Description non disponible.";
 
 
-  /* ----------------------------------------------
-     LIENS
-     ---------------------------------------------- */
-
   const links =
     document.createElement("div");
-
 
   links.className =
     "detail-links";
@@ -2222,22 +2009,17 @@ function openDetail(
   const source =
     document.createElement("a");
 
-
   source.className =
     "detail-source";
-
 
   source.href =
     exhibition.url;
 
-
   source.target =
     "_blank";
 
-
   source.rel =
     "noopener noreferrer";
-
 
   source.textContent =
     "Source";
@@ -2246,80 +2028,46 @@ function openDetail(
   const official =
     document.createElement("a");
 
-
   official.className =
     "detail-official";
-
 
   official.href =
     venueInfo?.official_url ||
     "#";
 
-
   official.target =
     "_blank";
 
-
   official.rel =
     "noopener noreferrer";
-
 
   official.textContent =
     "Site officiel";
 
 
-  links.appendChild(
-    source
-  );
-
-  links.appendChild(
-    official
-  );
+  links.appendChild(source);
+  links.appendChild(official);
 
 
-  /* ----------------------------------------------
-     ORDRE
-     ---------------------------------------------- */
+  detailContent.appendChild(title);
+  detailContent.appendChild(meta);
 
-  detailContent.appendChild(
-    title
-  );
+  if (venueInfo) {
 
-  detailContent.appendChild(
-    meta
-  );
-
-
-  if (
-    venueInfo
-  ) {
-
-    detailContent.appendChild(
-      hours
-    );
+    detailContent.appendChild(hours);
 
   }
 
-
-  detailContent.appendChild(
-    description
-  );
-
-  detailContent.appendChild(
-    links
-  );
+  detailContent.appendChild(description);
+  detailContent.appendChild(links);
 
 
-  detail.classList.add(
-    "open"
-  );
-
+  detail.classList.add("open");
 
   detail.setAttribute(
     "aria-hidden",
     "false"
   );
-
 
   document.body.style.overflow =
     "hidden";
@@ -2329,21 +2077,13 @@ function openDetail(
 
 function closeDetail() {
 
-  detail.classList.remove(
-    "open"
-  );
-
+  detail.classList.remove("open");
 
   detail.setAttribute(
     "aria-hidden",
     "true"
   );
 
-
-  /*
-    On remet l'overflow correspondant
-    à la page actuellement affichée.
-  */
 
   if (
     currentPage === "venues"
@@ -2389,18 +2129,11 @@ document.addEventListener(
   (event) => {
 
     if (
-      event.key === "Escape"
+      event.key === "Escape" &&
+      detail.classList.contains("open")
     ) {
 
-      if (
-        detail.classList.contains(
-          "open"
-        )
-      ) {
-
-        closeDetail();
-
-      }
+      closeDetail();
 
     }
 
@@ -2443,71 +2176,40 @@ async function loadExhibitions() {
 
 
     exhibitions = [
-
       ...(data.current || []),
-
       ...(data.upcoming || [])
-
     ];
 
 
     venueNames =
-      Object.keys(
-        venues
-      );
-
-
-    const current =
-      data.current || [];
-
-
-    const upcoming =
-      data.upcoming || [];
+      Object.keys(venues);
 
 
     renderList(
       currentList,
-      current
+      data.current || []
     );
-
 
     renderList(
       upcomingList,
-      upcoming
+      data.upcoming || []
     );
 
 
-    /*
-      Le mur est construit une fois que
-      les noms des lieux sont disponibles.
-    */
-
     rebuildVenueMarquee();
-
     startMarqueeAnimation();
 
-
-    /*
-      Les listes sont maintenant rendues :
-      les positions naturelles des headers
-      peuvent être mesurées.
-    */
 
     requestAnimationFrame(
       measureSectionHeaders
     );
 
-
   } catch (error) {
 
-    console.error(
-      error
-    );
-
+    console.error(error);
 
     currentList.innerHTML =
       '<p class="empty">Données indisponibles.</p>';
-
 
     upcomingList.innerHTML =
       '<p class="empty">Données indisponibles.</p>';
