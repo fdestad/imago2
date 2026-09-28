@@ -129,10 +129,6 @@ function isFavorite(exhibition) {
 }
 
 
-/*
-  Synchronise visuellement toutes les cartes d'exposition
-  présentes dans le DOM avec la liste persistante des favoris.
-*/
 function syncFavoriteVisuals() {
 
   const favorites =
@@ -192,11 +188,6 @@ function toggleFavorite(
     favorites
   );
 
-  /*
-    La source de vérité est localStorage.
-    On resynchronise donc toutes les cartes déjà
-    présentes sur les autres pages.
-  */
   syncFavoriteVisuals();
 
 }
@@ -312,9 +303,6 @@ window.addEventListener(
 );
 
 
-/*
-  Synchronisation entre plusieurs onglets/instances.
-*/
 window.addEventListener(
   "storage",
   (event) => {
@@ -471,10 +459,7 @@ function createExhibitionElement(
   element.className =
     "exhibition";
 
-  /*
-    Identifiant stable utilisé pour resynchroniser
-    l'état visuel du favori sur toutes les pages.
-  */
+
   element.dataset.exhibitionId =
     getExhibitionId(exhibition);
 
@@ -825,6 +810,10 @@ function createExhibitionElement(
       }
 
 
+      /*
+        Les détails d'exposition restent
+        volontairement sans transition.
+      */
       openDetail(
         exhibition
       );
@@ -978,7 +967,8 @@ function openVenue(
 
 
   showPage(
-    "venue-detail"
+    "venue-detail",
+    "bottom"
   );
 
 
@@ -1017,11 +1007,6 @@ venueDetailPage.addEventListener(
 
     }
 
-
-    /*
-      Les cartes ont leur propre gestionnaire
-      pour les swipes droit/gauche.
-    */
 
     if (
       event.target.closest(
@@ -1143,12 +1128,6 @@ function createVenueItem(
     "venue-marquee-item";
 
 
-  /*
-    Le poids est déterminé par la position
-    de la venue dans la liste globale :
-    une venue sur deux est en gras.
-  */
-
   const venueIndex =
     venueNames.indexOf(
       venueName
@@ -1223,15 +1202,6 @@ function buildMarqueeRow(
         ]
       : [];
 
-
-  /*
-    Un groupe contient plusieurs répétitions
-    de la séquence complète.
-
-    Il est ensuite dupliqué exactement.
-    La largeur du premier groupe constitue
-    la période de la boucle.
-  */
 
   const group =
     document.createElement("div");
@@ -1309,11 +1279,6 @@ function buildMarqueeRow(
     track,
 
     position: 0,
-
-    /*
-      Toutes les lignes avancent désormais
-      vers la gauche.
-    */
 
     speed:
       MARQUEE_SPEEDS[
@@ -1487,10 +1452,6 @@ function normalizePosition(
 
 }
 
-
-/* ==================================================
-   RENDER MARQUEE
-   ================================================== */
 
 function renderMarqueeRow(
   state
@@ -2043,78 +2004,202 @@ function startMarqueeAnimation() {
 
 
 /* ==================================================
-   PAGE VISIBILITY
+   PAGE TRANSITIONS
    ================================================== */
 
-function setPageVisibility(
-  page,
-  visible
+/*
+  Direction utilisée par la transition CSS.
+
+  right:
+    Home → Venues
+
+  bottom:
+    Venues → Home
+    Venues → Venue
+
+  top:
+    Venue → Venues
+*/
+
+function showPage(
+  pageName,
+  direction = "bottom"
 ) {
 
-  page.classList.toggle(
-    "is-active",
-    visible
+  currentPage =
+    pageName;
+
+
+  syncFavoriteVisuals();
+
+
+  const previousPage =
+    document.body.dataset.page ||
+    "";
+
+
+  document.body.dataset.transition =
+    direction;
+
+
+  document.body.dataset.page =
+    pageName;
+
+
+  /*
+    La transition ne concerne que les pages
+    principales. Le panneau de détail d'une
+    exposition reste totalement instantané.
+  */
+
+  homePage.classList.remove(
+    "transition-enter",
+    "transition-active"
+  );
+
+  venuesPage.classList.remove(
+    "transition-enter",
+    "transition-active"
+  );
+
+  venueDetailPage.classList.remove(
+    "transition-enter",
+    "transition-active"
   );
 
 
-  page.setAttribute(
-    "aria-hidden",
-    visible
-      ? "false"
-      : "true"
+  const pages = [
+    {
+      element: homePage,
+      name: "home"
+    },
+    {
+      element: venuesPage,
+      name: "venues"
+    },
+    {
+      element: venueDetailPage,
+      name: "venue-detail"
+    }
+  ];
+
+
+  pages.forEach(
+    ({ element, name }) => {
+
+      const active =
+        name === pageName;
+
+
+      if (active) {
+
+        element.classList.add(
+          "is-active"
+        );
+
+      } else {
+
+        element.classList.remove(
+          "is-active"
+        );
+
+      }
+
+
+      element.setAttribute(
+        "aria-hidden",
+        active
+          ? "false"
+          : "true"
+      );
+
+    }
+  );
+
+
+  /*
+    Première initialisation :
+    aucun mouvement.
+  */
+
+  if (
+    !previousPage
+  ) {
+
+    finishPageSetup(
+      pageName
+    );
+
+    return;
+
+  }
+
+
+  const activeElement =
+    pages.find(
+      ({ name }) =>
+        name === pageName
+    )?.element;
+
+
+  if (!activeElement) {
+
+    finishPageSetup(
+      pageName
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Force le navigateur à enregistrer
+    l'état initial avant d'ajouter la classe
+    d'animation.
+  */
+
+  void activeElement.offsetWidth;
+
+
+  activeElement.classList.add(
+    "transition-enter"
+  );
+
+
+  requestAnimationFrame(
+    () => {
+
+      activeElement.classList.add(
+        "transition-active"
+      );
+
+    }
+  );
+
+
+  window.setTimeout(
+    () => {
+
+      activeElement.classList.remove(
+        "transition-enter",
+        "transition-active"
+      );
+
+      finishPageSetup(
+        pageName
+      );
+
+    },
+    300
   );
 
 }
 
 
-function showPage(pageName, direction = "bottom") {
-
-  currentPage =
-    pageName;
-
-  /*
-    À chaque navigation, relire localStorage garantit
-    que les cartes affichées restent cohérentes avec
-    l'état persistant des favoris.
-  */
-  syncFavoriteVisuals();
-
-
-  [homePage, venuesPage, venueDetailPage].forEach((page) => {
-    page.classList.remove(
-      "transition-entering",
-      "from-bottom",
-      "from-right"
-    );
-  });
-
-
-  const pages = [
-    { element: homePage, name: "home" },
-    { element: venuesPage, name: "venues" },
-    { element: venueDetailPage, name: "venue-detail" }
-  ];
-
-  pages.forEach(({ element, name }) => {
-    const isActive = name === pageName;
-
-    setPageVisibility(element, isActive);
-
-    if (isActive) {
-      element.classList.add(
-        "transition-entering",
-        `from-${direction}`
-      );
-
-      window.setTimeout(() => {
-        element.classList.remove(
-          "transition-entering",
-          `from-${direction}`
-        );
-      }, 500);
-    }
-  });
-
+function finishPageSetup(
+  pageName
+) {
 
   if (
     pageName === "home"
@@ -2232,7 +2317,7 @@ function navigateVenueToVenues() {
 
     showPage(
       "venues",
-      "bottom"
+      "top"
     );
 
   }
@@ -2267,12 +2352,6 @@ document.addEventListener(
 
     }
 
-
-    /*
-      Venue detail possède son propre
-      gestionnaire afin que le swipe
-      fonctionne partout sur la page.
-    */
 
     if (
       currentPage === "venue-detail"
@@ -2353,11 +2432,6 @@ document.addEventListener(
       false;
 
 
-    /*
-      HOME
-      Swipe gauche → Venues
-    */
-
     if (
       currentPage === "home" &&
       dx <= -70 &&
@@ -2371,11 +2445,6 @@ document.addEventListener(
 
     }
 
-
-    /*
-      VENUES
-      Swipe haut OU bas → Home
-    */
 
     if (
       currentPage === "venues" &&
@@ -2454,6 +2523,7 @@ function openDetail(
 
   hours.textContent =
     venueInfo?.hours || "";
+
 
   const description =
     document.createElement("p");
@@ -2549,6 +2619,11 @@ function openDetail(
     links
   );
 
+
+  /*
+    Aucun effet de transition ici :
+    le détail d'exposition apparaît immédiatement.
+  */
 
   detail.classList.add(
     "open"
