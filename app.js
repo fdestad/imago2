@@ -22,9 +22,6 @@ const bientotHeading =
 const venuesMarquee =
   document.getElementById("venues-marquee");
 
-const venueDetailBack =
-  document.getElementById("venue-detail-back");
-
 const venueDetailTitle =
   document.getElementById("venue-detail-title");
 
@@ -829,14 +826,6 @@ function openVenue(
 
 }
 
-
-function closeVenue() {
-
-  currentVenue = null;
-
-  showPage(
-    "venues"
-  );
 
 }
 
