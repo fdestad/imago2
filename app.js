@@ -22,9 +22,6 @@ const bientotHeading =
 const venuesMarquee =
   document.getElementById("venues-marquee");
 
-const venueDetailTitle =
-  document.getElementById("venue-detail-title");
-
 const venueDetailList =
   document.getElementById("venue-detail-list");
 
@@ -265,14 +262,12 @@ window.addEventListener(
   "resize",
   () => {
 
-    measureSectionHeaders();
+    if (currentPage === "home") {
+      measureSectionHeaders();
+    }
 
-    if (
-      currentPage === "venues"
-    ) {
-
+    if (currentPage === "venues") {
       rebuildVenueMarquee();
-
     }
 
   }
@@ -287,7 +282,8 @@ function goToMaintenant() {
 
   const target =
     Number(
-      maintenantHeading.dataset.offset
+      maintenantHeading.dataset.offset ||
+      maintenantHeading.offsetTop
     );
 
   window.scrollTo({
@@ -302,7 +298,8 @@ function goToBientot() {
 
   const bientotOffset =
     Number(
-      bientotHeading.dataset.offset
+      bientotHeading.dataset.offset ||
+      bientotHeading.offsetTop
     );
 
   const headerHeight =
@@ -396,6 +393,7 @@ function createExhibitionElement(
   const information =
     document.createElement("div");
 
+
   const title =
     document.createElement("h3");
 
@@ -404,6 +402,7 @@ function createExhibitionElement(
 
   title.textContent =
     exhibition.title;
+
 
   const venue =
     document.createElement("div");
@@ -414,6 +413,7 @@ function createExhibitionElement(
   venue.textContent =
     exhibition.venue;
 
+
   information.appendChild(title);
   information.appendChild(venue);
 
@@ -423,6 +423,7 @@ function createExhibitionElement(
 
   date.className =
     "exhibition-date";
+
 
   if (
     exhibition.status === "upcoming"
@@ -442,8 +443,14 @@ function createExhibitionElement(
 
   }
 
-  element.appendChild(information);
-  element.appendChild(date);
+
+  element.appendChild(
+    information
+  );
+
+  element.appendChild(
+    date
+  );
 
 
   let startX = 0;
@@ -464,7 +471,9 @@ function createExhibitionElement(
       if (
         event.pointerType === "mouse"
       ) {
+
         return;
+
       }
 
       startX =
@@ -473,12 +482,18 @@ function createExhibitionElement(
       startY =
         event.clientY;
 
-      active = true;
-      horizontal = false;
+      active =
+        true;
 
-      signedX = 0;
+      horizontal =
+        false;
 
-      suppressClick = false;
+      signedX =
+        0;
+
+      suppressClick =
+        false;
+
 
       try {
 
@@ -502,8 +517,11 @@ function createExhibitionElement(
         !active ||
         event.pointerType === "mouse"
       ) {
+
         return;
+
       }
+
 
       const dx =
         event.clientX -
@@ -531,14 +549,16 @@ function createExhibitionElement(
           Math.abs(dx)
         ) {
 
-          active = false;
+          active =
+            false;
 
           return;
 
         }
 
 
-        horizontal = true;
+        horizontal =
+          true;
 
       }
 
@@ -588,7 +608,8 @@ function createExhibitionElement(
         return;
       }
 
-      active = false;
+      active =
+        false;
 
 
       if (
@@ -601,7 +622,8 @@ function createExhibitionElement(
           element
         );
 
-        suppressClick = true;
+        suppressClick =
+          true;
 
       }
 
@@ -611,7 +633,8 @@ function createExhibitionElement(
         signedX <= -70
       ) {
 
-        suppressClick = true;
+        suppressClick =
+          true;
 
 
         if (
@@ -620,7 +643,9 @@ function createExhibitionElement(
 
           navigateHomeToVenues();
 
-        } else if (
+        }
+
+        else if (
           currentPage === "venue-detail"
         ) {
 
@@ -638,8 +663,11 @@ function createExhibitionElement(
       element.style.transform =
         "";
 
-      signedX = 0;
-      horizontal = false;
+      signedX =
+        0;
+
+      horizontal =
+        false;
 
     }
   );
@@ -649,10 +677,14 @@ function createExhibitionElement(
     "pointercancel",
     () => {
 
-      active = false;
-      horizontal = false;
+      active =
+        false;
 
-      signedX = 0;
+      horizontal =
+        false;
+
+      signedX =
+        0;
 
       element.classList.remove(
         "swiping"
@@ -671,12 +703,16 @@ function createExhibitionElement(
 
       if (suppressClick) {
 
-        suppressClick = false;
+        suppressClick =
+          false;
+
         return;
 
       }
 
-      openDetail(exhibition);
+      openDetail(
+        exhibition
+      );
 
     }
   );
@@ -696,7 +732,9 @@ function renderList(
   items
 ) {
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
+
 
   if (!items.length) {
 
@@ -716,6 +754,7 @@ function renderList(
     return;
 
   }
+
 
   items.forEach(
     (exhibition) => {
@@ -758,6 +797,7 @@ function getVenueExhibitions(
 
         }
 
+
         if (
           a.status === "current"
         ) {
@@ -771,6 +811,7 @@ function getVenueExhibitions(
           );
 
         }
+
 
         return String(
           a.start || ""
@@ -802,11 +843,10 @@ function openVenue(
 
   }
 
+
   currentVenue =
     venueName;
 
-  venueDetailTitle.textContent =
-    venueName;
 
   renderList(
     venueDetailList,
@@ -815,9 +855,11 @@ function openVenue(
     )
   );
 
+
   showPage(
     "venue-detail"
   );
+
 
   window.scrollTo({
     top: 0,
@@ -827,17 +869,8 @@ function openVenue(
 }
 
 
-}
-
-
-venueDetailBack.addEventListener(
-  "click",
-  closeVenue
-);
-
-
 /* ==================================================
-   MARQUEE
+   MARQUEE DATA
    ================================================== */
 
 const marqueeRows = [];
@@ -871,7 +904,8 @@ function createVenueItem(
   const item =
     document.createElement("button");
 
-  item.type = "button";
+  item.type =
+    "button";
 
   item.className =
     "venue-marquee-item";
@@ -918,23 +952,28 @@ function buildMarqueeRow(
 
 
   const offset =
-    rowIndex %
-    venueNames.length;
+    venueNames.length
+      ? rowIndex %
+        venueNames.length
+      : 0;
 
 
-  const sequence = [
-    ...venueNames.slice(offset),
-    ...venueNames.slice(0, offset)
-  ];
+  const sequence =
+    venueNames.length
+      ? [
+          ...venueNames.slice(offset),
+          ...venueNames.slice(0, offset)
+        ]
+      : [];
 
 
   /*
-    On crée un groupe suffisamment long pour
-    dépasser largement la largeur de l'écran.
+    Un groupe contient plusieurs répétitions
+    de la séquence complète.
 
-    Puis on duplique exactement ce groupe.
+    Le groupe est ensuite dupliqué exactement.
     La largeur du premier groupe constitue
-    la période exacte de la boucle.
+    la période mathématique de la boucle.
   */
 
   const group =
@@ -944,7 +983,11 @@ function buildMarqueeRow(
     "venue-marquee-group";
 
 
-  for (let repetition = 0; repetition < 8; repetition++) {
+  for (
+    let repetition = 0;
+    repetition < 8;
+    repetition++
+  ) {
 
     sequence.forEach(
       (venueName) => {
@@ -970,16 +1013,42 @@ function buildMarqueeRow(
   );
 
 
-  track.appendChild(group);
-  track.appendChild(groupClone);
+  groupClone
+    .querySelectorAll(
+      ".venue-marquee-item"
+    )
+    .forEach(
+      (item) => {
 
-  row.appendChild(track);
-  venuesMarquee.appendChild(row);
+        item.tabIndex =
+          -1;
+
+      }
+    );
+
+
+  track.appendChild(
+    group
+  );
+
+  track.appendChild(
+    groupClone
+  );
+
+
+  row.appendChild(
+    track
+  );
+
+  venuesMarquee.appendChild(
+    row
+  );
 
 
   const state = {
 
     row,
+
     track,
 
     position: 0,
@@ -1019,9 +1088,14 @@ function buildMarqueeRow(
   };
 
 
-  marqueeRows.push(state);
+  marqueeRows.push(
+    state
+  );
 
-  setupMarqueePointer(state);
+
+  setupMarqueePointer(
+    state
+  );
 
 
   row.addEventListener(
@@ -1032,6 +1106,7 @@ function buildMarqueeRow(
         event.target.closest(
           ".venue-marquee-item"
         );
+
 
       if (
         !item ||
@@ -1044,7 +1119,8 @@ function buildMarqueeRow(
 
 
       if (
-        row.dataset.dragged === "true"
+        row.dataset.dragged ===
+        "true"
       ) {
 
         row.dataset.dragged =
@@ -1057,6 +1133,7 @@ function buildMarqueeRow(
 
       const venueName =
         item.dataset.venue;
+
 
       if (venueName) {
 
@@ -1076,7 +1153,7 @@ function buildMarqueeRow(
 
 
 /* ==================================================
-   MEASURE
+   MEASURE MARQUEE
    ================================================== */
 
 function measureMarqueeRow(
@@ -1088,6 +1165,7 @@ function measureMarqueeRow(
       ".venue-marquee-group"
     );
 
+
   if (!firstGroup) {
     return;
   }
@@ -1097,7 +1175,9 @@ function measureMarqueeRow(
     firstGroup.getBoundingClientRect().width;
 
 
-  if (cycleWidth > 0) {
+  if (
+    cycleWidth > 0
+  ) {
 
     state.cycleWidth =
       cycleWidth;
@@ -1108,7 +1188,7 @@ function measureMarqueeRow(
 
 
 /* ==================================================
-   NORMALIZE LOOP
+   NORMALIZE MARQUEE LOOP
    ================================================== */
 
 function normalizePosition(
@@ -1116,12 +1196,8 @@ function normalizePosition(
   cycleWidth
 ) {
 
-  if (
-    !cycleWidth
-  ) {
-
+  if (!cycleWidth) {
     return position;
-
   }
 
 
@@ -1288,7 +1364,7 @@ function setupMarqueePointer(
 
         /*
           Vertical gesture:
-          the row immediately gives the gesture
+          the row gives the gesture
           to page navigation.
         */
 
@@ -1306,15 +1382,11 @@ function setupMarqueePointer(
           state.horizontalDecision =
             true;
 
+
           row.classList.remove(
             "is-dragging"
           );
 
-
-          /*
-            Sur Venues :
-            swipe haut OU bas = accueil.
-          */
 
           navigateVenuesToHome();
 
@@ -1393,6 +1465,7 @@ function setupMarqueePointer(
 
       }
 
+
       finishMarqueePointer(
         state
       );
@@ -1413,6 +1486,7 @@ function setupMarqueePointer(
         return;
 
       }
+
 
       cancelMarqueePointer(
         state
@@ -1790,6 +1864,12 @@ function showPage(
       "hidden";
 
 
+    window.scrollTo({
+      top: 0,
+      behavior: "auto"
+    });
+
+
     if (
       !marqueeRows.length
     ) {
@@ -1862,6 +1942,9 @@ function navigateVenueToVenues() {
     currentPage === "venue-detail"
   ) {
 
+    currentVenue =
+      null;
+
     showPage(
       "venues"
     );
@@ -1900,8 +1983,8 @@ document.addEventListener(
 
 
     /*
-      Les cartes et les lignes ont leurs propres
-      gestionnaires de gestes.
+      Les expositions ont leur propre
+      gestionnaire de swipe.
     */
 
     if (
@@ -1917,6 +2000,11 @@ document.addEventListener(
 
     }
 
+
+    /*
+      Les lignes de venues ont leur propre
+      gestionnaire de swipe horizontal.
+    */
 
     if (
       event.target.closest(
@@ -2168,7 +2256,9 @@ function openDetail(
   );
 
 
-  if (venueInfo) {
+  if (
+    venueInfo
+  ) {
 
     detailContent.appendChild(
       hours
@@ -2270,6 +2360,15 @@ document.addEventListener(
 
 
 /* ==================================================
+   INITIAL PAGE
+   ================================================== */
+
+showPage(
+  "home"
+);
+
+
+/* ==================================================
    LOAD DATA
    ================================================== */
 
@@ -2303,9 +2402,49 @@ async function loadExhibitions() {
       data.venues || {};
 
 
+    const current =
+      (data.current || [])
+        .map(
+          (exhibition) => ({
+            ...exhibition,
+            status: "current"
+          })
+        )
+        .sort(
+          (a, b) =>
+            String(
+              a.end || ""
+            ).localeCompare(
+              String(
+                b.end || ""
+              )
+            )
+        );
+
+
+    const upcoming =
+      (data.upcoming || [])
+        .map(
+          (exhibition) => ({
+            ...exhibition,
+            status: "upcoming"
+          })
+        )
+        .sort(
+          (a, b) =>
+            String(
+              a.start || ""
+            ).localeCompare(
+              String(
+                b.start || ""
+              )
+            )
+        );
+
+
     exhibitions = [
-      ...(data.current || []),
-      ...(data.upcoming || [])
+      ...current,
+      ...upcoming
     ];
 
 
@@ -2317,13 +2456,13 @@ async function loadExhibitions() {
 
     renderList(
       currentList,
-      data.current || []
+      current
     );
 
 
     renderList(
       upcomingList,
-      data.upcoming || []
+      upcoming
     );
 
 
