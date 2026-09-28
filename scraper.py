@@ -17,7 +17,7 @@ VENUES = [
     ("FLV", "https://www.offi.fr/expositions-musees/fondation-louis-vuitton-6084.html"),
     ("Bourse", "https://www.offi.fr/expositions-musees/bourse-de-commerce-pinault-collection-6929.html"),
     ("MAC VAL", "https://www.offi.fr/expositions-musees/mac-val-1444.html"),
-    ("Fondation Cartier", "https://www.offi.fr/expositions-musees/fondation-cartier-pour-lart-contemporain-2334.html"),
+    ("Cartier", "https://www.offi.fr/expositions-musees/fondation-cartier-pour-lart-contemporain-2334.html"),
     ("Grand Palais", "https://www.offi.fr/expositions-musees/grand-palais-5399.html"),
     ("Petit Palais", "https://www.offi.fr/expositions-musees/petit-palais-2991.html"),
     ("Marmottan", "https://www.offi.fr/expositions-musees/marmottan-monet-2747.html"),
@@ -26,7 +26,7 @@ VENUES = [
     ("Cernuschi", "https://www.offi.fr/expositions-musees/musee-cernuschi-1751.html"),
     ("MAM", "https://www.offi.fr/expositions-musees/musee-dart-moderne-1450.html"),
     ("Lafayette", "https://www.offi.fr/theatre/lafayette-anticipations-7097.html"),
-    ("Fondation Cartier-Bresson", "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335.html"),
+    ("Cartier-Bresson", "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335.html"),
     ("Cité de l’architecture", "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851.html"),
     ("Galliera", "https://www.offi.fr/expositions-musees/musee-galliera-2366.html"),
     ("BnF", "https://www.offi.fr/a-travers-paris/bibliotheque-nationale-de-france-site-francois-mitterrand-1553.html"),
@@ -75,7 +75,7 @@ VENUE_INFO = {
         "hours": "LUN fermé · MAR–DIM 11:00–18:00",
         "official_url": "https://www.macval.fr/",
     },
-    "Fondation Cartier": {
+    "Cartier": {
         "hours": "LUN fermé · MAR–JEU 11:00–19:00 · VEN 11:00–22:00 · SAM–DIM 11:00–19:00",
         "official_url": "https://www.fondationcartier.com/",
     },
@@ -111,7 +111,7 @@ VENUE_INFO = {
         "hours": "LUN–MAR fermé · MER–SAM 12:00–19:00 · DIM 12:00–17:00",
         "official_url": "https://www.lafayetteanticipations.com/",
     },
-    "Fondation Cartier-Bresson": {
+    "Cartier-Bresson": {
         "hours": "LUN fermé · MAR–DIM 11:00–19:00",
         "official_url": "https://www.henricartierbresson.org/",
     },
