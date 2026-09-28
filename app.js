@@ -2007,28 +2007,46 @@ function setPageVisibility(
 }
 
 
-function showPage(
-  pageName
-) {
+function showPage(pageName, direction = "bottom") {
 
   currentPage =
     pageName;
 
 
-  setPageVisibility(
-    homePage,
-    pageName === "home"
-  );
+  [homePage, venuesPage, venueDetailPage].forEach((page) => {
+    page.classList.remove(
+      "transition-entering",
+      "from-bottom",
+      "from-right"
+    );
+  });
 
-  setPageVisibility(
-    venuesPage,
-    pageName === "venues"
-  );
 
-  setPageVisibility(
-    venueDetailPage,
-    pageName === "venue-detail"
-  );
+  const pages = [
+    { element: homePage, name: "home" },
+    { element: venuesPage, name: "venues" },
+    { element: venueDetailPage, name: "venue-detail" }
+  ];
+
+  pages.forEach(({ element, name }) => {
+    const isActive = name === pageName;
+
+    setPageVisibility(element, isActive);
+
+    if (isActive) {
+      element.classList.add(
+        "transition-entering",
+        `from-${direction}`
+      );
+
+      window.setTimeout(() => {
+        element.classList.remove(
+          "transition-entering",
+          `from-${direction}`
+        );
+      }, 500);
+    }
+  });
 
 
   if (
@@ -2110,7 +2128,8 @@ function navigateHomeToVenues() {
   ) {
 
     showPage(
-      "venues"
+      "venues",
+      "right"
     );
 
   }
@@ -2125,7 +2144,8 @@ function navigateVenuesToHome() {
   ) {
 
     showPage(
-      "home"
+      "home",
+      "bottom"
     );
 
   }
@@ -2144,7 +2164,8 @@ function navigateVenueToVenues() {
 
 
     showPage(
-      "venues"
+      "venues",
+      "bottom"
     );
 
   }
