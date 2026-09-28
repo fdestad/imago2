@@ -548,52 +548,30 @@ body[data-transition="top"]
 
 
 /* ==================================================
-   VENUES → HOME EXIT
+   VENUES → HOME
    ================================================== */
 
 .venues-page.venues-exiting {
-  background: transparent;
-}
+  display: block;
 
-
-.venues-page.venues-exiting .venue-marquee-row {
-  position: relative;
-
-  z-index: 2;
-
-  animation-duration: 460ms;
-
-  animation-timing-function:
+  animation:
+    venues-shutter-up
+    420ms
     cubic-bezier(
-      0.65,
-      0,
-      0.35,
+      0.22,
+      1,
+      0.36,
       1
-    );
-
-  animation-fill-mode: both;
+    )
+    forwards;
 
   will-change: transform;
 }
 
 
-.venues-page.venues-exiting
-.venue-marquee-row:nth-child(odd) {
-  animation-name:
-    venue-row-exit-left;
-}
+@keyframes venues-shutter-up {
 
-
-.venues-page.venues-exiting
-.venue-marquee-row:nth-child(even) {
-  animation-name:
-    venue-row-exit-right;
-}
-
-
-@keyframes venue-row-exit-left {
-
-  0% {
+  from {
     transform:
       translate3d(
         0,
@@ -602,34 +580,11 @@ body[data-transition="top"]
       );
   }
 
-  100% {
-    transform:
-      translate3d(
-        -105vw,
-        0,
-        0
-      );
-  }
-
-}
-
-
-@keyframes venue-row-exit-right {
-
-  0% {
+  to {
     transform:
       translate3d(
         0,
-        0,
-        0
-      );
-  }
-
-  100% {
-    transform:
-      translate3d(
-        105vw,
-        0,
+        -100%,
         0
       );
   }
@@ -954,8 +909,7 @@ body[data-transition="top"]
   }
 
 
-  .venues-page.venues-exiting
-  .venue-marquee-row {
+  .venues-page.venues-exiting {
     animation: none;
   }
 
