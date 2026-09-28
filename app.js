@@ -929,22 +929,28 @@ function buildMarqueeRow(
 
 
   /*
-    Chaque copie est un groupe autonome.
-    La largeur du premier groupe est la période
-    exacte de la boucle.
+    On crée un groupe suffisamment long pour
+    dépasser largement la largeur de l'écran.
+
+    Puis on duplique exactement ce groupe.
+    La largeur du premier groupe constitue
+    la période exacte de la boucle.
   */
 
-  for (
-    let repetition = 0;
-    repetition < 4;
-    repetition++
+  const group =
+    document.createElement("div");
+
+  group.className =
+    "venue-marquee-group";
+
+
+  let repetition = 0;
+
+  while (
+    group.getBoundingClientRect().width <
+      window.innerWidth * 1.5 &&
+    repetition < 10
   ) {
-
-    const group =
-      document.createElement("div");
-
-    group.className =
-      "venue-marquee-group";
 
     sequence.forEach(
       (venueName) => {
@@ -958,20 +964,25 @@ function buildMarqueeRow(
       }
     );
 
-    track.appendChild(
-      group
-    );
+    repetition++;
 
   }
 
 
-  row.appendChild(
-    track
+  const groupClone =
+    group.cloneNode(true);
+
+  groupClone.setAttribute(
+    "aria-hidden",
+    "true"
   );
 
-  venuesMarquee.appendChild(
-    row
-  );
+
+  track.appendChild(group);
+  track.appendChild(groupClone);
+
+  row.appendChild(track);
+  venuesMarquee.appendChild(row);
 
 
   const state = {
@@ -1016,21 +1027,10 @@ function buildMarqueeRow(
   };
 
 
-  marqueeRows.push(
-    state
-  );
+  marqueeRows.push(state);
 
+  setupMarqueePointer(state);
 
-  setupMarqueePointer(
-    state
-  );
-
-
-  /*
-    Le clic est géré au niveau de la ligne.
-    Les items eux-mêmes ne possèdent donc plus
-    de gestionnaire concurrent.
-  */
 
   row.addEventListener(
     "click",
@@ -1066,9 +1066,7 @@ function buildMarqueeRow(
       const venueName =
         item.dataset.venue;
 
-      if (
-        venueName
-      ) {
+      if (venueName) {
 
         openVenue(
           venueName
@@ -1098,12 +1096,8 @@ function measureMarqueeRow(
       ".venue-marquee-group"
     );
 
-  if (
-    !firstGroup
-  ) {
-
+  if (!firstGroup) {
     return;
-
   }
 
 
@@ -1111,9 +1105,7 @@ function measureMarqueeRow(
     firstGroup.getBoundingClientRect().width;
 
 
-  if (
-    cycleWidth > 0
-  ) {
+  if (cycleWidth > 0) {
 
     state.cycleWidth =
       cycleWidth;
