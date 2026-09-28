@@ -1,5 +1,5 @@
 const CACHE_NAME =
-  "expositions-v4";
+  "expositions-v5";
 
 
 const APP_FILES = [
