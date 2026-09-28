@@ -129,6 +129,38 @@ function isFavorite(exhibition) {
 }
 
 
+/*
+  Synchronise visuellement toutes les cartes d'exposition
+  présentes dans le DOM avec la liste persistante des favoris.
+*/
+function syncFavoriteVisuals() {
+
+  const favorites =
+    getFavorites();
+
+  document
+    .querySelectorAll(".exhibition")
+    .forEach(
+      (element) => {
+
+        const id =
+          element.dataset.exhibitionId;
+
+        if (!id) {
+          return;
+        }
+
+        element.classList.toggle(
+          "favorite",
+          favorites.includes(id)
+        );
+
+      }
+    );
+
+}
+
+
 function toggleFavorite(
   exhibition,
   element
@@ -160,10 +192,12 @@ function toggleFavorite(
     favorites
   );
 
-  element.classList.toggle(
-    "favorite",
-    index === -1
-  );
+  /*
+    La source de vérité est localStorage.
+    On resynchronise donc toutes les cartes déjà
+    présentes sur les autres pages.
+  */
+  syncFavoriteVisuals();
 
 }
 
@@ -274,6 +308,25 @@ window.addEventListener(
   updateStickyHeaders,
   {
     passive: true
+  }
+);
+
+
+/*
+  Synchronisation entre plusieurs onglets/instances.
+*/
+window.addEventListener(
+  "storage",
+  (event) => {
+
+    if (
+      event.key === FAVORITES_KEY
+    ) {
+
+      syncFavoriteVisuals();
+
+    }
+
   }
 );
 
@@ -417,6 +470,13 @@ function createExhibitionElement(
 
   element.className =
     "exhibition";
+
+  /*
+    Identifiant stable utilisé pour resynchroniser
+    l'état visuel du favori sur toutes les pages.
+  */
+  element.dataset.exhibitionId =
+    getExhibitionId(exhibition);
 
 
   if (
@@ -2011,6 +2071,13 @@ function showPage(pageName, direction = "bottom") {
 
   currentPage =
     pageName;
+
+  /*
+    À chaque navigation, relire localStorage garantit
+    que les cartes affichées restent cohérentes avec
+    l'état persistant des favoris.
+  */
+  syncFavoriteVisuals();
 
 
   [homePage, venuesPage, venueDetailPage].forEach((page) => {
