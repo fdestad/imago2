@@ -57,13 +57,9 @@ button {
   width: 100%;
 }
 
-.home-page {
-  display: block;
-}
-
-.venues-page,
-.venue-detail-page {
+.app-page {
   display: none;
+  width: 100%;
 }
 
 .app-page.is-active {
