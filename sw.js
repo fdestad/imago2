@@ -1,5 +1,5 @@
 const CACHE_NAME =
-  "expositions-v3";
+  "expositions-v4";
 
 
 const APP_FILES = [
@@ -75,12 +75,6 @@ self.addEventListener(
         event.request.url
       );
 
-
-    /*
-      Les données restent en
-      network-first afin de récupérer
-      les nouvelles expositions.
-    */
 
     if (
       url.pathname.endsWith(
