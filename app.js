@@ -2014,12 +2014,139 @@ function startMarqueeAnimation() {
     Home → Venues
 
   bottom:
-    Venues → Home
     Venues → Venue
 
   top:
     Venue → Venues
+
+  Venues → Home:
+    transition spéciale :
+    les bandes jaunes sortent alternativement
+    par la gauche et par la droite.
 */
+
+function transitionVenuesToHome() {
+
+  currentPage =
+    "home";
+
+
+  syncFavoriteVisuals();
+
+
+  document.body.dataset.transition =
+    "venues-to-home";
+
+  document.body.dataset.page =
+    "home";
+
+  document.body.classList.add(
+    "page-transitioning"
+  );
+
+
+  /*
+    La Home est immédiatement placée sous
+    Venues. Les deux pages restent donc
+    visibles pendant l'animation.
+  */
+
+  homePage.classList.add(
+    "is-active"
+  );
+
+  homePage.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  venuesPage.classList.add(
+    "is-active"
+  );
+
+  venuesPage.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  venuesPage.classList.add(
+    "venues-exiting"
+  );
+
+
+  venuesPage
+    .querySelectorAll(
+      ".venue-marquee-row"
+    )
+    .forEach(
+      (row, index) => {
+
+        row.style.setProperty(
+          "--exit-index",
+          String(index)
+        );
+
+      }
+    );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+
+  /*
+    On laisse suffisamment de temps
+    pour que toutes les bandes sortent.
+  */
+
+  window.setTimeout(
+    () => {
+
+      venuesPage.classList.remove(
+        "venues-exiting"
+      );
+
+      venuesPage.classList.remove(
+        "is-active"
+      );
+
+      venuesPage.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      venuesPage
+        .querySelectorAll(
+          ".venue-marquee-row"
+        )
+        .forEach(
+          (row) => {
+
+            row.style.removeProperty(
+              "--exit-index"
+            );
+
+          }
+        );
+
+
+      document.body.classList.remove(
+        "page-transitioning"
+      );
+
+
+      finishPageSetup(
+        "home"
+      );
+
+    },
+    620
+  );
+
+}
+
 
 function showPage(
   pageName,
@@ -2038,9 +2165,26 @@ function showPage(
     "";
 
 
+  /*
+    Transition spéciale Venues → Home.
+    On ne passe pas par le système de
+    transition classique.
+  */
+
+  if (
+    previousPage === "venues" &&
+    pageName === "home"
+  ) {
+
+    transitionVenuesToHome();
+
+    return;
+
+  }
+
+
   document.body.dataset.transition =
     direction;
-
 
   document.body.dataset.page =
     pageName;
@@ -2295,10 +2439,7 @@ function navigateVenuesToHome() {
     currentPage === "venues"
   ) {
 
-    showPage(
-      "home",
-      "bottom"
-    );
+    transitionVenuesToHome();
 
   }
 
