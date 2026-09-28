@@ -41,7 +41,7 @@ const detailClose =
 let exhibitions = [];
 let venues = {};
 
-let currentPage = "home";
+let currentPage = "venues";
 let currentVenue = null;
 
 const FAVORITES_KEY =
@@ -2367,7 +2367,6 @@ function openDetail(
   hours.textContent =
     venueInfo?.hours || "";
 
-
   const description =
     document.createElement("p");
 
@@ -2551,7 +2550,7 @@ document.addEventListener(
    ================================================== */
 
 showPage(
-  "home"
+  "venues"
 );
 
 
