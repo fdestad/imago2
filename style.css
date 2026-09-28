@@ -76,6 +76,135 @@ button {
 
 
 /* ==================================================
+   PAGE TRANSITIONS
+   ================================================== */
+
+/*
+  Les transitions restent très courtes :
+  l'impression recherchée est celle de panneaux
+  graphiques qui se déplacent, pas d'un fondu.
+*/
+
+.app-page.transition-enter {
+  animation-duration: 280ms;
+  animation-timing-function:
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+
+/*
+  Home → Venues
+  La nouvelle page arrive depuis la droite.
+*/
+
+body[data-transition="right"]
+.app-page.transition-enter {
+  animation-name:
+    page-enter-from-right;
+}
+
+
+/*
+  Venues → Home
+  La nouvelle page arrive depuis le bas.
+*/
+
+body[data-transition="bottom"]
+.app-page.transition-enter {
+  animation-name:
+    page-enter-from-bottom;
+}
+
+
+/*
+  Venue → Venues
+  La page Venues revient depuis le haut.
+*/
+
+body[data-transition="top"]
+.app-page.transition-enter {
+  animation-name:
+    page-enter-from-top;
+}
+
+
+@keyframes page-enter-from-right {
+
+  from {
+    transform:
+      translate3d(
+        100%,
+        0,
+        0
+      );
+  }
+
+  to {
+    transform:
+      translate3d(
+        0,
+        0,
+        0
+      );
+  }
+
+}
+
+
+@keyframes page-enter-from-bottom {
+
+  from {
+    transform:
+      translate3d(
+        0,
+        100%,
+        0
+      );
+  }
+
+  to {
+    transform:
+      translate3d(
+        0,
+        0,
+        0
+      );
+  }
+
+}
+
+
+@keyframes page-enter-from-top {
+
+  from {
+    transform:
+      translate3d(
+        0,
+        -100%,
+        0
+      );
+  }
+
+  to {
+    transform:
+      translate3d(
+        0,
+        0,
+        0
+      );
+  }
+
+}
+
+
+/* ==================================================
    HOME
    ================================================== */
 
@@ -510,11 +639,6 @@ button {
 
   font-style: italic;
 
-  /*
-    Poids normal par défaut.
-    Une venue sur deux reçoit .is-bold.
-  */
-
   font-weight: 400;
 
   letter-spacing: -0.045em;
@@ -593,9 +717,12 @@ button {
   opacity: 0;
   visibility: hidden;
 
-  transition:
-    opacity 180ms ease,
-    visibility 180ms ease;
+  /*
+    IMPORTANT :
+    aucun effet de transition.
+    Le détail d'une exposition apparaît
+    instantanément.
+  */
 }
 
 
@@ -747,8 +874,8 @@ button {
   }
 
 
-  .detail {
-    transition: none;
+  .app-page.transition-enter {
+    animation: none;
   }
 
 
