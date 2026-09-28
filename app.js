@@ -2020,9 +2020,9 @@ function startMarqueeAnimation() {
     Venue → Venues
 
   Venues → Home:
-    transition spéciale :
-    les bandes jaunes sortent alternativement
-    par la gauche et par la droite.
+    le panneau jaune Venues monte
+    entièrement vers le haut et révèle
+    la Home située dessous.
 */
 
 function transitionVenuesToHome() {
@@ -2047,8 +2047,7 @@ function transitionVenuesToHome() {
 
   /*
     La Home est immédiatement placée sous
-    Venues. Les deux pages restent donc
-    visibles pendant l'animation.
+    le panneau Venues.
   */
 
   homePage.classList.add(
@@ -2070,35 +2069,21 @@ function transitionVenuesToHome() {
     "false"
   );
 
+
+  /*
+    Le panneau Venues entier monte d'un bloc.
+    Les lignes restent donc parfaitement
+    solidaires du fond jaune.
+  */
+
   venuesPage.classList.add(
     "venues-exiting"
   );
 
 
-  venuesPage
-    .querySelectorAll(
-      ".venue-marquee-row"
-    )
-    .forEach(
-      (row, index) => {
-
-        row.style.setProperty(
-          "--exit-index",
-          String(index)
-        );
-
-      }
-    );
-
-
   document.body.style.overflow =
     "hidden";
 
-
-  /*
-    On laisse suffisamment de temps
-    pour que toutes les bandes sortent.
-  */
 
   window.setTimeout(
     () => {
@@ -2117,21 +2102,6 @@ function transitionVenuesToHome() {
       );
 
 
-      venuesPage
-        .querySelectorAll(
-          ".venue-marquee-row"
-        )
-        .forEach(
-          (row) => {
-
-            row.style.removeProperty(
-              "--exit-index"
-            );
-
-          }
-        );
-
-
       document.body.classList.remove(
         "page-transitioning"
       );
@@ -2142,7 +2112,7 @@ function transitionVenuesToHome() {
       );
 
     },
-    620
+    460
   );
 
 }
