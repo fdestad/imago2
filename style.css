@@ -79,12 +79,6 @@ button {
    PAGE TRANSITIONS
    ================================================== */
 
-/*
-  Les transitions restent très courtes :
-  l'impression recherchée est celle de panneaux
-  graphiques qui se déplacent, pas d'un fondu.
-*/
-
 .app-page.transition-enter {
   animation-duration: 280ms;
   animation-timing-function:
@@ -99,11 +93,6 @@ button {
 }
 
 
-/*
-  Home → Venues
-  La nouvelle page arrive depuis la droite.
-*/
-
 body[data-transition="right"]
 .app-page.transition-enter {
   animation-name:
@@ -111,22 +100,12 @@ body[data-transition="right"]
 }
 
 
-/*
-  Venues → Home
-  La nouvelle page arrive depuis le bas.
-*/
-
 body[data-transition="bottom"]
 .app-page.transition-enter {
   animation-name:
     page-enter-from-bottom;
 }
 
-
-/*
-  Venue → Venues
-  La page Venues revient depuis le haut.
-*/
 
 body[data-transition="top"]
 .app-page.transition-enter {
@@ -551,6 +530,8 @@ body[data-transition="top"]
   display: flex;
   align-items: center;
 
+  background: var(--yellow);
+
   touch-action: pan-y;
 
   cursor: grab;
@@ -565,6 +546,100 @@ body[data-transition="top"]
   cursor: grabbing;
 }
 
+
+/* ==================================================
+   VENUES → HOME EXIT
+   ================================================== */
+
+.venues-page.venues-exiting {
+  background: transparent;
+}
+
+
+.venues-page.venues-exiting .venue-marquee-row {
+  position: relative;
+
+  z-index: 2;
+
+  animation-duration: 460ms;
+
+  animation-timing-function:
+    cubic-bezier(
+      0.65,
+      0,
+      0.35,
+      1
+    );
+
+  animation-fill-mode: both;
+
+  will-change: transform;
+}
+
+
+.venues-page.venues-exiting
+.venue-marquee-row:nth-child(odd) {
+  animation-name:
+    venue-row-exit-left;
+}
+
+
+.venues-page.venues-exiting
+.venue-marquee-row:nth-child(even) {
+  animation-name:
+    venue-row-exit-right;
+}
+
+
+@keyframes venue-row-exit-left {
+
+  0% {
+    transform:
+      translate3d(
+        0,
+        0,
+        0
+      );
+  }
+
+  100% {
+    transform:
+      translate3d(
+        -105vw,
+        0,
+        0
+      );
+  }
+
+}
+
+
+@keyframes venue-row-exit-right {
+
+  0% {
+    transform:
+      translate3d(
+        0,
+        0,
+        0
+      );
+  }
+
+  100% {
+    transform:
+      translate3d(
+        105vw,
+        0,
+        0
+      );
+  }
+
+}
+
+
+/* ==================================================
+   VENUE MARQUEE TRACK
+   ================================================== */
 
 .venue-marquee-track {
   display: flex;
@@ -875,6 +950,12 @@ body[data-transition="top"]
 
 
   .app-page.transition-enter {
+    animation: none;
+  }
+
+
+  .venues-page.venues-exiting
+  .venue-marquee-row {
     animation: none;
   }
 
