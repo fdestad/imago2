@@ -19,6 +19,7 @@ html {
 
 body {
   margin: 0;
+
   background: var(--black);
   color: var(--white);
 
@@ -71,7 +72,7 @@ button {
 
 
 /* ==================================================
-   HOME PAGE
+   HOME
    ================================================== */
 
 .page {
@@ -89,7 +90,6 @@ button {
 
 .section-heading {
   position: relative;
-
   z-index: 30;
 
   width: 100%;
@@ -104,7 +104,6 @@ button {
   color: var(--black);
 
   cursor: pointer;
-
   user-select: none;
 
   -webkit-tap-highlight-color: transparent;
@@ -192,6 +191,10 @@ button {
 
   user-select: none;
 
+  /*
+    Vertical scrolling remains native.
+    Horizontal gesture is handled by JS.
+  */
   touch-action: pan-y;
 
   transform: translate3d(0, 0, 0);
@@ -202,15 +205,6 @@ button {
 .exhibition:hover {
   color: inherit;
 }
-
-.exhibition:hover .exhibition-title {
-  color: inherit;
-}
-
-
-/* ==================================================
-   EXHIBITION TEXT
-   ================================================== */
 
 .exhibition-title {
   margin: 0;
@@ -318,6 +312,12 @@ button {
   background: var(--yellow);
   color: var(--black);
 
+  /*
+    Vertical gesture is deliberately NOT disabled.
+    The page itself handles vertical navigation.
+    Horizontal gestures inside rows are captured
+    individually by the rows.
+  */
   touch-action: pan-y;
 
   -webkit-tap-highlight-color: transparent;
@@ -332,8 +332,6 @@ button {
   flex-direction: column;
 
   justify-content: center;
-
-  gap: 0;
 
   overflow: hidden;
 
@@ -363,6 +361,10 @@ button {
   display: flex;
   align-items: center;
 
+  /*
+    We need vertical browser scrolling/navigation,
+    but horizontal movement belongs to this row.
+  */
   touch-action: pan-y;
 
   cursor: grab;
@@ -376,18 +378,12 @@ button {
   cursor: grabbing;
 }
 
-
-/*
-  Le track est manipulé par JavaScript.
-*/
-
 .venue-marquee-track {
   display: flex;
 
   align-items: center;
 
   width: max-content;
-
   height: 100%;
 
   white-space: nowrap;
@@ -410,13 +406,11 @@ button {
   flex: 0 0 auto;
 
   margin: 0;
-
   padding: 0;
 
   border: 0;
 
   background: transparent;
-
   color: var(--black);
 
   font-family:
@@ -455,7 +449,7 @@ button {
 
 
 /* ==================================================
-   VENUE DETAIL PAGE
+   VENUE DETAIL
    ================================================== */
 
 .venue-detail-page {
@@ -518,7 +512,11 @@ button {
     Times,
     serif;
 
-  font-size: clamp(25px, 6vw, 52px);
+  font-size: clamp(
+    25px,
+    6vw,
+    52px
+  );
 
   line-height: 1;
 
@@ -725,9 +723,7 @@ button {
   }
 
 
-  /* ----------------------------------------------
-     EXHIBITIONS
-     ---------------------------------------------- */
+  /* EXHIBITIONS */
 
   .exhibition {
     grid-template-columns: 1fr;
@@ -743,12 +739,6 @@ button {
 
   .exhibition-venue {
     margin-top: 0;
-
-    font-family:
-      Georgia,
-      "Times New Roman",
-      Times,
-      serif;
 
     font-size: 14px;
 
@@ -769,9 +759,7 @@ button {
   }
 
 
-  /* ----------------------------------------------
-     VENUES
-     ---------------------------------------------- */
+  /* VENUES */
 
   .venues-marquee {
     padding: 3vh 0;
@@ -779,7 +767,6 @@ button {
 
   .venue-marquee-row {
     height: 10.5vh;
-
     min-height: 54px;
   }
 
@@ -792,9 +779,7 @@ button {
   }
 
 
-  /* ----------------------------------------------
-     VENUE DETAIL
-     ---------------------------------------------- */
+  /* VENUE DETAIL */
 
   .venue-detail-inner {
     padding: 18px 16px 50px;
@@ -817,9 +802,7 @@ button {
   }
 
 
-  /* ----------------------------------------------
-     EXHIBITION DETAIL
-     ---------------------------------------------- */
+  /* DETAIL */
 
   .detail-inner {
     padding: 18px 16px 50px;
