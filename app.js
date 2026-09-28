@@ -450,17 +450,27 @@ function createExhibitionElement(
 
 
   /* ----------------------------------------------
-     SWIPE DROIT = FAVORI
+     GESTURE CARTE
+
+     DROITE = FAVORI
+     GAUCHE = NAVIGATION
+
+     Les cartes interceptent volontairement le
+     geste global : la navigation doit donc être
+     gérée directement ici.
      ---------------------------------------------- */
 
   let startX = 0;
   let startY = 0;
 
-  let horizontal = false;
   let active = false;
+  let horizontal = false;
 
+  let signedX = 0;
   let currentX = 0;
+
   let suppressClick = false;
+
 
   element.addEventListener(
     "pointerdown",
@@ -472,13 +482,29 @@ function createExhibitionElement(
         return;
       }
 
-      startX = event.clientX;
-      startY = event.clientY;
+      startX =
+        event.clientX;
 
-      horizontal = false;
+      startY =
+        event.clientY;
+
       active = true;
+      horizontal = false;
+
+      signedX = 0;
       currentX = 0;
+
       suppressClick = false;
+
+      try {
+
+        element.setPointerCapture(
+          event.pointerId
+        );
+
+      } catch {
+        /* ignored */
+      }
 
     }
   );
@@ -503,14 +529,23 @@ function createExhibitionElement(
         event.clientY -
         startY;
 
+
       if (!horizontal) {
 
         if (
           Math.abs(dx) < 10 &&
           Math.abs(dy) < 10
         ) {
+
           return;
+
         }
+
+
+        /*
+          Vertical movement belongs to the browser's
+          normal scrolling behaviour.
+        */
 
         if (
           Math.abs(dy) >
@@ -522,24 +557,43 @@ function createExhibitionElement(
 
         }
 
+
         horizontal = true;
 
-        element.classList.add(
-          "swiping"
-        );
-
       }
+
 
       if (!horizontal) {
         return;
       }
 
+
+      event.preventDefault();
+
+
+      signedX =
+        dx;
+
+
       /*
-        Only rightward movement has an effect.
+        Only rightward movement visually moves
+        the card.
+
+        Leftward movement is detected but does not
+        need a visual translation.
       */
 
       currentX =
-        Math.max(0, dx);
+        Math.max(
+          0,
+          dx
+        );
+
+
+      element.classList.add(
+        "swiping"
+      );
+
 
       element.style.transform =
         `translate3d(${Math.min(
@@ -547,6 +601,9 @@ function createExhibitionElement(
           120
         )}px, 0, 0)`;
 
+    },
+    {
+      passive: false
     }
   );
 
@@ -561,9 +618,14 @@ function createExhibitionElement(
 
       active = false;
 
+
+      /* ------------------------------------------
+         SWIPE DROIT = FAVORI
+         ------------------------------------------ */
+
       if (
         horizontal &&
-        currentX >= 70
+        signedX >= 70
       ) {
 
         toggleFavorite(
@@ -575,13 +637,49 @@ function createExhibitionElement(
 
       }
 
+
+      /* ------------------------------------------
+         SWIPE GAUCHE
+
+         Accueil → Venues
+         Venue detail → Venues
+         ------------------------------------------ */
+
+      else if (
+        horizontal &&
+        signedX <= -70
+      ) {
+
+        suppressClick = true;
+
+
+        if (
+          currentPage === "home"
+        ) {
+
+          navigateHomeToVenues();
+
+        } else if (
+          currentPage === "venue-detail"
+        ) {
+
+          navigateVenueToVenues();
+
+        }
+
+      }
+
+
       element.classList.remove(
         "swiping"
       );
 
-      element.style.transform = "";
+      element.style.transform =
+        "";
+
 
       currentX = 0;
+      signedX = 0;
       horizontal = false;
 
     }
@@ -594,13 +692,16 @@ function createExhibitionElement(
 
       active = false;
       horizontal = false;
+
       currentX = 0;
+      signedX = 0;
 
       element.classList.remove(
         "swiping"
       );
 
-      element.style.transform = "";
+      element.style.transform =
+        "";
 
     }
   );
@@ -648,11 +749,15 @@ function renderList(
     const empty =
       document.createElement("p");
 
-    empty.className = "empty";
+    empty.className =
+      "empty";
+
     empty.textContent =
       "Aucune exposition";
 
-    container.appendChild(empty);
+    container.appendChild(
+      empty
+    );
 
     return;
 
@@ -738,7 +843,9 @@ function openVenue(
   if (
     !venues[venueName]
   ) {
+
     return;
+
   }
 
   currentVenue =
@@ -770,7 +877,9 @@ function closeVenue() {
 
   currentVenue = null;
 
-  showPage("venues");
+  showPage(
+    "venues"
+  );
 
 }
 
@@ -816,7 +925,9 @@ function createVenueItem(
   const item =
     document.createElement("button");
 
-  item.type = "button";
+  item.type =
+    "button";
+
   item.className =
     "venue-marquee-item";
 
@@ -827,6 +938,7 @@ function createVenueItem(
     "aria-label",
     `Voir les expositions à ${venueName}`
   );
+
 
   item.addEventListener(
     "click",
@@ -848,10 +960,13 @@ function createVenueItem(
 
       }
 
-      openVenue(venueName);
+      openVenue(
+        venueName
+      );
 
     }
   );
+
 
   return item;
 
@@ -883,14 +998,10 @@ function buildMarqueeRow(
     "venue-marquee-track";
 
 
-  /*
-    Every row starts at a different point in
-    the venue sequence.
-  */
-
   const offset =
     rowIndex %
     venueNames.length;
+
 
   const sequence = [
     ...venueNames.slice(offset),
@@ -899,14 +1010,11 @@ function buildMarqueeRow(
 
 
   /*
-    We create FOUR copies.
+    FOUR COPIES.
 
-    The loop itself is mathematical:
-    the visible position is always normalized
-    against one complete sequence width.
-
-    The extra copies simply guarantee that there
-    is always content on both sides of the viewport.
+    Le déplacement est ensuite normalisé par
+    rapport à UNE seule copie. Cela crée une
+    boucle mathématique continue.
   */
 
   for (
@@ -930,8 +1038,13 @@ function buildMarqueeRow(
   }
 
 
-  row.appendChild(track);
-  venuesMarquee.appendChild(row);
+  row.appendChild(
+    track
+  );
+
+  venuesMarquee.appendChild(
+    row
+  );
 
 
   const state = {
@@ -960,6 +1073,8 @@ function buildMarqueeRow(
 
     dragStartX: 0,
 
+    dragStartY: 0,
+
     dragStartPosition: 0,
 
     moved: false,
@@ -974,9 +1089,13 @@ function buildMarqueeRow(
   };
 
 
-  marqueeRows.push(state);
+  marqueeRows.push(
+    state
+  );
 
-  setupMarqueePointer(state);
+  setupMarqueePointer(
+    state
+  );
 
   return state;
 
@@ -1000,20 +1119,20 @@ function measureMarqueeRow(
     return;
   }
 
+
   const itemsPerSequence =
     venueNames.length;
+
 
   if (
     children.length <
     itemsPerSequence * 2
   ) {
+
     return;
+
   }
 
-  /*
-    The first item of copy 1 and the first
-    item of copy 2 are exactly one cycle apart.
-  */
 
   const first =
     children[0];
@@ -1023,9 +1142,11 @@ function measureMarqueeRow(
       itemsPerSequence
     ];
 
+
   const cycleWidth =
     secondCopyFirst.offsetLeft -
     first.offsetLeft;
+
 
   if (
     cycleWidth > 0
@@ -1040,7 +1161,7 @@ function measureMarqueeRow(
 
 
 /* ==================================================
-   NORMALIZE LOOP POSITION
+   NORMALIZE LOOP
    ================================================== */
 
 function normalizePosition(
@@ -1051,16 +1172,16 @@ function normalizePosition(
   if (
     !cycleWidth
   ) {
+
     return position;
+
   }
 
-  /*
-    Always normalize to [ -cycleWidth, 0 ).
-  */
 
   position =
     position %
     cycleWidth;
+
 
   if (
     position > 0
@@ -1071,13 +1192,14 @@ function normalizePosition(
 
   }
 
+
   return position;
 
 }
 
 
 /* ==================================================
-   RENDER
+   RENDER MARQUEE
    ================================================== */
 
 function renderMarqueeRow(
@@ -1090,6 +1212,7 @@ function renderMarqueeRow(
       state.cycleWidth
     );
 
+
   state.track.style.transform =
     `translate3d(${state.position}px, 0, 0)`;
 
@@ -1097,7 +1220,7 @@ function renderMarqueeRow(
 
 
 /* ==================================================
-   MARQUEE POINTER GESTURE
+   MARQUEE POINTER
    ================================================== */
 
 function setupMarqueePointer(
@@ -1115,14 +1238,20 @@ function setupMarqueePointer(
       if (
         event.pointerType === "mouse"
       ) {
+
         return;
+
       }
+
 
       if (
         event.isPrimary === false
       ) {
+
         return;
+
       }
+
 
       state.pointerId =
         event.pointerId;
@@ -1130,12 +1259,17 @@ function setupMarqueePointer(
       state.dragStartX =
         event.clientX;
 
+      state.dragStartY =
+        event.clientY;
+
       state.dragStartPosition =
         state.position;
 
-      state.dragging = true;
+      state.dragging =
+        true;
 
-      state.moved = false;
+      state.moved =
+        false;
 
       state.horizontalDecision =
         false;
@@ -1143,18 +1277,15 @@ function setupMarqueePointer(
       state.verticalGesture =
         false;
 
+
       row.dataset.dragged =
         "false";
+
 
       row.classList.add(
         "is-dragging"
       );
 
-      /*
-        Capture guarantees that the row continues
-        receiving pointer events even when the finger
-        leaves the exact row during the drag.
-      */
 
       try {
 
@@ -1176,10 +1307,14 @@ function setupMarqueePointer(
 
       if (
         !state.dragging ||
-        event.pointerId !== state.pointerId
+        event.pointerId !==
+        state.pointerId
       ) {
+
         return;
+
       }
+
 
       const dx =
         event.clientX -
@@ -1187,61 +1322,38 @@ function setupMarqueePointer(
 
       const dy =
         event.clientY -
-        (
-          state.dragStartY ||
-          event.clientY
-        );
+        state.dragStartY;
 
-
-      /*
-        Store initial Y lazily because the pointer
-        object itself is enough for horizontal dragging.
-      */
 
       if (
         !state.horizontalDecision
       ) {
 
-        /*
-          A vertical gesture belongs to page navigation.
-          A horizontal gesture belongs to this row.
-        */
-
-        const startY =
-          state._startY ??
-          event.clientY;
-
-        if (
-          state._startY === undefined
-        ) {
-
-          state._startY =
-            event.clientY;
-
-        }
-
-        const verticalDistance =
-          event.clientY -
-          state._startY;
-
         if (
           Math.abs(dx) < 8 &&
-          Math.abs(verticalDistance) < 8
+          Math.abs(dy) < 8
         ) {
 
           return;
 
         }
 
+
+        /*
+          Vertical gesture:
+          let the page handle it.
+        */
+
         if (
-          Math.abs(verticalDistance) >
+          Math.abs(dy) >
           Math.abs(dx)
         ) {
 
           state.verticalGesture =
             true;
 
-          state.dragging = false;
+          state.dragging =
+            false;
 
           state.horizontalDecision =
             true;
@@ -1253,6 +1365,12 @@ function setupMarqueePointer(
           return;
 
         }
+
+
+        /*
+          Horizontal gesture:
+          this row owns it.
+        */
 
         state.horizontalDecision =
           true;
@@ -1269,21 +1387,23 @@ function setupMarqueePointer(
       if (
         state.verticalGesture
       ) {
+
         return;
+
       }
 
 
-      /*
-        This row now owns the horizontal gesture.
-      */
-
       event.preventDefault();
+
 
       state.position =
         state.dragStartPosition +
         dx;
 
-      renderMarqueeRow(state);
+
+      renderMarqueeRow(
+        state
+      );
 
     },
     {
@@ -1297,12 +1417,17 @@ function setupMarqueePointer(
     (event) => {
 
       if (
-        event.pointerId !== state.pointerId
+        event.pointerId !==
+        state.pointerId
       ) {
+
         return;
+
       }
 
-      finishMarqueePointer(state);
+      finishMarqueePointer(
+        state
+      );
 
     }
   );
@@ -1313,12 +1438,17 @@ function setupMarqueePointer(
     (event) => {
 
       if (
-        event.pointerId !== state.pointerId
+        event.pointerId !==
+        state.pointerId
       ) {
+
         return;
+
       }
 
-      cancelMarqueePointer(state);
+      cancelMarqueePointer(
+        state
+      );
 
     }
   );
@@ -1332,7 +1462,9 @@ function setupMarqueePointer(
         state.dragging
       ) {
 
-        finishMarqueePointer(state);
+        finishMarqueePointer(
+          state
+        );
 
       }
 
@@ -1349,12 +1481,15 @@ function finishMarqueePointer(
   const row =
     state.row;
 
+
   state.dragging =
     false;
+
 
   row.classList.remove(
     "is-dragging"
   );
+
 
   if (
     state.moved
@@ -1362,6 +1497,7 @@ function finishMarqueePointer(
 
     row.dataset.dragged =
       "true";
+
 
     window.setTimeout(
       () => {
@@ -1375,11 +1511,18 @@ function finishMarqueePointer(
 
   }
 
+
   state.pointerId =
     null;
 
-  state._startY =
-    undefined;
+  state.moved =
+    false;
+
+  state.horizontalDecision =
+    false;
+
+  state.verticalGesture =
+    false;
 
 }
 
@@ -1390,6 +1533,7 @@ function cancelMarqueePointer(
 
   const row =
     state.row;
+
 
   state.dragging =
     false;
@@ -1406,8 +1550,6 @@ function cancelMarqueePointer(
   state.pointerId =
     null;
 
-  state._startY =
-    undefined;
 
   row.classList.remove(
     "is-dragging"
@@ -1425,12 +1567,19 @@ function cancelMarqueePointer(
 
 function rebuildVenueMarquee() {
 
-  marqueeRows.length = 0;
+  marqueeRows.length =
+    0;
 
-  venuesMarquee.innerHTML = "";
+  venuesMarquee.innerHTML =
+    "";
 
-  if (!venueNames.length) {
+
+  if (
+    !venueNames.length
+  ) {
+
     return;
+
   }
 
 
@@ -1440,7 +1589,9 @@ function rebuildVenueMarquee() {
     index++
   ) {
 
-    buildMarqueeRow(index);
+    buildMarqueeRow(
+      index
+    );
 
   }
 
@@ -1451,18 +1602,19 @@ function rebuildVenueMarquee() {
       marqueeRows.forEach(
         (state, index) => {
 
-          measureMarqueeRow(state);
+          measureMarqueeRow(
+            state
+          );
+
 
           if (
             !state.cycleWidth
           ) {
+
             return;
+
           }
 
-          /*
-            Different starting positions prevent the
-            rows from looking like a rigid table.
-          */
 
           const initialOffset =
             (
@@ -1471,16 +1623,15 @@ function rebuildVenueMarquee() {
             ) *
             state.cycleWidth;
 
-          /*
-            Right-moving rows start slightly further
-            into the negative range, so content is
-            immediately visible on both sides.
-          */
 
           state.position =
             -initialOffset;
 
-          renderMarqueeRow(state);
+
+          renderMarqueeRow(
+            state
+          );
+
 
           state.lastTime =
             performance.now();
@@ -1498,7 +1649,8 @@ function rebuildVenueMarquee() {
    MARQUEE ANIMATION
    ================================================== */
 
-let marqueeAnimationFrame = null;
+let marqueeAnimationFrame =
+  null;
 
 
 function animateMarquee(
@@ -1525,12 +1677,14 @@ function animateMarquee(
 
       }
 
+
       const elapsed =
         Math.min(
           timestamp -
           state.lastTime,
           50
         );
+
 
       state.lastTime =
         timestamp;
@@ -1539,14 +1693,11 @@ function animateMarquee(
       if (
         reducedMotion
       ) {
+
         return;
+
       }
 
-
-      /*
-        direction = -1 : left
-        direction = +1 : right
-      */
 
       state.position +=
         (
@@ -1555,12 +1706,10 @@ function animateMarquee(
           elapsed
         ) / 1000;
 
-      /*
-        True continuous loop.
-        No endpoint exists.
-      */
 
-      renderMarqueeRow(state);
+      renderMarqueeRow(
+        state
+      );
 
     }
   );
@@ -1585,6 +1734,7 @@ function startMarqueeAnimation() {
     );
 
   }
+
 
   marqueeAnimationFrame =
     requestAnimationFrame(
@@ -1625,6 +1775,7 @@ function showPage(
   currentPage =
     pageName;
 
+
   setPageVisibility(
     homePage,
     pageName === "home"
@@ -1645,7 +1796,9 @@ function showPage(
     pageName === "home"
   ) {
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+      "";
+
 
     requestAnimationFrame(
       () => {
@@ -1654,6 +1807,7 @@ function showPage(
 
       }
     );
+
 
     return;
 
@@ -1667,6 +1821,7 @@ function showPage(
     document.body.style.overflow =
       "hidden";
 
+
     if (
       !marqueeRows.length
     ) {
@@ -1674,6 +1829,7 @@ function showPage(
       rebuildVenueMarquee();
 
     }
+
 
     return;
 
@@ -1686,6 +1842,7 @@ function showPage(
 
     document.body.style.overflow =
       "";
+
 
     window.scrollTo({
       top: 0,
@@ -1701,33 +1858,15 @@ function showPage(
    PAGE NAVIGATION
    ================================================== */
 
-/*
-  HOME
-    swipe left
-      ↓
-  VENUES
-
-  VENUES
-    swipe up OR down
-      ↓
-  HOME
-
-  VENUE DETAIL
-    swipe left
-      ↓
-  VENUES
-
-  On VENUES, horizontal gestures are owned
-  exclusively by the rows.
-*/
-
 function navigateHomeToVenues() {
 
   if (
     currentPage === "home"
   ) {
 
-    showPage("venues");
+    showPage(
+      "venues"
+    );
 
   }
 
@@ -1740,7 +1879,9 @@ function navigateVenuesToHome() {
     currentPage === "venues"
   ) {
 
-    showPage("home");
+    showPage(
+      "home"
+    );
 
   }
 
@@ -1753,7 +1894,9 @@ function navigateVenueToVenues() {
     currentPage === "venue-detail"
   ) {
 
-    showPage("venues");
+    showPage(
+      "venues"
+    );
 
   }
 
@@ -1762,13 +1905,28 @@ function navigateVenueToVenues() {
 
 /* ==================================================
    GLOBAL PAGE GESTURES
+   ==================================================
+
+   IMPORTANT:
+
+   Exhibition cards are handled entirely by their
+   own gesture system.
+
+   Marquee rows are handled entirely by their own
+   gesture system.
+
+   Therefore the global handler only deals with
+   gestures starting elsewhere.
    ================================================== */
 
 let pageGesture = {
+
   active: false,
+
   startX: 0,
-  startY: 0,
-  blocked: false
+
+  startY: 0
+
 };
 
 
@@ -1779,29 +1937,31 @@ document.addEventListener(
     if (
       event.pointerType === "mouse"
     ) {
+
       return;
+
     }
 
+
     /*
-      Exhibition gestures have priority.
+      Cards and marquee rows have their own gesture
+      handlers. Do not create a competing global
+      gesture here.
     */
 
     if (
-      event.target.closest(".exhibition")
+      event.target.closest(
+        ".exhibition"
+      )
     ) {
 
-      pageGesture.blocked = true;
-      pageGesture.active = false;
+      pageGesture.active =
+        false;
 
       return;
 
     }
 
-
-    /*
-      Marquee rows have complete priority over
-      horizontal gestures on the Venues page.
-    */
 
     if (
       event.target.closest(
@@ -1809,17 +1969,16 @@ document.addEventListener(
       )
     ) {
 
-      pageGesture.blocked = true;
-      pageGesture.active = false;
+      pageGesture.active =
+        false;
 
       return;
 
     }
 
 
-    pageGesture.blocked = false;
-
-    pageGesture.active = true;
+    pageGesture.active =
+      true;
 
     pageGesture.startX =
       event.clientX;
@@ -1836,12 +1995,8 @@ document.addEventListener(
   (event) => {
 
     if (
-      !pageGesture.active ||
-      pageGesture.blocked
+      !pageGesture.active
     ) {
-
-      pageGesture.active = false;
-      pageGesture.blocked = false;
 
       return;
 
@@ -1857,12 +2012,13 @@ document.addEventListener(
       pageGesture.startY;
 
 
-    pageGesture.active = false;
+    pageGesture.active =
+      false;
 
 
     /*
-      HOME:
-      left = Venues
+      HOME
+      Swipe gauche → Venues
     */
 
     if (
@@ -1880,12 +2036,11 @@ document.addEventListener(
 
 
     /*
-      VENUES:
-      vertical gesture = Home
+      VENUES
+      Swipe haut OU bas → Home
 
-      Both directions are deliberately accepted.
-      Horizontal gestures never reach this block
-      when they start on a row.
+      Les swipes horizontaux ne peuvent arriver ici
+      lorsqu'ils commencent sur une ligne.
     */
 
     if (
@@ -1903,12 +2058,11 @@ document.addEventListener(
 
 
     /*
-      VENUE DETAIL:
-      left = Venues
+      VENUE DETAIL
+      Swipe gauche → Venues
 
-      Vertical gestures remain normal page
-      scrolling and therefore do nothing here.
-    */
+      Les cartes gèrent elles-mêmes ce geste.
+      */
 
     if (
       currentPage === "venue-detail" &&
@@ -1933,7 +2087,8 @@ function openDetail(
   exhibition
 ) {
 
-  detailContent.innerHTML = "";
+  detailContent.innerHTML =
+    "";
 
 
   const title =
@@ -2045,24 +2200,45 @@ function openDetail(
     "Site officiel";
 
 
-  links.appendChild(source);
-  links.appendChild(official);
+  links.appendChild(
+    source
+  );
+
+  links.appendChild(
+    official
+  );
 
 
-  detailContent.appendChild(title);
-  detailContent.appendChild(meta);
+  detailContent.appendChild(
+    title
+  );
+
+  detailContent.appendChild(
+    meta
+  );
+
 
   if (venueInfo) {
 
-    detailContent.appendChild(hours);
+    detailContent.appendChild(
+      hours
+    );
 
   }
 
-  detailContent.appendChild(description);
-  detailContent.appendChild(links);
+
+  detailContent.appendChild(
+    description
+  );
+
+  detailContent.appendChild(
+    links
+  );
 
 
-  detail.classList.add("open");
+  detail.classList.add(
+    "open"
+  );
 
   detail.setAttribute(
     "aria-hidden",
@@ -2077,7 +2253,9 @@ function openDetail(
 
 function closeDetail() {
 
-  detail.classList.remove("open");
+  detail.classList.remove(
+    "open"
+  );
 
   detail.setAttribute(
     "aria-hidden",
@@ -2182,13 +2360,16 @@ async function loadExhibitions() {
 
 
     venueNames =
-      Object.keys(venues);
+      Object.keys(
+        venues
+      );
 
 
     renderList(
       currentList,
       data.current || []
     );
+
 
     renderList(
       upcomingList,
@@ -2197,6 +2378,7 @@ async function loadExhibitions() {
 
 
     rebuildVenueMarquee();
+
     startMarqueeAnimation();
 
 
@@ -2206,7 +2388,10 @@ async function loadExhibitions() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     currentList.innerHTML =
       '<p class="empty">Données indisponibles.</p>';
