@@ -1,3 +1,13 @@
+const homePage =
+  document.getElementById("home-page");
+
+const venuesPage =
+  document.getElementById("venues-page");
+
+const venueDetailPage =
+  document.getElementById("venue-detail-page");
+
+
 const currentList =
   document.getElementById("current-list");
 
@@ -13,6 +23,28 @@ const maintenantHeading =
 const bientotHeading =
   document.getElementById(
     "bientot-heading"
+  );
+
+
+const venuesMarquee =
+  document.getElementById(
+    "venues-marquee"
+  );
+
+
+const venueDetailBack =
+  document.getElementById(
+    "venue-detail-back"
+  );
+
+const venueDetailTitle =
+  document.getElementById(
+    "venue-detail-title"
+  );
+
+const venueDetailList =
+  document.getElementById(
+    "venue-detail-list"
   );
 
 
@@ -34,6 +66,10 @@ let exhibitions = [];
 
 let venues = {};
 
+let currentPage = "home";
+
+let currentVenue = null;
+
 
 const FAVORITES_KEY =
   "imago2-favorites";
@@ -50,7 +86,9 @@ function formatDate(dateString) {
   }
 
   const date =
-    new Date(`${dateString}T00:00:00`);
+    new Date(
+      `${dateString}T00:00:00`
+    );
 
   return date.toLocaleDateString(
     "fr-FR",
@@ -60,6 +98,7 @@ function formatDate(dateString) {
       year: "numeric"
     }
   );
+
 }
 
 
@@ -82,10 +121,13 @@ function getFavorites() {
     return [];
 
   }
+
 }
 
 
-function saveFavorites(favorites) {
+function saveFavorites(
+  favorites
+) {
 
   localStorage.setItem(
     FAVORITES_KEY,
@@ -95,7 +137,9 @@ function saveFavorites(favorites) {
 }
 
 
-function getExhibitionId(exhibition) {
+function getExhibitionId(
+  exhibition
+) {
 
   return [
     exhibition.title,
@@ -107,7 +151,9 @@ function getExhibitionId(exhibition) {
 }
 
 
-function isFavorite(exhibition) {
+function isFavorite(
+  exhibition
+) {
 
   return getFavorites().includes(
     getExhibitionId(exhibition)
@@ -137,12 +183,17 @@ function toggleFavorite(
 
   } else {
 
-    favorites.splice(index, 1);
+    favorites.splice(
+      index,
+      1
+    );
 
   }
 
 
-  saveFavorites(favorites);
+  saveFavorites(
+    favorites
+  );
 
 
   element.classList.toggle(
@@ -159,12 +210,12 @@ function toggleFavorite(
 
 function updateStickyHeaders() {
 
-  /*
-    On utilise la position réelle des éléments
-    dans le document plutôt que getBoundingClientRect()
-    pour éviter les problèmes lorsque l'un des
-    headers devient fixed.
-  */
+  if (
+    currentPage !== "home"
+  ) {
+    return;
+  }
+
 
   const maintenantOffset =
     maintenantHeading.dataset.offset
@@ -186,10 +237,6 @@ function updateStickyHeaders() {
     maintenantHeading.offsetHeight;
 
 
-  /*
-    MAINTENANT
-  */
-
   if (
     window.scrollY >=
     maintenantOffset
@@ -208,14 +255,9 @@ function updateStickyHeaders() {
   }
 
 
-  /*
-    BIENTÔT.
-    Il devient fixe lorsqu'il atteint
-    le dessous de MAINTENANT.
-  */
-
   const bientotThreshold =
-    bientotOffset - headerHeight;
+    bientotOffset -
+    headerHeight;
 
 
   if (
@@ -238,20 +280,7 @@ function updateStickyHeaders() {
 }
 
 
-/*
-  Recalcule les positions naturelles
-  des headers.
-
-  On le fait avant d'activer le système
-  sticky/fixed.
-*/
-
 function measureSectionHeaders() {
-
-  /*
-    On retire temporairement les classes fixed
-    pour mesurer leur position naturelle.
-  */
 
   maintenantHeading.classList.remove(
     "is-fixed"
@@ -286,7 +315,19 @@ window.addEventListener(
 
 window.addEventListener(
   "resize",
-  measureSectionHeaders
+  () => {
+
+    measureSectionHeaders();
+
+    if (
+      currentPage === "venues"
+    ) {
+
+      rebuildVenueMarquee();
+
+    }
+
+  }
 );
 
 
@@ -303,11 +344,8 @@ function goToMaintenant() {
 
 
   window.scrollTo({
-
     top: target,
-
     behavior: "smooth"
-
   });
 
 }
@@ -326,15 +364,13 @@ function goToBientot() {
 
 
   const target =
-    bientotOffset - headerHeight;
+    bientotOffset -
+    headerHeight;
 
 
   window.scrollTo({
-
     top: target,
-
     behavior: "smooth"
-
   });
 
 }
@@ -453,9 +489,13 @@ function createExhibitionElement(
     exhibition.venue;
 
 
-  information.appendChild(title);
+  information.appendChild(
+    title
+  );
 
-  information.appendChild(venue);
+  information.appendChild(
+    venue
+  );
 
 
   /* ----------------------------------------------
@@ -471,7 +511,8 @@ function createExhibitionElement(
 
 
   if (
-    exhibition.status === "upcoming"
+    exhibition.status ===
+    "upcoming"
   ) {
 
     date.textContent =
@@ -499,7 +540,8 @@ function createExhibitionElement(
 
 
   /* ==================================================
-     SWIPE
+     EXHIBITION SWIPE
+     DROITE = FAVORI
      ================================================== */
 
   let startX = 0;
@@ -560,17 +602,14 @@ function createExhibitionElement(
 
 
       const deltaX =
-        touch.clientX - startX;
+        touch.clientX -
+        startX;
 
 
       const deltaY =
-        touch.clientY - startY;
+        touch.clientY -
+        startY;
 
-
-      /*
-        On attend que le geste soit suffisamment
-        marqué pour déterminer sa direction.
-      */
 
       if (
         !horizontalSwipe
@@ -582,11 +621,6 @@ function createExhibitionElement(
           return;
         }
 
-
-        /*
-          Si le mouvement est surtout vertical,
-          on laisse le navigateur faire défiler.
-        */
 
         if (
           Math.abs(deltaY) >
@@ -615,7 +649,8 @@ function createExhibitionElement(
 
 
       /*
-        Seulement vers la droite.
+        Seul le mouvement vers la droite
+        est utilisé pour le favori.
       */
 
       currentX =
@@ -653,11 +688,6 @@ function createExhibitionElement(
 
       dragging = false;
 
-
-      /*
-        70 px vers la droite =
-        favori.
-      */
 
       if (
         horizontalSwipe &&
@@ -738,18 +768,21 @@ function createExhibitionElement(
       }
 
 
-      openDetail(exhibition);
+      openDetail(
+        exhibition
+      );
 
     }
   );
 
 
   return element;
+
 }
 
 
 /* ==================================================
-   RENDER
+   RENDER LIST
    ================================================== */
 
 function renderList(
@@ -800,14 +833,1299 @@ function renderList(
 
 
 /* ==================================================
-   DETAIL
+   VENUE SORTING
+   ================================================== */
+
+function getVenueExhibitions(
+  venueName
+) {
+
+  return exhibitions
+    .filter(
+      (exhibition) =>
+        exhibition.venue === venueName
+    )
+    .sort(
+      (a, b) => {
+
+        /*
+          Les expositions actuellement ouvertes
+          apparaissent avant les futures.
+        */
+
+        if (
+          a.status !== b.status
+        ) {
+
+          return a.status === "current"
+            ? -1
+            : 1;
+
+        }
+
+
+        if (
+          a.status === "current"
+        ) {
+
+          return String(
+            a.end || ""
+          ).localeCompare(
+            String(
+              b.end || ""
+            )
+          );
+
+        }
+
+
+        return String(
+          a.start || ""
+        ).localeCompare(
+          String(
+            b.start || ""
+          )
+        );
+
+      }
+    );
+
+}
+
+
+/* ==================================================
+   VENUE DETAIL
+   ================================================== */
+
+function openVenue(
+  venueName
+) {
+
+  currentVenue =
+    venueName;
+
+
+  venueDetailTitle.textContent =
+    venueName;
+
+
+  const items =
+    getVenueExhibitions(
+      venueName
+    );
+
+
+  renderList(
+    venueDetailList,
+    items
+  );
+
+
+  showPage(
+    "venue-detail"
+  );
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "auto"
+  });
+
+}
+
+
+function closeVenue() {
+
+  currentVenue = null;
+
+  showPage(
+    "venues"
+  );
+
+}
+
+
+venueDetailBack.addEventListener(
+  "click",
+  closeVenue
+);
+
+
+/* ==================================================
+   VENUE MARQUEE
+   ================================================== */
+
+const marqueeRows = [];
+
+let venueNames = [];
+
+
+/*
+  Nombre de lignes souhaité.
+  Sur petit écran 9-10 lignes donnent
+  un mur dense sans écraser l'écran.
+*/
+
+const MARQUEE_ROW_COUNT = 10;
+
+
+/*
+  Vitesses en pixels/seconde.
+
+  Elles sont volontairement différentes
+  pour éviter un mouvement mécanique.
+*/
+
+const MARQUEE_SPEEDS = [
+  30,
+  39,
+  27,
+  44,
+  34,
+  25,
+  42,
+  31,
+  37,
+  28
+];
+
+
+function createVenueItem(
+  venueName
+) {
+
+  const item =
+    document.createElement("button");
+
+
+  item.type =
+    "button";
+
+
+  item.className =
+    "venue-marquee-item";
+
+
+  item.textContent =
+    venueName;
+
+
+  item.setAttribute(
+    "aria-label",
+    `Voir les expositions à ${venueName}`
+  );
+
+
+  item.addEventListener(
+    "click",
+    (event) => {
+
+      /*
+        Si l'utilisateur vient de faire
+        glisser la ligne, le click sera
+        neutralisé par la ligne.
+      */
+
+      const row =
+        event.currentTarget.closest(
+          ".venue-marquee-row"
+        );
+
+
+      if (
+        row?.dataset.dragged === "true"
+      ) {
+
+        row.dataset.dragged =
+          "false";
+
+        return;
+
+      }
+
+
+      openVenue(
+        venueName
+      );
+
+    }
+  );
+
+
+  return item;
+
+}
+
+
+/*
+  Pour chaque ligne, on crée une séquence
+  suffisamment longue puis on la duplique.
+
+  Le doublage permet une boucle parfaitement
+  continue.
+*/
+
+function buildMarqueeRow(
+  rowIndex
+) {
+
+  const row =
+    document.createElement("div");
+
+
+  row.className =
+    "venue-marquee-row";
+
+
+  row.dataset.rowIndex =
+    String(rowIndex);
+
+
+  const track =
+    document.createElement("div");
+
+
+  track.className =
+    "venue-marquee-track";
+
+
+  /*
+    On décale l'ordre des lieux d'une ligne
+    à l'autre afin d'éviter un effet de tableau
+    parfaitement aligné.
+  */
+
+  const offset =
+    rowIndex %
+    venueNames.length;
+
+
+  const sequence = [
+    ...venueNames.slice(offset),
+    ...venueNames.slice(0, offset)
+  ];
+
+
+  /*
+    Trois répétitions donnent suffisamment
+    de matière pour les écrans larges.
+  */
+
+  for (
+    let repetition = 0;
+    repetition < 3;
+    repetition++
+  ) {
+
+    sequence.forEach(
+      (venueName) => {
+
+        track.appendChild(
+          createVenueItem(
+            venueName
+          )
+        );
+
+      }
+    );
+
+  }
+
+
+  row.appendChild(
+    track
+  );
+
+  venuesMarquee.appendChild(
+    row
+  );
+
+
+  const state = {
+
+    row,
+    track,
+
+    position: 0,
+
+    speed:
+      MARQUEE_SPEEDS[
+        rowIndex %
+        MARQUEE_SPEEDS.length
+      ],
+
+    cycleWidth: 0,
+
+    dragging: false,
+
+    dragStartX: 0,
+
+    dragStartPosition: 0,
+
+    moved: false,
+
+    pointerId: null,
+
+    lastTime: performance.now()
+
+  };
+
+
+  marqueeRows.push(
+    state
+  );
+
+
+  /*
+    Une ligne sur deux part dans l'autre sens.
+  */
+
+  if (
+    rowIndex % 2 === 1
+  ) {
+
+    state.speed *= -1;
+
+  }
+
+
+  setupMarqueeTouch(
+    state
+  );
+
+
+  return state;
+
+}
+
+
+/*
+  Mesure la largeur d'une répétition.
+*/
+
+function measureMarqueeRow(
+  state
+) {
+
+  const children =
+    Array.from(
+      state.track.children
+    );
+
+
+  if (
+    !children.length
+  ) {
+    return;
+  }
+
+
+  const totalItems =
+    children.length;
+
+
+  const itemsPerSequence =
+    venueNames.length;
+
+
+  if (
+    totalItems <
+    itemsPerSequence * 2
+  ) {
+    return;
+  }
+
+
+  const first =
+    children[0];
+
+  const repeated =
+    children[
+      itemsPerSequence
+    ];
+
+
+  /*
+    Les deux éléments correspondants
+    sont séparés exactement par la largeur
+    d'une séquence complète.
+  */
+
+  const cycleWidth =
+    repeated.offsetLeft -
+    first.offsetLeft;
+
+
+  if (
+    cycleWidth > 0
+  ) {
+
+    state.cycleWidth =
+      cycleWidth;
+
+  }
+
+}
+
+
+/*
+  Ramène une position dans la zone
+  [-cycleWidth, 0].
+
+  Cela permet de tourner indéfiniment
+  sans laisser le nombre devenir énorme.
+*/
+
+function normalizePosition(
+  position,
+  cycleWidth
+) {
+
+  if (
+    !cycleWidth
+  ) {
+    return position;
+  }
+
+
+  while (
+    position > 0
+  ) {
+
+    position -=
+      cycleWidth;
+
+  }
+
+
+  while (
+    position <=
+    -cycleWidth
+  ) {
+
+    position +=
+      cycleWidth;
+
+  }
+
+
+  return position;
+
+}
+
+
+/*
+  Applique la position réelle au track.
+*/
+
+function renderMarqueeRow(
+  state
+) {
+
+  state.position =
+    normalizePosition(
+      state.position,
+      state.cycleWidth
+    );
+
+
+  state.track.style.transform =
+    `translate3d(${state.position}px, 0, 0)`;
+
+}
+
+
+/* ==================================================
+   MARQUEE TOUCH
+   ================================================== */
+
+function setupMarqueeTouch(
+  state
+) {
+
+  const row =
+    state.row;
+
+
+  let startY = 0;
+
+  let horizontal =
+    false;
+
+  let touchActive =
+    false;
+
+
+  row.addEventListener(
+    "touchstart",
+    (event) => {
+
+      if (
+        event.touches.length !== 1
+      ) {
+        return;
+      }
+
+
+      const touch =
+        event.touches[0];
+
+
+      state.dragging =
+        true;
+
+
+      state.moved =
+        false;
+
+
+      state.dragStartX =
+        touch.clientX;
+
+
+      state.dragStartPosition =
+        state.position;
+
+
+      startY =
+        touch.clientY;
+
+
+      horizontal =
+        false;
+
+
+      touchActive =
+        true;
+
+
+      row.dataset.dragged =
+        "false";
+
+
+      row.classList.add(
+        "is-dragging"
+      );
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  row.addEventListener(
+    "touchmove",
+    (event) => {
+
+      if (
+        !state.dragging ||
+        !touchActive
+      ) {
+        return;
+      }
+
+
+      const touch =
+        event.touches[0];
+
+
+      const dx =
+        touch.clientX -
+        state.dragStartX;
+
+
+      const dy =
+        touch.clientY -
+        startY;
+
+
+      /*
+        On attend quelques pixels avant
+        de décider que le geste est horizontal.
+      */
+
+      if (
+        !horizontal &&
+        Math.abs(dx) < 8
+      ) {
+        return;
+      }
+
+
+      if (
+        !horizontal
+      ) {
+
+        /*
+          Si le geste est vertical,
+          on rend immédiatement la main
+          au scroll de la page.
+        */
+
+        if (
+          Math.abs(dy) >
+          Math.abs(dx)
+        ) {
+
+          state.dragging =
+            false;
+
+          row.classList.remove(
+            "is-dragging"
+          );
+
+          return;
+
+        }
+
+
+        horizontal =
+          true;
+
+        state.moved =
+          true;
+
+        row.dataset.dragged =
+          "true";
+
+      }
+
+
+      if (
+        !horizontal
+      ) {
+        return;
+      }
+
+
+      /*
+        À partir du moment où le geste est
+        clairement horizontal, cette ligne
+        prend le contrôle du toucher.
+
+        Cela empêche le swipe global
+        de changer de page.
+      */
+
+      event.preventDefault();
+
+
+      state.position =
+        state.dragStartPosition +
+        dx;
+
+
+      renderMarqueeRow(
+        state
+      );
+
+    },
+    {
+      passive: false
+    }
+  );
+
+
+  row.addEventListener(
+    "touchend",
+    () => {
+
+      if (
+        !touchActive
+      ) {
+        return;
+      }
+
+
+      touchActive =
+        false;
+
+
+      state.dragging =
+        false;
+
+
+      row.classList.remove(
+        "is-dragging"
+      );
+
+
+      /*
+        Un vrai drag est marqué pendant
+        quelques instants afin que le click
+        sur le bouton ne soit pas interprété
+        comme une sélection.
+      */
+
+      if (
+        state.moved
+      ) {
+
+        row.dataset.dragged =
+          "true";
+
+
+        window.setTimeout(
+          () => {
+
+            row.dataset.dragged =
+              "false";
+
+          },
+          80
+        );
+
+      }
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  row.addEventListener(
+    "touchcancel",
+    () => {
+
+      touchActive =
+        false;
+
+      state.dragging =
+        false;
+
+      state.moved =
+        false;
+
+      row.classList.remove(
+        "is-dragging"
+      );
+
+      row.dataset.dragged =
+        "false";
+
+    },
+    {
+      passive: true
+    }
+  );
+
+}
+
+
+/* ==================================================
+   MARQUEE BUILD
+   ================================================== */
+
+function rebuildVenueMarquee() {
+
+  marqueeRows.length =
+    0;
+
+
+  venuesMarquee.innerHTML =
+    "";
+
+
+  if (
+    !venueNames.length
+  ) {
+    return;
+  }
+
+
+  for (
+    let index = 0;
+    index < MARQUEE_ROW_COUNT;
+    index++
+  ) {
+
+    buildMarqueeRow(
+      index
+    );
+
+  }
+
+
+  /*
+    Les éléments doivent être rendus
+    avant de mesurer leurs dimensions.
+  */
+
+  requestAnimationFrame(
+    () => {
+
+      marqueeRows.forEach(
+        (state) => {
+
+          measureMarqueeRow(
+            state
+          );
+
+
+          /*
+            Les lignes commencent avec
+            des positions légèrement différentes.
+          */
+
+          state.position =
+            -(
+              state.cycleWidth *
+              (
+                0.12 +
+                (
+                  state.row.dataset.rowIndex *
+                  0.037
+                )
+              )
+            );
+
+
+          renderMarqueeRow(
+            state
+          );
+
+        }
+      );
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   MARQUEE ANIMATION LOOP
+   ================================================== */
+
+let marqueeAnimationFrame =
+  null;
+
+
+function animateMarquee(
+  timestamp
+) {
+
+  marqueeRows.forEach(
+    (state) => {
+
+      /*
+        Une ligne touchée est complètement
+        contrôlée par l'utilisateur.
+      */
+
+      if (
+        state.dragging
+      ) {
+
+        state.lastTime =
+          timestamp;
+
+        return;
+
+      }
+
+
+      const elapsed =
+        Math.min(
+          timestamp -
+          state.lastTime,
+          50
+        );
+
+
+      state.lastTime =
+        timestamp;
+
+
+      /*
+        Respect de prefers-reduced-motion.
+        Dans ce cas, les lignes restent fixes.
+      */
+
+      const reducedMotion =
+        window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+
+      if (
+        !reducedMotion
+      ) {
+
+        state.position +=
+          (
+            state.speed *
+            elapsed
+          ) / 1000;
+
+
+        renderMarqueeRow(
+          state
+        );
+
+      }
+
+    }
+  );
+
+
+  marqueeAnimationFrame =
+    requestAnimationFrame(
+      animateMarquee
+    );
+
+}
+
+
+function startMarqueeAnimation() {
+
+  if (
+    marqueeAnimationFrame
+  ) {
+    cancelAnimationFrame(
+      marqueeAnimationFrame
+    );
+  }
+
+
+  marqueeAnimationFrame =
+    requestAnimationFrame(
+      animateMarquee
+    );
+
+}
+
+
+/* ==================================================
+   PAGE NAVIGATION
+   ================================================== */
+
+function setPageVisibility(
+  page,
+  visible
+) {
+
+  page.classList.toggle(
+    "is-active",
+    visible
+  );
+
+
+  page.setAttribute(
+    "aria-hidden",
+    visible
+      ? "false"
+      : "true"
+  );
+
+}
+
+
+function showPage(
+  pageName
+) {
+
+  currentPage =
+    pageName;
+
+
+  setPageVisibility(
+    homePage,
+    pageName === "home"
+  );
+
+  setPageVisibility(
+    venuesPage,
+    pageName === "venues"
+  );
+
+  setPageVisibility(
+    venueDetailPage,
+    pageName === "venue-detail"
+  );
+
+
+  if (
+    pageName === "home"
+  ) {
+
+    document.body.style.overflow =
+      "";
+
+    /*
+      On revient à la position précédente
+      de la page Home.
+    */
+
+    requestAnimationFrame(
+      () => {
+
+        measureSectionHeaders();
+
+      }
+    );
+
+  } else if (
+    pageName === "venues"
+  ) {
+
+    document.body.style.overflow =
+      "hidden";
+
+
+    if (
+      !marqueeRows.length
+    ) {
+
+      rebuildVenueMarquee();
+
+    }
+
+  } else if (
+    pageName === "venue-detail"
+  ) {
+
+    document.body.style.overflow =
+      "";
+
+  }
+
+}
+
+
+/*
+  Navigation demandée :
+
+  HOME
+    ←
+  VENUES
+    ←
+  HOME
+    ←
+  VENUES
+    ...
+
+  Le geste droit global n'est PAS utilisé
+  pour naviguer : il reste réservé au favori
+  des expositions.
+*/
+
+function navigateLeft() {
+
+  if (
+    currentPage === "home"
+  ) {
+
+    showPage(
+      "venues"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    currentPage === "venues"
+  ) {
+
+    showPage(
+      "home"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    currentPage === "venue-detail"
+  ) {
+
+    showPage(
+      "venues"
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   GLOBAL LEFT SWIPE
+   ================================================== */
+
+let globalTouchStartX = 0;
+let globalTouchStartY = 0;
+
+let globalTouchActive =
+  false;
+
+let globalTouchBlocked =
+  false;
+
+
+document.addEventListener(
+  "touchstart",
+  (event) => {
+
+    /*
+      Une ligne du mur gère elle-même
+      son toucher.
+
+      Une exposition gère elle-même
+      son swipe droit.
+
+      Le navigateur ne doit donc pas
+      utiliser ces gestes pour la navigation
+      globale.
+    */
+
+    if (
+      event.target.closest(
+        ".venue-marquee-row"
+      )
+    ) {
+
+      globalTouchBlocked =
+        true;
+
+      return;
+
+    }
+
+
+    if (
+      event.target.closest(
+        ".exhibition"
+      )
+    ) {
+
+      /*
+        On laisse l'exposition gérer
+        son propre geste.
+
+        Un swipe gauche sur une exposition
+        ne déclenche donc PAS le changement
+        de page : seule la zone extérieure
+        sert à la navigation globale.
+      */
+
+      globalTouchBlocked =
+        true;
+
+      return;
+
+    }
+
+
+    globalTouchBlocked =
+      false;
+
+
+    if (
+      event.touches.length !== 1
+    ) {
+      return;
+    }
+
+
+    const touch =
+      event.touches[0];
+
+
+    globalTouchStartX =
+      touch.clientX;
+
+    globalTouchStartY =
+      touch.clientY;
+
+
+    globalTouchActive =
+      true;
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+document.addEventListener(
+  "touchend",
+  (event) => {
+
+    if (
+      globalTouchBlocked ||
+      !globalTouchActive
+    ) {
+
+      globalTouchActive =
+        false;
+
+      globalTouchBlocked =
+        false;
+
+      return;
+
+    }
+
+
+    const touch =
+      event.changedTouches[0];
+
+
+    const deltaX =
+      touch.clientX -
+      globalTouchStartX;
+
+
+    const deltaY =
+      touch.clientY -
+      globalTouchStartY;
+
+
+    globalTouchActive =
+      false;
+
+
+    /*
+      Navigation uniquement si :
+
+      - geste suffisamment long
+      - clairement horizontal
+      - vers la gauche
+    */
+
+    if (
+      deltaX <= -70 &&
+      Math.abs(deltaX) >
+      Math.abs(deltaY)
+    ) {
+
+      navigateLeft();
+
+    }
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+/* ==================================================
+   EXHIBITION DETAIL
    ================================================== */
 
 function openDetail(
   exhibition
 ) {
 
-  detailContent.innerHTML = "";
+  detailContent.innerHTML =
+    "";
 
 
   const title =
@@ -831,7 +2149,8 @@ function openDetail(
 
 
   if (
-    exhibition.status === "upcoming"
+    exhibition.status ===
+    "upcoming"
   ) {
 
     meta.textContent =
@@ -850,7 +2169,9 @@ function openDetail(
 
 
   const venueInfo =
-    venues[exhibition.venue];
+    venues[
+      exhibition.venue
+    ];
 
 
   /* ----------------------------------------------
@@ -931,7 +2252,8 @@ function openDetail(
 
 
   official.href =
-    venueInfo?.official_url || "#";
+    venueInfo?.official_url ||
+    "#";
 
 
   official.target =
@@ -956,7 +2278,7 @@ function openDetail(
 
 
   /* ----------------------------------------------
-     ORDRE DU DETAIL
+     ORDRE
      ---------------------------------------------- */
 
   detailContent.appendChild(
@@ -967,13 +2289,17 @@ function openDetail(
     meta
   );
 
-  if (venueInfo) {
+
+  if (
+    venueInfo
+  ) {
 
     detailContent.appendChild(
       hours
     );
 
   }
+
 
   detailContent.appendChild(
     description
@@ -1014,8 +2340,24 @@ function closeDetail() {
   );
 
 
-  document.body.style.overflow =
-    "";
+  /*
+    On remet l'overflow correspondant
+    à la page actuellement affichée.
+  */
+
+  if (
+    currentPage === "venues"
+  ) {
+
+    document.body.style.overflow =
+      "hidden";
+
+  } else {
+
+    document.body.style.overflow =
+      "";
+
+  }
 
 }
 
@@ -1050,7 +2392,15 @@ document.addEventListener(
       event.key === "Escape"
     ) {
 
-      closeDetail();
+      if (
+        detail.classList.contains(
+          "open"
+        )
+      ) {
+
+        closeDetail();
+
+      }
 
     }
 
@@ -1101,6 +2451,12 @@ async function loadExhibitions() {
     ];
 
 
+    venueNames =
+      Object.keys(
+        venues
+      );
+
+
     const current =
       data.current || [];
 
@@ -1122,9 +2478,19 @@ async function loadExhibitions() {
 
 
     /*
-      Les listes sont maintenant rendues,
-      donc les positions naturelles des headers
-      peuvent être mesurées correctement.
+      Le mur est construit une fois que
+      les noms des lieux sont disponibles.
+    */
+
+    rebuildVenueMarquee();
+
+    startMarqueeAnimation();
+
+
+    /*
+      Les listes sont maintenant rendues :
+      les positions naturelles des headers
+      peuvent être mesurées.
     */
 
     requestAnimationFrame(
@@ -1134,7 +2500,9 @@ async function loadExhibitions() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     currentList.innerHTML =
@@ -1152,12 +2520,23 @@ async function loadExhibitions() {
 loadExhibitions();
 
 
-if ("serviceWorker" in navigator) {
+/* ==================================================
+   SERVICE WORKER
+   ================================================== */
 
-  window.addEventListener("load", () => {
+if (
+  "serviceWorker" in navigator
+) {
 
-    navigator.serviceWorker.register("./sw.js");
+  window.addEventListener(
+    "load",
+    () => {
 
-  });
+      navigator.serviceWorker.register(
+        "./sw.js"
+      );
+
+    }
+  );
 
 }
