@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -275,6 +275,15 @@
       "description": "L'appropriation par les femmes des codes vestimentaires masculins de leur temps."
     },
     {
+      "title": "Vive la mariée ! Algérie – Maroc – Tunisie",
+      "venue": "IMA",
+      "start": "2026-09-29",
+      "end": "2027-02-28",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/institut-du-monde-arabe-2504/vive-la-mariee-107384.html",
+      "description": "Le mariage au Maghreb."
+    },
+    {
       "title": "Bicentenaire de la photographie",
       "venue": "MEP",
       "start": "2026-09-01",
@@ -285,15 +294,6 @@
     }
   ],
   "upcoming": [
-    {
-      "title": "Vive la mariée ! Algérie – Maroc – Tunisie",
-      "venue": "IMA",
-      "start": "2026-09-29",
-      "end": "2027-02-28",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/institut-du-monde-arabe-2504/vive-la-mariee-107384.html",
-      "description": "Le mariage au Maghreb."
-    },
     {
       "title": "Monet, peindre le temps",
       "venue": "Orangerie",
