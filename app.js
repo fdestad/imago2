@@ -810,10 +810,6 @@ function createExhibitionElement(
       }
 
 
-      /*
-        Les détails d'exposition restent
-        volontairement sans transition.
-      */
       openDetail(
         exhibition
       );
@@ -1110,6 +1106,337 @@ const MARQUEE_SPEEDS = [
 ];
 
 
+/*
+  Ordre fixe et différent pour chaque ligne.
+  Cela évite que toutes les lignes présentent
+  les venues dans le même ordre.
+*/
+
+const MARQUEE_ORDERS = [
+
+  [
+    "MAD",
+    "Cité de l’architecture",
+    "Zadkine",
+    "Agnès B.",
+    "Bourse",
+    "Jeu de Paume",
+    "Arsenal",
+    "MAC VAL",
+    "Bourdelle",
+    "Cartier-Bresson",
+    "Cartier",
+    "Louvre",
+    "Picasso",
+    "FLV",
+    "Galliera",
+    "Orangerie",
+    "Lafayette",
+    "MAM",
+    "Orsay",
+    "Cernuschi",
+    "Marmottan",
+    "Grand Palais",
+    "Petit Palais",
+    "BnF",
+    "IMA",
+    "Palais de Tokyo",
+    "Jacquemart-André",
+    "Luxembourg",
+    "MEP"
+  ],
+
+  [
+    "Louvre",
+    "Agnès B.",
+    "Cartier",
+    "Bourse",
+    "Bourdelle",
+    "Palais de Tokyo",
+    "Cité de l’architecture",
+    "Marmottan",
+    "Petit Palais",
+    "Orangerie",
+    "Orsay",
+    "MEP",
+    "BnF",
+    "Picasso",
+    "IMA",
+    "Cartier-Bresson",
+    "Arsenal",
+    "MAC VAL",
+    "FLV",
+    "Zadkine",
+    "Cernuschi",
+    "Galliera",
+    "Jeu de Paume",
+    "Luxembourg",
+    "Grand Palais",
+    "MAM",
+    "MAD",
+    "Jacquemart-André",
+    "Lafayette"
+  ],
+
+  [
+    "Cité de l’architecture",
+    "Luxembourg",
+    "Orsay",
+    "Louvre",
+    "Cartier",
+    "Picasso",
+    "Arsenal",
+    "FLV",
+    "MAD",
+    "Orangerie",
+    "Lafayette",
+    "Agnès B.",
+    "Cernuschi",
+    "Bourse",
+    "Bourdelle",
+    "Jeu de Paume",
+    "Marmottan",
+    "MAC VAL",
+    "Petit Palais",
+    "Palais de Tokyo",
+    "Zadkine",
+    "Jacquemart-André",
+    "BnF",
+    "MAM",
+    "IMA",
+    "Grand Palais",
+    "Cartier-Bresson",
+    "Galliera",
+    "MEP"
+  ],
+
+  [
+    "MAM",
+    "MEP",
+    "Palais de Tokyo",
+    "Lafayette",
+    "Marmottan",
+    "IMA",
+    "Bourse",
+    "Grand Palais",
+    "Cernuschi",
+    "Louvre",
+    "MAC VAL",
+    "Arsenal",
+    "Galliera",
+    "Jeu de Paume",
+    "FLV",
+    "Cité de l’architecture",
+    "Cartier",
+    "Jacquemart-André",
+    "Petit Palais",
+    "Orsay",
+    "Cartier-Bresson",
+    "Orangerie",
+    "Bourdelle",
+    "MAD",
+    "Zadkine",
+    "Picasso",
+    "Agnès B.",
+    "Luxembourg",
+    "BnF"
+  ],
+
+  [
+    "MAC VAL",
+    "Zadkine",
+    "BnF",
+    "Marmottan",
+    "Bourdelle",
+    "Orangerie",
+    "Bourse",
+    "Arsenal",
+    "Cernuschi",
+    "Lafayette",
+    "Grand Palais",
+    "MAM",
+    "Galliera",
+    "Luxembourg",
+    "Jeu de Paume",
+    "Cartier-Bresson",
+    "Orsay",
+    "IMA",
+    "Cité de l’architecture",
+    "MEP",
+    "Picasso",
+    "Cartier",
+    "Petit Palais",
+    "FLV",
+    "Palais de Tokyo",
+    "Agnès B.",
+    "MAD",
+    "Jacquemart-André",
+    "Louvre"
+  ],
+
+  [
+    "Luxembourg",
+    "Agnès B.",
+    "Bourse",
+    "FLV",
+    "Cité de l’architecture",
+    "Palais de Tokyo",
+    "MEP",
+    "Galliera",
+    "Marmottan",
+    "Arsenal",
+    "MAD",
+    "Cartier-Bresson",
+    "Jeu de Paume",
+    "Orangerie",
+    "Petit Palais",
+    "MAM",
+    "Zadkine",
+    "IMA",
+    "BnF",
+    "Cartier",
+    "Bourdelle",
+    "Cernuschi",
+    "MAC VAL",
+    "Louvre",
+    "Orsay",
+    "Jacquemart-André",
+    "Grand Palais",
+    "Lafayette",
+    "Picasso"
+  ],
+
+  [
+    "Zadkine",
+    "Palais de Tokyo",
+    "Galliera",
+    "Cité de l’architecture",
+    "Cartier-Bresson",
+    "Picasso",
+    "IMA",
+    "MAC VAL",
+    "Petit Palais",
+    "FLV",
+    "Orsay",
+    "Lafayette",
+    "MEP",
+    "Cartier",
+    "Bourdelle",
+    "Luxembourg",
+    "Marmottan",
+    "Grand Palais",
+    "Agnès B.",
+    "MAD",
+    "Orangerie",
+    "Bourse",
+    "Jeu de Paume",
+    "Jacquemart-André",
+    "Cernuschi",
+    "MAM",
+    "Louvre",
+    "Arsenal",
+    "BnF"
+  ],
+
+  [
+    "Picasso",
+    "Petit Palais",
+    "Orangerie",
+    "Bourdelle",
+    "MAD",
+    "Zadkine",
+    "Jeu de Paume",
+    "Cernuschi",
+    "IMA",
+    "Luxembourg",
+    "Cartier",
+    "Grand Palais",
+    "Louvre",
+    "Cité de l’architecture",
+    "Jacquemart-André",
+    "Bourse",
+    "Orsay",
+    "MAM",
+    "BnF",
+    "MEP",
+    "MAC VAL",
+    "Arsenal",
+    "Marmottan",
+    "Galliera",
+    "Agnès B.",
+    "Palais de Tokyo",
+    "Lafayette",
+    "Cartier-Bresson",
+    "FLV"
+  ],
+
+  [
+    "Jacquemart-André",
+    "Palais de Tokyo",
+    "FLV",
+    "Lafayette",
+    "Cartier-Bresson",
+    "Picasso",
+    "Louvre",
+    "Arsenal",
+    "Cartier",
+    "Luxembourg",
+    "Jeu de Paume",
+    "Orsay",
+    "Cernuschi",
+    "Marmottan",
+    "Grand Palais",
+    "MAM",
+    "IMA",
+    "Cité de l’architecture",
+    "MAC VAL",
+    "Bourdelle",
+    "MAD",
+    "Agnès B.",
+    "Bourse",
+    "Petit Palais",
+    "Galliera",
+    "Orangerie",
+    "Zadkine",
+    "BnF",
+    "MEP"
+  ],
+
+  [
+    "BnF",
+    "Bourdelle",
+    "Lafayette",
+    "Grand Palais",
+    "Agnès B.",
+    "Marmottan",
+    "Louvre",
+    "IMA",
+    "Petit Palais",
+    "Palais de Tokyo",
+    "Cartier",
+    "MAD",
+    "MEP",
+    "Picasso",
+    "Cartier-Bresson",
+    "Galliera",
+    "Orangerie",
+    "Cité de l’architecture",
+    "MAC VAL",
+    "Arsenal",
+    "Cernuschi",
+    "Jacquemart-André",
+    "Orsay",
+    "Jeu de Paume",
+    "MAM",
+    "Zadkine",
+    "Luxembourg",
+    "FLV",
+    "Bourse"
+  ]
+
+];
+
+
 /* ==================================================
    VENUE ITEM
    ================================================== */
@@ -1187,18 +1514,40 @@ function buildMarqueeRow(
     "venue-marquee-track";
 
 
-  const offset =
-    venueNames.length
-      ? rowIndex %
-        venueNames.length
-      : 0;
+  const configuredOrder =
+    MARQUEE_ORDERS[
+      rowIndex %
+      MARQUEE_ORDERS.length
+    ] || [];
 
+
+  const configuredSet =
+    new Set(
+      configuredOrder
+    );
+
+
+  /*
+    On utilise l'ordre défini pour cette ligne.
+    Si de nouveaux lieux apparaissent dans
+    exhibitions.json, ils sont ajoutés à la fin.
+  */
 
   const sequence =
     venueNames.length
       ? [
-          ...venueNames.slice(offset),
-          ...venueNames.slice(0, offset)
+          ...configuredOrder.filter(
+            (venueName) =>
+              venueNames.includes(
+                venueName
+              )
+          ),
+          ...venueNames.filter(
+            (venueName) =>
+              !configuredSet.has(
+                venueName
+              )
+          )
         ]
       : [];
 
@@ -2007,24 +2356,6 @@ function startMarqueeAnimation() {
    PAGE TRANSITIONS
    ================================================== */
 
-/*
-  Direction utilisée par la transition CSS.
-
-  right:
-    Home → Venues
-
-  bottom:
-    Venues → Venue
-
-  top:
-    Venue → Venues
-
-  Venues → Home:
-    le panneau jaune Venues monte
-    entièrement vers le haut et révèle
-    la Home située dessous.
-*/
-
 function transitionVenuesToHome() {
 
   currentPage =
@@ -2045,11 +2376,6 @@ function transitionVenuesToHome() {
   );
 
 
-  /*
-    La Home est immédiatement placée sous
-    le panneau Venues.
-  */
-
   homePage.classList.add(
     "is-active"
   );
@@ -2069,12 +2395,6 @@ function transitionVenuesToHome() {
     "false"
   );
 
-
-  /*
-    Le panneau Venues entier monte d'un bloc.
-    Les lignes restent donc parfaitement
-    solidaires du fond jaune.
-  */
 
   venuesPage.classList.add(
     "venues-exiting"
@@ -2135,12 +2455,6 @@ function showPage(
     "";
 
 
-  /*
-    Transition spéciale Venues → Home.
-    On ne passe pas par le système de
-    transition classique.
-  */
-
   if (
     previousPage === "venues" &&
     pageName === "home"
@@ -2159,12 +2473,6 @@ function showPage(
   document.body.dataset.page =
     pageName;
 
-
-  /*
-    La transition ne concerne que les pages
-    principales. Le panneau de détail d'une
-    exposition reste totalement instantané.
-  */
 
   homePage.classList.remove(
     "transition-enter",
@@ -2231,11 +2539,6 @@ function showPage(
   );
 
 
-  /*
-    Première initialisation :
-    aucun mouvement.
-  */
-
   if (
     !previousPage
   ) {
@@ -2266,12 +2569,6 @@ function showPage(
 
   }
 
-
-  /*
-    Force le navigateur à enregistrer
-    l'état initial avant d'ajouter la classe
-    d'animation.
-  */
 
   void activeElement.offsetWidth;
 
@@ -2730,11 +3027,6 @@ function openDetail(
     links
   );
 
-
-  /*
-    Aucun effet de transition ici :
-    le détail d'exposition apparaît immédiatement.
-  */
 
   detail.classList.add(
     "open"
