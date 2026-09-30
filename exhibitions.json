@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -100,6 +100,22 @@
     "Palais de Tokyo": {
       "hours": "LUN–DIM 12:00–21:00 · MAR fermé",
       "official_url": "https://palaisdetokyo.com/"
+    },
+    "Bourdelle": {
+      "hours": "MAR–DIM 10:00–18:00 · LUN fermé",
+      "official_url": "https://www.bourdelle.paris.fr/"
+    },
+    "Zadkine": {
+      "hours": "MAR–DIM 10:00–18:00 · LUN fermé",
+      "official_url": "https://www.zadkine.paris.fr/"
+    },
+    "Jacquemart-André": {
+      "hours": "LUN–JEU 10:00–18:00 · VEN 10:00–22:00 · SAM-DIM 10:00–19:00",
+      "official_url": "https://www.musee-jacquemart-andre.com/fr"
+    },
+    "Picasso": {
+      "hours": "MAR-DIM 09:00–18:00 · LUN fermé",
+      "official_url": "https://www.museepicassoparis.fr/"
     }
   },
   "current": [
@@ -194,6 +210,15 @@
       "description": "De Tombouctou à Odessa."
     },
     {
+      "title": "Penn & Fashion",
+      "venue": "MEP",
+      "start": "2026-09-30",
+      "end": "2027-01-17",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/maison-europeenne-de-la-photographie-2699/penn-fashion-107731.html",
+      "description": "Hommage au photographe de mode."
+    },
+    {
       "title": "Cezanne et nous",
       "venue": "Grand Palais",
       "start": "2026-09-23",
@@ -228,6 +253,33 @@
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/musee-dart-moderne-1450/simone-fattal-des-villes-au-fond-dun-lac-107844.html",
       "description": "Le travail de l'artiste libano-américaine."
+    },
+    {
+      "title": "L'étoffe de l'artiste",
+      "venue": "Bourdelle",
+      "start": "2026-09-23",
+      "end": "2027-01-24",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-bourdelle-1569/letoffe-de-lartiste-106586.html",
+      "description": "À la suite de la redécouverte des vêtements d'Antoine Bourdelle en 2020, le musée explore les représentations et les stratégies de mise en scène des artistes à travers leurs habits, de la fin du XIXe siècle au milieu du XXe siècle. Le parcours est ponctué de vêtements méconnus portés par des figures emblématiques ou plus confidentielles, hommes comme femmes (Gustav Klimt, Rosa Bonheur, Léonard Tsuguharu Foujita, Sonia Delaunay, Camille Bernier...), en dialogue avec des peintures, sculptures, arts graphiques et photographies."
+    },
+    {
+      "title": "Éternel Tintoret",
+      "venue": "Jacquemart-André",
+      "start": "2026-09-11",
+      "end": "2027-01-24",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-jacquemart-andre-2518/eternel-tintoret-106726.html",
+      "description": "Jacopo Robusti, surnommé « Tintoretto » en référence au métier de teinturier de son père, s'impose comme l'une des figures majeures de la peinture du XVIe siècle. Il demeure toute sa vie à Venise, où se déroule sa carrière exceptionnellement longue. Cette exposition démontre comment son héritage artistique s’étend au-delà des siècles et des frontières jusqu'à en faire un artiste de référence pour la peinture française du XIXe siècle."
+    },
+    {
+      "title": "Monet, peindre le temps",
+      "venue": "Orangerie",
+      "start": "2026-09-30",
+      "end": "2027-01-25",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-de-lorangerie-2889/monet-peindre-le-temps-105855.html",
+      "description": "Centenaire de la mort du peintre."
     },
     {
       "title": "Une statue pour la liberté : le rêve de Bartholdi, de Paris à New York",
@@ -284,43 +336,25 @@
       "description": "Le mariage au Maghreb."
     },
     {
+      "title": "Look ! 40 ans de mode au musée",
+      "venue": "MAD",
+      "start": "2026-09-30",
+      "end": "2027-04-04",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/look-40-ans-de-mode-au-musee-107504.html",
+      "description": "Une immersion dans les multiples vies du vêtement."
+    },
+    {
       "title": "Bicentenaire de la photographie",
       "venue": "MEP",
       "start": "2026-09-01",
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "12 événements"
+      "description": "13 événements"
     }
   ],
   "upcoming": [
-    {
-      "title": "Monet, peindre le temps",
-      "venue": "Orangerie",
-      "start": "2026-09-30",
-      "end": "2027-01-25",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-de-lorangerie-2889/monet-peindre-le-temps-105855.html",
-      "description": "Centenaire de la mort du peintre."
-    },
-    {
-      "title": "Penn & Fashion",
-      "venue": "MEP",
-      "start": "2026-09-30",
-      "end": "2027-01-17",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/maison-europeenne-de-la-photographie-2699/penn-fashion-107731.html",
-      "description": "Hommage au photographe de mode."
-    },
-    {
-      "title": "Look ! 40 ans de mode au musée",
-      "venue": "MAD",
-      "start": "2026-09-30",
-      "end": "2027-04-04",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/look-40-ans-de-mode-au-musee-107504.html",
-      "description": "Une immersion dans les multiples vies du vêtement."
-    },
     {
       "title": "Rafael Pavarotti, photographe",
       "venue": "MAD",
@@ -340,7 +374,7 @@
       "description": "Les nommés : Joël Andrianomearisoa, Brognon Rollin (David Brognon et Stéphanie Rollin), Laura Henno et Josèfa Ntjam."
     },
     {
-      "title": "Mary Cassatt, L'indépendante",
+      "title": "Mary Cassatt, l'indépendante",
       "venue": "Orsay",
       "start": "2026-10-06",
       "end": "2027-01-31",
@@ -356,6 +390,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/marion-delarue-pierre-plume-ciseaux-108140.html",
       "description": "Exposition-focus au sein du cabinet des Dessins, Papiers peints et Photographies."
+    },
+    {
+      "title": "Kurt Schwitters, Le chaos-monde. 1918-1948",
+      "venue": "Picasso",
+      "start": "2026-10-06",
+      "end": "2027-02-07",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/musee-picasso-2998/kurt-schwitters-le-chaos-monde-1918-1948-108179.html",
+      "description": "Cette rétrospective est consacrée à Kurt Schwitters, artiste à part du mouvement Dada, du constructivisme et de la scène abstraite allemande. Réunissant plus de 300 œuvres et documents – peintures, sculptures, assemblages, collages, dessins, carnets, photographies, livres et archives – l’exposition propose une immersion dans un univers d’une exceptionnelle richesse formelle et conceptuelle. Elle met également en lumière les échos qui relient l’œuvre de Schwitters à celle de Picasso, notamment dans leur rapport à l’expérimentation, à l’assemblage et à la transformation des matériaux du quotidien."
     },
     {
       "title": "Zurbarán 1598-1664",
