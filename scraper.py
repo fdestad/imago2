@@ -32,6 +32,10 @@ VENUES = [
     ("BnF", "https://www.offi.fr/a-travers-paris/bibliotheque-nationale-de-france-site-francois-mitterrand-1553.html"),
     ("Agnès B.", "https://www.offi.fr/expositions-musees/galerie-du-jour-agnes-b-4569.html"),
     ("Palais de Tokyo", "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905.html"),
+    ("Bourdelle", "https://www.offi.fr/expositions-musees/musee-bourdelle-1569.html"),
+    ("Zadkine", "https://www.offi.fr/expositions-musees/musee-zadkine-3398.html"),
+    ("Jacquemart-André", "https://www.offi.fr/expositions-musees/musee-jacquemart-andre-2518.html"),
+    ("Picasso", "https://www.offi.fr/expositions-musees/musee-picasso-2998.html")
 ]
 
 VENUE_INFO = {
@@ -134,6 +138,22 @@ VENUE_INFO = {
     "Palais de Tokyo": {
         "hours": "LUN–DIM 12:00–21:00 · MAR fermé",
         "official_url": "https://palaisdetokyo.com/",
+    },
+    "Bourdelle": {
+        "hours": "MAR–DIM 10:00–18:00 · LUN fermé",
+        "official_url": "https://www.bourdelle.paris.fr/",
+    },
+    "Zadkine": {
+        "hours": "MAR–DIM 10:00–18:00 · LUN fermé",
+        "official_url": "https://www.zadkine.paris.fr/",
+    },
+        "Jacquemart-André": {
+        "hours": "LUN–JEU 10:00–18:00 · VEN 10:00–22:00 · SAM-DIM 10:00–19:00",
+        "official_url": "https://www.musee-jacquemart-andre.com/fr",
+    },
+        "Picasso": {
+        "hours": "MAR-DIM 09:00–18:00 · LUN fermé",
+        "official_url": "https://www.museepicassoparis.fr/",
     },
 }
 
