@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-01",
+  "updated": "2026-10-02",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -318,6 +318,15 @@
       "description": "L'art du paysage, de 1890 à nos jours."
     },
     {
+      "title": "Prix Marcel Duchamp 2026",
+      "venue": "MAM",
+      "start": "2026-10-02",
+      "end": "2027-02-07",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-dart-moderne-1450/prix-marcel-duchamp-2026-107134.html",
+      "description": "Les nommés : Joël Andrianomearisoa, Brognon Rollin (David Brognon et Stéphanie Rollin), Laura Henno et Josèfa Ntjam."
+    },
+    {
       "title": "Un vestiaire à soi. Féminités dissidentes au 19e siècle",
       "venue": "Galliera",
       "start": "2026-09-26",
@@ -345,6 +354,15 @@
       "description": "Une immersion dans les multiples vies du vêtement."
     },
     {
+      "title": "Rafael Pavarotti, photographe",
+      "venue": "MAD",
+      "start": "2026-10-02",
+      "end": "2027-05-02",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/rafael-pavarotti-photographe-105183.html",
+      "description": "Le travail du photographe brésilien."
+    },
+    {
       "title": "Bicentenaire de la photographie",
       "venue": "MEP",
       "start": "2026-09-01",
@@ -355,24 +373,6 @@
     }
   ],
   "upcoming": [
-    {
-      "title": "Rafael Pavarotti, photographe",
-      "venue": "MAD",
-      "start": "2026-10-02",
-      "end": "2027-05-02",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/rafael-pavarotti-photographe-105183.html",
-      "description": "Le travail du photographe brésilien."
-    },
-    {
-      "title": "Prix Marcel Duchamp 2026",
-      "venue": "MAM",
-      "start": "2026-10-02",
-      "end": "2027-02-07",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-dart-moderne-1450/prix-marcel-duchamp-2026-107134.html",
-      "description": "Les nommés : Joël Andrianomearisoa, Brognon Rollin (David Brognon et Stéphanie Rollin), Laura Henno et Josèfa Ntjam."
-    },
     {
       "title": "Mary Cassatt, l'indépendante",
       "venue": "Orsay",
