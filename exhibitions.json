@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-02",
+  "updated": "2026-10-03",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -392,13 +392,13 @@
       "description": "Exposition-focus au sein du cabinet des Dessins, Papiers peints et Photographies."
     },
     {
-      "title": "Kurt Schwitters, Le chaos-monde. 1918-1948",
+      "title": "Kurt Schwitters, le chaos-monde. 1918-1948",
       "venue": "Picasso",
       "start": "2026-10-06",
       "end": "2027-02-07",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/musee-picasso-2998/kurt-schwitters-le-chaos-monde-1918-1948-108179.html",
-      "description": "Cette rétrospective est consacrée à Kurt Schwitters, artiste à part du mouvement Dada, du constructivisme et de la scène abstraite allemande. Réunissant plus de 300 œuvres et documents – peintures, sculptures, assemblages, collages, dessins, carnets, photographies, livres et archives – l’exposition propose une immersion dans un univers d’une exceptionnelle richesse formelle et conceptuelle. Elle met également en lumière les échos qui relient l’œuvre de Schwitters à celle de Picasso, notamment dans leur rapport à l’expérimentation, à l’assemblage et à la transformation des matériaux du quotidien."
+      "description": "Cette rétrospective est consacrée à Kurt Schwitters, artiste à part du mouvement Dada, du constructivisme et de la scène abstraite allemande. Réunissant plus de 300 œuvres et documents – peintures, sculptures, assemblages, collages, dessins, carnets, photographies, livres et archives –, l’exposition propose une immersion dans un univers d’une exceptionnelle richesse formelle et conceptuelle. Elle met également en lumière les échos qui relient l’œuvre de Schwitters à celle de Picasso, notamment dans leur rapport à l’expérimentation, à l’assemblage et à la transformation des matériaux du quotidien."
     },
     {
       "title": "Zurbarán 1598-1664",
