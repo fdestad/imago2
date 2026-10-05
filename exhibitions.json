@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-04",
+  "updated": "2026-10-05",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -119,33 +119,6 @@
     }
   },
   "current": [
-    {
-      "title": "Une journée au XVIIIe siècle, chronique d'un hôtel particulier",
-      "venue": "MAD",
-      "start": "2026-02-17",
-      "end": "2026-10-04",
-      "status": "current",
-      "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/une-journee-au-xviiie-siecle-104145.html",
-      "description": "Dans l’intimité d’une demeure aristocratique et de ses habitants."
-    },
-    {
-      "title": "Nuits Balnéaires, Eboro",
-      "venue": "Cartier-Bresson",
-      "start": "2026-05-20",
-      "end": "2026-10-04",
-      "status": "current",
-      "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/nuits-balneaires-eboro-106054.html",
-      "description": "Le travail du photographe ivoirien, deuxième lauréat du programme Latitudes de la Fondation d’entreprise Hermès."
-    },
-    {
-      "title": "Daido Moriyama, Lettres d'amour à la photographie",
-      "venue": "Cartier-Bresson",
-      "start": "2026-05-20",
-      "end": "2026-10-04",
-      "status": "current",
-      "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/daido-moriyama-lettres-damour-a-la-photographie-106164.html",
-      "description": "Né en 1938 dans la préfecture d’Osaka au Japon, Daido Moriyama vit et travaille à Tokyo. Depuis le début des années 1960, il entretient avec la photographie une relation quotidienne quasi existentielle, et ne cesse de s’adresser à elle sous la forme de projets, d’images ou de textes qui ont, à chaque fois, valeur de déclarations. L'exposition repose sur un parti pris curatorial marqué, en proposant de suivre le fil rouge de l’obsession de Moriyama pour la photographie elle-même."
-    },
     {
       "title": "Tisser, broder, sublimer",
       "venue": "Galliera",
