@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05",
+  "updated": "2026-10-06",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -165,6 +165,15 @@
       "description": "Le Musée d’Art Moderne de Paris présente la première exposition personnelle de Florian Krewer en France. Les 18 toiles monumentales sont placées au cœur du parcours des collections et invitent à une plongée dans l'univers pictural de l'artiste allemand basé depuis 2020 à New York."
     },
     {
+      "title": "Marion Delarue. Pierre, plume, ciseaux",
+      "venue": "MAD",
+      "start": "2026-10-06",
+      "end": "2027-01-10",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/marion-delarue-pierre-plume-ciseaux-108140.html",
+      "description": "Exposition-focus au sein du cabinet des Dessins, Papiers peints et Photographies."
+    },
+    {
       "title": "Andy Warhol. La ligne et l'image",
       "venue": "Luxembourg",
       "start": "2026-09-16",
@@ -273,6 +282,15 @@
       "description": "L'histoire d'un monument emblématique."
     },
     {
+      "title": "Mary Cassatt, l'indépendante",
+      "venue": "Orsay",
+      "start": "2026-10-06",
+      "end": "2027-01-31",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-dorsay-2897/mary-cassatt-le-choix-de-lindependance-105239.html",
+      "description": "Le musée d’Orsay organise une grande exposition consacrée à Mary Cassatt (1844-1926), en collaboration avec la National Portrait Gallery de Londres et le Museum of Fine Arts de Boston. L'évènement invite à découvrir la place centrale de cette artiste, parvenue par son talent et sa détermination à se forger une identité unique dans l’histoire de l’art de la fin du XIXe siècle et du début du XXe, de part et d’autre de l’Atlantique."
+    },
+    {
       "title": "SMITH, Ici grand ouvert",
       "venue": "MAC VAL",
       "start": "2026-05-23",
@@ -298,6 +316,15 @@
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/musee-dart-moderne-1450/prix-marcel-duchamp-2026-107134.html",
       "description": "Les nommés : Joël Andrianomearisoa, Brognon Rollin (David Brognon et Stéphanie Rollin), Laura Henno et Josèfa Ntjam."
+    },
+    {
+      "title": "Kurt Schwitters, le chaos-monde. 1918-1948",
+      "venue": "Picasso",
+      "start": "2026-10-06",
+      "end": "2027-02-07",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-picasso-2998/kurt-schwitters-le-chaos-monde-1918-1948-108179.html",
+      "description": "Cette rétrospective est consacrée à Kurt Schwitters, artiste à part du mouvement Dada, du constructivisme et de la scène abstraite allemande. Réunissant plus de 300 œuvres et documents – peintures, sculptures, assemblages, collages, dessins, carnets, photographies, livres et archives –, l’exposition propose une immersion dans un univers d’une exceptionnelle richesse formelle et conceptuelle. Elle met également en lumière les échos qui relient l’œuvre de Schwitters à celle de Picasso, notamment dans leur rapport à l’expérimentation, à l’assemblage et à la transformation des matériaux du quotidien."
     },
     {
       "title": "Un vestiaire à soi. Féminités dissidentes au 19e siècle",
@@ -347,33 +374,6 @@
   ],
   "upcoming": [
     {
-      "title": "Mary Cassatt, l'indépendante",
-      "venue": "Orsay",
-      "start": "2026-10-06",
-      "end": "2027-01-31",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-dorsay-2897/mary-cassatt-le-choix-de-lindependance-105239.html",
-      "description": "Le musée d’Orsay organise une grande exposition consacrée à Mary Cassatt (1844-1926), en collaboration avec la National Portrait Gallery de Londres et le Museum of Fine Arts de Boston. L'évènement invite à découvrir la place centrale de cette artiste, parvenue par son talent et sa détermination à se forger une identité unique dans l’histoire de l’art de la fin du XIXe siècle et du début du XXe, de part et d’autre de l’Atlantique."
-    },
-    {
-      "title": "Marion Delarue. Pierre, plume, ciseaux",
-      "venue": "MAD",
-      "start": "2026-10-06",
-      "end": "2027-01-10",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/marion-delarue-pierre-plume-ciseaux-108140.html",
-      "description": "Exposition-focus au sein du cabinet des Dessins, Papiers peints et Photographies."
-    },
-    {
-      "title": "Kurt Schwitters, le chaos-monde. 1918-1948",
-      "venue": "Picasso",
-      "start": "2026-10-06",
-      "end": "2027-02-07",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-picasso-2998/kurt-schwitters-le-chaos-monde-1918-1948-108179.html",
-      "description": "Cette rétrospective est consacrée à Kurt Schwitters, artiste à part du mouvement Dada, du constructivisme et de la scène abstraite allemande. Réunissant plus de 300 œuvres et documents – peintures, sculptures, assemblages, collages, dessins, carnets, photographies, livres et archives –, l’exposition propose une immersion dans un univers d’une exceptionnelle richesse formelle et conceptuelle. Elle met également en lumière les échos qui relient l’œuvre de Schwitters à celle de Picasso, notamment dans leur rapport à l’expérimentation, à l’assemblage et à la transformation des matériaux du quotidien."
-    },
-    {
       "title": "Zurbarán 1598-1664",
       "venue": "Louvre",
       "start": "2026-10-07",
@@ -417,6 +417,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/francois-morellet-traits-desprit-107672.html",
       "description": "Hommage à l’une des figures majeures de l’abstraction géométrique."
+    },
+    {
+      "title": "Stan Douglas, Parallax",
+      "venue": "Jeu de Paume",
+      "start": "2026-10-20",
+      "end": "2027-01-10",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/jeu-de-paume-2556/stan-douglas-parallax-108267.html",
+      "description": "Né à Vancouver en 1960, Stan Douglas est une figure majeure de la scène contemporaine internationale. L'exposition présente une quarantaine d’œuvres – films, installations vidéo, séries photographiques – couvrant toute sa carrière, de la fin des années 1980 à aujourd’hui. Le parcours souligne la relation entre les œuvres et les moments historiques qu’elles évoquent ainsi que l’évolution de cette relation dans le temps."
     },
     {
       "title": "Ibrahim Mahama, Le Temps des récoltes",
