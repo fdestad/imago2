@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-06",
+  "updated": "2026-10-07",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -210,6 +210,15 @@
       "description": "L’œuvre du peintre au regard de son héritage artistique."
     },
     {
+      "title": "Remember me",
+      "venue": "Bourse",
+      "start": "2026-10-07",
+      "end": "2027-01-18",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/bourse-de-commerce-pinault-collection-6929/remember-me-107378.html",
+      "description": "Chefs-d'œuvre de la photographie de la Collection Pinault."
+    },
+    {
       "title": "Eva Gonzalès",
       "venue": "Petit Palais",
       "start": "2026-09-15",
@@ -253,6 +262,24 @@
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/musee-jacquemart-andre-2518/eternel-tintoret-106726.html",
       "description": "Jacopo Robusti, surnommé « Tintoretto » en référence au métier de teinturier de son père, s'impose comme l'une des figures majeures de la peinture du XVIe siècle. Il demeure toute sa vie à Venise, où se déroule sa carrière exceptionnellement longue. Cette exposition démontre comment son héritage artistique s’étend au-delà des siècles et des frontières jusqu'à en faire un artiste de référence pour la peinture française du XIXe siècle."
+    },
+    {
+      "title": "Zurbarán 1598-1664",
+      "venue": "Louvre",
+      "start": "2026-10-07",
+      "end": "2027-01-25",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-du-louvre-2615/zurbaran-1598-1664-107175.html",
+      "description": "Francisco de Zurbarán compte parmi les peintres espagnols les plus importants du XVIIe siècle. D'abord considéré comme un caravagesque marqué par l'ascétisme monastique, il a progressivement été reconnu au XXe siècle comme un coloriste prodigieux et célébré pour son style, qui allie la simplification des volumes à un naturalisme saisissant. La National Gallery de Londres, le musée du Louvre et l'Art Institute de Chicago ont décidé de s'unir pour proposer une rétrospective qui permet de découvrir sa peinture et de mieux comprendre la modernité et la force plastique de ses compositions."
+    },
+    {
+      "title": "Sculpter la couleur",
+      "venue": "Louvre",
+      "start": "2026-10-07",
+      "end": "2027-01-25",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-du-louvre-2615/sculpter-la-couleur-107185.html",
+      "description": "Chefs-d'œuvre du Musée national de sculpture, Valladolid."
     },
     {
       "title": "Monet, peindre le temps",
@@ -369,45 +396,18 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "13 événements"
+      "description": "14 événements"
     }
   ],
   "upcoming": [
     {
-      "title": "Zurbarán 1598-1664",
-      "venue": "Louvre",
-      "start": "2026-10-07",
-      "end": "2027-01-25",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-du-louvre-2615/zurbaran-1598-1664-107175.html",
-      "description": "Francisco de Zurbarán compte parmi les peintres espagnols les plus importants du XVIIe siècle. D'abord considéré comme un caravagesque marqué par l'ascétisme monastique, il a progressivement été reconnu au XXe siècle comme un coloriste prodigieux et célébré pour son style, qui allie la simplification des volumes à un naturalisme saisissant. La National Gallery de Londres, le musée du Louvre et l'Art Institute de Chicago ont décidé de s'unir pour proposer une rétrospective qui permet de découvrir sa peinture et de mieux comprendre la modernité et la force plastique de ses compositions."
-    },
-    {
-      "title": "Sculpter la couleur",
-      "venue": "Louvre",
-      "start": "2026-10-07",
-      "end": "2027-01-25",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-du-louvre-2615/sculpter-la-couleur-107185.html",
-      "description": "Chefs-d'œuvre du Musée national de sculpture, Valladolid."
-    },
-    {
-      "title": "Remember me",
-      "venue": "Bourse",
-      "start": "2026-10-07",
-      "end": "2027-01-18",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/bourse-de-commerce-pinault-collection-6929/remember-me-107378.html",
-      "description": "Chefs-d'œuvre de la photographie de la Collection Pinault."
-    },
-    {
-      "title": "Gustave Fayet : Collectionneur - Créateur",
+      "title": "Gustave Fayet. Collectionneur - créateur",
       "venue": "FLV",
       "start": "2026-10-09",
       "end": "2027-03-08",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/fondation-louis-vuitton-6084/gustave-fayet-collectionneur-createur-106822.html",
-      "description": "Gustave Fayet (1865-1925) était un collectionneur passionné, artiste mais aussi créateur fécond. Il fut l'un des grands défenseurs et découvreurs de l'avant-garde de son temps. L'exposition investit l'ensemble des espaces de la Fondation selon un parcours en deux volets — Gustave Fayet collectionneur et Gustave Fayet créateur — révélant la singularité d'un parcours où collection, création et engagement artistique se répondent."
+      "description": "Van Gogh, Redon, Gauguin, Cezanne, Degas, Morisot..."
     },
     {
       "title": "François Morellet, traits d'esprit",
@@ -417,6 +417,24 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/francois-morellet-traits-desprit-107672.html",
       "description": "Hommage à l’une des figures majeures de l’abstraction géométrique."
+    },
+    {
+      "title": "Ma Kelu, Le souffle et le vide",
+      "venue": "Cité de l’architecture",
+      "start": "2026-10-16",
+      "end": "2027-01-03",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/ma-kelu-le-souffle-et-le-vide-108298.html",
+      "description": "Figure de l’art contemporain chinois."
+    },
+    {
+      "title": "Kennedy Yanko, Ce qui nous rassemble",
+      "venue": "Cité de l’architecture",
+      "start": "2026-10-16",
+      "end": "2027-01-03",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/kennedy-yanko-ce-qui-nous-rassemble-108300.html",
+      "description": "Dans le cadre du programme Art Basel, la Cité de l’architecture et du patrimoine invite l’artiste américaine Kennedy Yanko à investir la galerie des moulages. À partir de matériaux de récupération, principalement du métal, l’artiste compose des ossatures irrégulières et complexes qu’elle recouvre de vastes « peaux » réalisées à partir de peinture acrylique. Entre masse et fluidité, rigidité et souplesse, ses créations explorent les tensions entre matière, mémoire et mouvement."
     },
     {
       "title": "Stan Douglas, Parallax",
