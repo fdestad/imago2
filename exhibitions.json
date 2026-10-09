@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-08",
+  "updated": "2026-10-09",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -372,6 +372,15 @@
       "description": "Le mariage au Maghreb."
     },
     {
+      "title": "Gustave Fayet. Collectionneur - créateur",
+      "venue": "FLV",
+      "start": "2026-10-09",
+      "end": "2027-03-08",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/fondation-louis-vuitton-6084/gustave-fayet-collectionneur-createur-106822.html",
+      "description": "Van Gogh, Redon, Gauguin, Cezanne, Degas, Morisot..."
+    },
+    {
       "title": "Look ! 40 ans de mode au musée",
       "venue": "MAD",
       "start": "2026-09-30",
@@ -400,15 +409,6 @@
     }
   ],
   "upcoming": [
-    {
-      "title": "Gustave Fayet. Collectionneur - créateur",
-      "venue": "FLV",
-      "start": "2026-10-09",
-      "end": "2027-03-08",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/fondation-louis-vuitton-6084/gustave-fayet-collectionneur-createur-106822.html",
-      "description": "Van Gogh, Redon, Gauguin, Cezanne, Degas, Morisot..."
-    },
     {
       "title": "François Morellet, traits d'esprit",
       "venue": "Cité de l’architecture",
