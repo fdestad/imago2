@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-09",
+  "updated": "2026-10-10",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -453,6 +453,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/fondation-cartier-pour-lart-contemporain-2334/ibrahim-mahama-le-temps-des-recoltes-107799.html",
       "description": "La Fondation Cartier pour l’art contemporain présente une exposition de l’artiste ghanéen Ibrahim Mahama, accompagné de neuf artistes associés : Dorothy Akpene Amenuke, Gideon Appah, James Barnor, Cercle d’Art des Travailleurs de Plantation Congolaise (CATPC), Courage Dzidula Kpodo, Zohra Opoku, Postbox Ghana, Tjaša Rener, Feda Wardak. Ibrahim Mahama imagine pour la fondation une entité vivante en résonance avec les centres d’art qu’il a fondés à Tamale, dans le nord du Ghana. Avec les artistes associés, il investit la totalité des espaces de l’institution, avec des œuvres créées spécifiquement pour le lieu, ainsi que des versions inédites de certaines de ses installations emblématiques."
+    },
+    {
+      "title": "Art Basel",
+      "venue": "Grand Palais",
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/grand-palais-nef-2405/paris-par-art-basel-89405.html",
+      "description": "Grande foire internationale d'art contemporain."
     }
   ]
 }
