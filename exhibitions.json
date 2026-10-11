@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-10",
+  "updated": "2026-10-11",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -462,6 +462,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/grand-palais-nef-2405/paris-par-art-basel-89405.html",
       "description": "Grande foire internationale d'art contemporain."
+    },
+    {
+      "title": "Bruxelles 1900",
+      "venue": "Petit Palais",
+      "start": "2026-11-10",
+      "end": "2027-04-25",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/bruxelles-1900-108154.html",
+      "description": "Plongée dans la scène artistique de la capitale belge."
     }
   ]
 }
