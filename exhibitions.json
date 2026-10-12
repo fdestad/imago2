@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-11",
+  "updated": "2026-10-12",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -405,7 +405,16 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "15 événements"
+      "description": "16 événements"
+    },
+    {
+      "title": "Bicentenaire de la photographie",
+      "venue": "Cartier-Bresson",
+      "start": "2026-09-01",
+      "end": "2027-09-30",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
+      "description": "16 événements"
     }
   ],
   "upcoming": [
@@ -444,6 +453,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/jeu-de-paume-2556/stan-douglas-parallax-108267.html",
       "description": "Né à Vancouver en 1960, Stan Douglas est une figure majeure de la scène contemporaine internationale. L'exposition présente une quarantaine d’œuvres – films, installations vidéo, séries photographiques – couvrant toute sa carrière, de la fin des années 1980 à aujourd’hui. Le parcours souligne la relation entre les œuvres et les moments historiques qu’elles évoquent ainsi que l’évolution de cette relation dans le temps."
+    },
+    {
+      "title": "Susan Meiselas : Nicaragua, Histoire, Mémoire",
+      "venue": "Cartier-Bresson",
+      "start": "2026-10-21",
+      "end": "2027-03-07",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/susan-meiselas-nicaragua-histoire-memoire-108358.html",
+      "description": "Née en 1948 à Baltimore, États-Unis, Susan Meiselas vit et travaille à New-York. En 1978, la photographe, tout juste âgée de 30 ans, se rend pour la première fois au Nicaragua, au moment de la guerre révolutionnaire opposant le Front Sandiniste de Libération Nationale (FSLN) à la Garde nationale du régime dictatorial du Président Anastasio Somoza Debayle soutenu par les États-Unis. Au cours de plusieurs séjours, elle photographie la vie quotidienne, les combats de rue et la victoire de la Révolution."
     },
     {
       "title": "Ibrahim Mahama, Le Temps des récoltes",
