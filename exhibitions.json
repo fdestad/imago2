@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-13",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -461,7 +461,16 @@
       "end": "2027-03-07",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/susan-meiselas-nicaragua-histoire-memoire-108358.html",
-      "description": "Née en 1948 à Baltimore, États-Unis, Susan Meiselas vit et travaille à New-York. En 1978, la photographe, tout juste âgée de 30 ans, se rend pour la première fois au Nicaragua, au moment de la guerre révolutionnaire opposant le Front Sandiniste de Libération Nationale (FSLN) à la Garde nationale du régime dictatorial du Président Anastasio Somoza Debayle soutenu par les États-Unis. Au cours de plusieurs séjours, elle photographie la vie quotidienne, les combats de rue et la victoire de la Révolution."
+      "description": "Autour de la série Nicaragua de la photographe américain."
+    },
+    {
+      "title": "Martine Franck : Images, presse et luttes féministes",
+      "venue": "Cartier-Bresson",
+      "start": "2026-10-21",
+      "end": "2027-03-07",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/martine-franck-images-presse-et-luttes-feministes-108359.html",
+      "description": "Dans les années 1970, Martine Franck (1938-2012) photographie les luttes féministes, principalement à Paris. En tant que femme photographe, l’attention qu’elle porte aux mobilisations du Mouvement de libération des femmes (MLF) infléchit son regard sur le monde social et oriente durablement son œuvre.Cette exposition présente des photographies pour la plupart inédites, qui soulignent la dimension collective d’une culture visuelle féministe des années 1970."
     },
     {
       "title": "Ibrahim Mahama, Le Temps des récoltes",
