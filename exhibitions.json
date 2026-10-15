@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -453,6 +453,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/jeu-de-paume-2556/stan-douglas-parallax-108267.html",
       "description": "Né à Vancouver en 1960, Stan Douglas est une figure majeure de la scène contemporaine internationale. L'exposition présente une quarantaine d’œuvres – films, installations vidéo, séries photographiques – couvrant toute sa carrière, de la fin des années 1980 à aujourd’hui. Le parcours souligne la relation entre les œuvres et les moments historiques qu’elles évoquent ainsi que l’évolution de cette relation dans le temps."
+    },
+    {
+      "title": "Visionnaires",
+      "venue": "Petit Palais",
+      "start": "2026-10-20",
+      "end": "2027-01-24",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/visionnaires-108379.html",
+      "description": "Carte blanche à Prune Nourry."
     },
     {
       "title": "Susan Meiselas : Nicaragua, Histoire, Mémoire",
