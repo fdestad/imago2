@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-15",
+  "updated": "2026-10-16",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -154,6 +154,33 @@
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/les-arts-decoratifs-1462/la-mode-en-majeste-haute-couture-et-tradition-a-la-cour-de-thailande-104544.html",
       "description": "Avec des pièces issues de la collection royale."
+    },
+    {
+      "title": "François Morellet, traits d'esprit",
+      "venue": "Cité de l’architecture",
+      "start": "2026-10-16",
+      "end": "2027-01-03",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/francois-morellet-traits-desprit-107672.html",
+      "description": "Hommage à l’une des figures majeures de l’abstraction géométrique."
+    },
+    {
+      "title": "Ma Kelu, Le souffle et le vide",
+      "venue": "Cité de l’architecture",
+      "start": "2026-10-16",
+      "end": "2027-01-03",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/ma-kelu-le-souffle-et-le-vide-108298.html",
+      "description": "Figure de l’art contemporain chinois."
+    },
+    {
+      "title": "Kennedy Yanko, Ce qui nous rassemble",
+      "venue": "Cité de l’architecture",
+      "start": "2026-10-16",
+      "end": "2027-01-03",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/kennedy-yanko-ce-qui-nous-rassemble-108300.html",
+      "description": "Dans le cadre du programme Art Basel, la Cité de l’architecture et du patrimoine invite l’artiste américaine Kennedy Yanko à investir la galerie des moulages. À partir de matériaux de récupération, principalement du métal, l’artiste compose des ossatures irrégulières et complexes qu’elle recouvre de vastes « peaux » réalisées à partir de peinture acrylique. Entre masse et fluidité, rigidité et souplesse, ses créations explorent les tensions entre matière, mémoire et mouvement."
     },
     {
       "title": "Florian Krewer : woven thin*",
@@ -405,7 +432,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "16 événements"
+      "description": "17 événements"
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -414,37 +441,19 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "16 événements"
+      "description": "17 événements"
+    },
+    {
+      "title": "Bicentenaire de la photographie",
+      "venue": "Palais de Tokyo",
+      "start": "2026-09-01",
+      "end": "2027-09-30",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
+      "description": "17 événements"
     }
   ],
   "upcoming": [
-    {
-      "title": "François Morellet, traits d'esprit",
-      "venue": "Cité de l’architecture",
-      "start": "2026-10-16",
-      "end": "2027-01-03",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/francois-morellet-traits-desprit-107672.html",
-      "description": "Hommage à l’une des figures majeures de l’abstraction géométrique."
-    },
-    {
-      "title": "Ma Kelu, Le souffle et le vide",
-      "venue": "Cité de l’architecture",
-      "start": "2026-10-16",
-      "end": "2027-01-03",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/ma-kelu-le-souffle-et-le-vide-108298.html",
-      "description": "Figure de l’art contemporain chinois."
-    },
-    {
-      "title": "Kennedy Yanko, Ce qui nous rassemble",
-      "venue": "Cité de l’architecture",
-      "start": "2026-10-16",
-      "end": "2027-01-03",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/cite-de-larchitecture-et-du-patrimoine-1851/kennedy-yanko-ce-qui-nous-rassemble-108300.html",
-      "description": "Dans le cadre du programme Art Basel, la Cité de l’architecture et du patrimoine invite l’artiste américaine Kennedy Yanko à investir la galerie des moulages. À partir de matériaux de récupération, principalement du métal, l’artiste compose des ossatures irrégulières et complexes qu’elle recouvre de vastes « peaux » réalisées à partir de peinture acrylique. Entre masse et fluidité, rigidité et souplesse, ses créations explorent les tensions entre matière, mémoire et mouvement."
-    },
     {
       "title": "Stan Douglas, Parallax",
       "venue": "Jeu de Paume",
@@ -480,6 +489,69 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/martine-franck-images-presse-et-luttes-feministes-108359.html",
       "description": "Dans les années 1970, Martine Franck (1938-2012) photographie les luttes féministes, principalement à Paris. En tant que femme photographe, l’attention qu’elle porte aux mobilisations du Mouvement de libération des femmes (MLF) infléchit son regard sur le monde social et oriente durablement son œuvre.Cette exposition présente des photographies pour la plupart inédites, qui soulignent la dimension collective d’une culture visuelle féministe des années 1970."
+    },
+    {
+      "title": "Toi et ta bande",
+      "venue": "Palais de Tokyo",
+      "start": "2026-10-21",
+      "end": "2027-02-14",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/toi-et-ta-bande-107580.html",
+      "description": "L'exposition rassemble des pratiques d’artistes et de collectifs situés sur des territoires variés – campagne, haute montagne, insularité – et dont le point commun est de choisir d’être à l’écart des centres urbains. Le parcours réunit une trentaine d’œuvres qui dessinent les contours d’un champ social et artistique, manifestant la singularité des territoires où elles prennent forme : Limousin, Cévennes, Corse, Hautes-Pyrénées, Pays Basque, etc."
+    },
+    {
+      "title": "Sonia Gomes, Cœur sauvage",
+      "venue": "Palais de Tokyo",
+      "start": "2026-10-21",
+      "end": "2027-02-14",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/sonia-gomes-coeur-sauvage-108385.html",
+      "description": "Sonia Gomes transforme des textiles, porteurs de mémoire et d’histoires, en sculptures quasi-organiques. Nourrie par son héritage afro-brésilien, son œuvre tisse des récits sensibles, à la fois intimes et collectifs. En réactivant des pratiques et des savoir-faire issus de traditions afro-descendantes, Sonia Gomes confère à son travail une dimension de réparation symbolique. À la croisée du personnel et du politique, son œuvre interroge les héritages de la colonisation, les rapports de race et de genre, ainsi que les mécanismes de transmission culturelle. La couleur rouge, récurrente dans son vocabulaire plastique, traverse l’exposition comme un fil conducteur, faisant de la matière un langage et de chaque œuvre un espace où résistance et réinvention se rejoignent."
+    },
+    {
+      "title": "Valérie John, I telman nwè ki é blé (C'est si noir que cela en devient bleu)",
+      "venue": "Palais de Tokyo",
+      "start": "2026-10-21",
+      "end": "2027-02-14",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/valerie-john-108386.html",
+      "description": "Une plongée dans les métamorphoses de la couleur indigo."
+    },
+    {
+      "title": "Paul Kodjo, Photoromance",
+      "venue": "Palais de Tokyo",
+      "start": "2026-10-21",
+      "end": "2027-02-14",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/paul-kodjo-photoromance-108410.html",
+      "description": "Figure majeure de l’histoire visuelle ivoirienne post-indépendance."
+    },
+    {
+      "title": "Ali Cherri, Today is ok",
+      "venue": "Palais de Tokyo",
+      "start": "2026-10-21",
+      "end": "2027-02-14",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/ali-cherri-today-is-ok-108413.html",
+      "description": "Le nouveau film de l’artiste franco-libanais, augmenté d’une installation inédite."
+    },
+    {
+      "title": "Rose Lowder, La Source de la Loire et autres films",
+      "venue": "Palais de Tokyo",
+      "start": "2026-10-21",
+      "end": "2027-02-14",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/la-source-de-la-loire-et-autres-films-108414.html",
+      "description": "Immersion au sein des films les plus récents de la cinéaste, l’exposition donne un aperçu de la perception de la nature et de l’économie de travail qu’elle maintient avec persistance depuis les années 1970. Le parcours au Palais de Tokyo présente ses films les plus récents et projette en pellicule La Source de la Loire, dont les années de production (2019-2021) indiquent que Rose Lowder s’est rendue trois années de suite, au printemps, pour enregistrer et transfigurer, les soubresauts d’un petit ruisseau qui est la source du plus long fleuve français."
+    },
+    {
+      "title": "Céleste Richard-Zimmermann, Toutes les colonnes n’ont pas un cœur de pierre",
+      "venue": "Palais de Tokyo",
+      "start": "2026-10-21",
+      "end": "2027-01-10",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/celeste-richard-zimmermann-toutes-les-colonnes-nont-pas-un-coeur-de-pierre-108415.html",
+      "description": "Lauréate du Prix des Amis du Palais de Tokyo 2025-2026."
     },
     {
       "title": "Ibrahim Mahama, Le Temps des récoltes",
