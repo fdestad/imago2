@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-16",
+  "updated": "2026-10-17",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -464,7 +464,7 @@
       "description": "Né à Vancouver en 1960, Stan Douglas est une figure majeure de la scène contemporaine internationale. L'exposition présente une quarantaine d’œuvres – films, installations vidéo, séries photographiques – couvrant toute sa carrière, de la fin des années 1980 à aujourd’hui. Le parcours souligne la relation entre les œuvres et les moments historiques qu’elles évoquent ainsi que l’évolution de cette relation dans le temps."
     },
     {
-      "title": "Visionnaires",
+      "title": "Prune Nourry : Visionnaires",
       "venue": "Petit Palais",
       "start": "2026-10-20",
       "end": "2027-01-24",
@@ -479,7 +479,7 @@
       "end": "2027-03-07",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/susan-meiselas-nicaragua-histoire-memoire-108358.html",
-      "description": "Autour de la série Nicaragua de la photographe américain."
+      "description": "Autour de la série Nicaragua de la photographe américaine."
     },
     {
       "title": "Martine Franck : Images, presse et luttes féministes",
@@ -488,7 +488,7 @@
       "end": "2027-03-07",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/fondation-henri-cartier-bresson-2335/martine-franck-images-presse-et-luttes-feministes-108359.html",
-      "description": "Dans les années 1970, Martine Franck (1938-2012) photographie les luttes féministes, principalement à Paris. En tant que femme photographe, l’attention qu’elle porte aux mobilisations du Mouvement de libération des femmes (MLF) infléchit son regard sur le monde social et oriente durablement son œuvre.Cette exposition présente des photographies pour la plupart inédites, qui soulignent la dimension collective d’une culture visuelle féministe des années 1970."
+      "description": "Dans les années 1970, Martine Franck (1938-2012) photographie les luttes féministes, principalement à Paris. En tant que femme photographe, l’attention qu’elle porte aux mobilisations du Mouvement de libération des femmes (MLF) infléchit son regard sur le monde social et oriente durablement son œuvre. Cette exposition présente des photographies pour la plupart inédites, qui soulignent la dimension collective d’une culture visuelle féministe des années 1970."
     },
     {
       "title": "Toi et ta bande",
@@ -497,7 +497,7 @@
       "end": "2027-02-14",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/toi-et-ta-bande-107580.html",
-      "description": "L'exposition rassemble des pratiques d’artistes et de collectifs situés sur des territoires variés – campagne, haute montagne, insularité – et dont le point commun est de choisir d’être à l’écart des centres urbains. Le parcours réunit une trentaine d’œuvres qui dessinent les contours d’un champ social et artistique, manifestant la singularité des territoires où elles prennent forme : Limousin, Cévennes, Corse, Hautes-Pyrénées, Pays Basque, etc."
+      "description": "L'exposition rassemble des pratiques d’artistes et de collectifs situés sur des territoires variés – campagne, haute montagne, insularité – et dont le point commun est de choisir d’être à l’écart des centres urbains. Le parcours réunit une trentaine d’œuvres qui dessinent les contours d’un champ social et artistique, manifestant la singularité des territoires où elles prennent forme : Limousin, Cévennes, Corse, Hautes-Pyrénées, Pays basque, etc."
     },
     {
       "title": "Sonia Gomes, Cœur sauvage",
@@ -536,16 +536,16 @@
       "description": "Le nouveau film de l’artiste franco-libanais, augmenté d’une installation inédite."
     },
     {
-      "title": "Rose Lowder, La Source de la Loire et autres films",
+      "title": "Rose Lowder. La Source de la Loire et autres films",
       "venue": "Palais de Tokyo",
       "start": "2026-10-21",
       "end": "2027-02-14",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/la-source-de-la-loire-et-autres-films-108414.html",
-      "description": "Immersion au sein des films les plus récents de la cinéaste, l’exposition donne un aperçu de la perception de la nature et de l’économie de travail qu’elle maintient avec persistance depuis les années 1970. Le parcours au Palais de Tokyo présente ses films les plus récents et projette en pellicule La Source de la Loire, dont les années de production (2019-2021) indiquent que Rose Lowder s’est rendue trois années de suite, au printemps, pour enregistrer et transfigurer, les soubresauts d’un petit ruisseau qui est la source du plus long fleuve français."
+      "description": "S'immergeant au sein des films les plus récents de la cinéaste, l’exposition donne un aperçu de la perception de la nature et de l’économie de travail qu’elle maintient avec persistance depuis les années 1970. Le parcours au Palais de Tokyo présente ses films les plus récents et projette en pellicule La Source de la Loire, dont les années de production (2019-2021) indiquent que Rose Lowder s’est rendue trois années de suite, au printemps, pour enregistrer et transfigurer les soubresauts d’un petit ruisseau qui est la source du plus long fleuve français."
     },
     {
-      "title": "Céleste Richard-Zimmermann, Toutes les colonnes n’ont pas un cœur de pierre",
+      "title": "Céleste Richard-Zimmermann. Toutes les colonnes n’ont pas un cœur de pierre",
       "venue": "Palais de Tokyo",
       "start": "2026-10-21",
       "end": "2027-01-10",
