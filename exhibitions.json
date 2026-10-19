@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18",
+  "updated": "2026-10-19",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -119,15 +119,6 @@
     }
   },
   "current": [
-    {
-      "title": "Tisser, broder, sublimer",
-      "venue": "Galliera",
-      "start": "2025-12-13",
-      "end": "2026-10-18",
-      "status": "current",
-      "url": "https://www.offi.fr/expositions-musees/musee-galliera-2366/tisser-broder-sublimer-103785.html",
-      "description": "Les savoir-faire de la mode."
-    },
     {
       "title": "Libye, patrimoine révélé",
       "venue": "IMA",
@@ -579,6 +570,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/bruxelles-1900-108154.html",
       "description": "Plongée dans la scène artistique de la capitale belge."
+    },
+    {
+      "title": "Alicia Penalba, la sculpture entre terre et ciel",
+      "venue": "Zadkine",
+      "start": "2026-11-18",
+      "end": "2027-04-25",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/musee-zadkine-3398/alicia-penalba-la-sculpture-entre-terre-et-ciel-106797.html",
+      "description": "Alicia Penalba (1913-1982), artiste de renommée internationale, est née en Argentine mais a passé l'essentiel de sa carrière en France. Alternant sections chronologiques et propos thématiques, l'exposition replace son œuvre dans le contexte artistique des années 1950-1960. Elle évoque les liens noués avec d'autres artistes comme Zadkine, Brancusi ou Matisse."
     }
   ]
 }
