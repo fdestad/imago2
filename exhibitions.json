@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -183,6 +183,15 @@
       "description": "Le Musée d’Art Moderne de Paris présente la première exposition personnelle de Florian Krewer en France. Les 18 toiles monumentales sont placées au cœur du parcours des collections et invitent à une plongée dans l'univers pictural de l'artiste allemand basé depuis 2020 à New York."
     },
     {
+      "title": "Stan Douglas, Parallax",
+      "venue": "Jeu de Paume",
+      "start": "2026-10-20",
+      "end": "2027-01-10",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/jeu-de-paume-2556/stan-douglas-parallax-108267.html",
+      "description": "Né à Vancouver en 1960, Stan Douglas est une figure majeure de la scène contemporaine internationale. L'exposition présente une quarantaine d’œuvres – films, installations vidéo, séries photographiques – couvrant toute sa carrière, de la fin des années 1980 à aujourd’hui. Le parcours souligne la relation entre les œuvres et les moments historiques qu’elles évoquent ainsi que l’évolution de cette relation dans le temps."
+    },
+    {
       "title": "Marion Delarue. Pierre, plume, ciseaux",
       "venue": "MAD",
       "start": "2026-10-06",
@@ -244,6 +253,15 @@
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/eva-gonzales-1847-1883-106769.html",
       "description": "Parcours d'une artiste libre."
+    },
+    {
+      "title": "Prune Nourry : Visionnaires",
+      "venue": "Petit Palais",
+      "start": "2026-10-20",
+      "end": "2027-01-24",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/visionnaires-108379.html",
+      "description": "Carte blanche à Prune Nourry."
     },
     {
       "title": "Kerry James Marshall, The Histories",
@@ -446,24 +464,6 @@
   ],
   "upcoming": [
     {
-      "title": "Stan Douglas, Parallax",
-      "venue": "Jeu de Paume",
-      "start": "2026-10-20",
-      "end": "2027-01-10",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/jeu-de-paume-2556/stan-douglas-parallax-108267.html",
-      "description": "Né à Vancouver en 1960, Stan Douglas est une figure majeure de la scène contemporaine internationale. L'exposition présente une quarantaine d’œuvres – films, installations vidéo, séries photographiques – couvrant toute sa carrière, de la fin des années 1980 à aujourd’hui. Le parcours souligne la relation entre les œuvres et les moments historiques qu’elles évoquent ainsi que l’évolution de cette relation dans le temps."
-    },
-    {
-      "title": "Prune Nourry : Visionnaires",
-      "venue": "Petit Palais",
-      "start": "2026-10-20",
-      "end": "2027-01-24",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/visionnaires-108379.html",
-      "description": "Carte blanche à Prune Nourry."
-    },
-    {
       "title": "Susan Meiselas : Nicaragua, Histoire, Mémoire",
       "venue": "Cartier-Bresson",
       "start": "2026-10-21",
@@ -488,7 +488,7 @@
       "end": "2027-02-14",
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/palais-de-tokyo-2905/toi-et-ta-bande-107580.html",
-      "description": "L'exposition rassemble des pratiques d’artistes et de collectifs situés sur des territoires variés – campagne, haute montagne, insularité – et dont le point commun est de choisir d’être à l’écart des centres urbains. Le parcours réunit une trentaine d’œuvres qui dessinent les contours d’un champ social et artistique, manifestant la singularité des territoires où elles prennent forme : Limousin, Cévennes, Corse, Hautes-Pyrénées, Pays basque, etc."
+      "description": "L'exposition rassemble des pratiques d'artistes et de collectifs situés sur des territoires variés – campagne, haute montagne, insularité – et dont le point commun est de choisir d'être à l'écart des centres urbains. Le parcours réunit une trentaine d'œuvres qui dessinent les contours d'un champ social et artistique, manifestant la singularité des territoires où elles prennent forme : Limousin, Cévennes, Corse, Hautes-Pyrénées, Pays basque, etc."
     },
     {
       "title": "Sonia Gomes, Cœur sauvage",
