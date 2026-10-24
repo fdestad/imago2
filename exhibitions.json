@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-10-24",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -119,15 +119,6 @@
     }
   },
   "current": [
-    {
-      "title": "Art Basel",
-      "venue": "Grand Palais",
-      "start": "2026-10-23",
-      "end": "2026-10-23",
-      "status": "current",
-      "url": "https://www.offi.fr/expositions-musees/grand-palais-nef-2405/paris-par-art-basel-89405.html",
-      "description": "Grande foire internationale d'art contemporain."
-    },
     {
       "title": "Le chant des villes",
       "venue": "Agnès B.",
