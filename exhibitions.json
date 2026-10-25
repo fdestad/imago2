@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -561,6 +561,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/musee-cernuschi-1751/coree-le-royaume-des-lettres-1600-1900-107316.html",
       "description": "Une immersion dans l’univers des yangban."
+    },
+    {
+      "title": "Les secrets de l'Alhambra",
+      "venue": "IMA",
+      "start": "2026-11-24",
+      "end": "2027-05-16",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/institut-du-monde-arabe-2504/les-secrets-de-lalhambra-107189.html",
+      "description": "L'exposition propose une immersion dans l'histoire de ce joyau de l'art islamique, unique complexe palatial musulman conservé en Occident et l'un des monuments les plus visités au monde. C'est l'Alhambra telle que bâtie par les sultans nasrides – bien différente de la forteresse actuelle – que l’exposition met en lumière, en dévoilant et en décryptant certains de ses secrets à l’apogée de sa splendeur, sous le règne du sultan Muhammad V, au XIVe siècle."
     }
   ]
 }
