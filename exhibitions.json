@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-10-28",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -513,7 +513,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "19 événements"
+      "description": "20 événements"
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -522,10 +522,19 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "19 événements"
+      "description": "20 événements"
     }
   ],
   "upcoming": [
+    {
+      "title": "Gerard Malanga",
+      "venue": "Agnès B.",
+      "start": "2026-11-04",
+      "end": "2027-01-10",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/galerie-du-jour-agnes-b-4569/gerard-malanga-3376975.html",
+      "description": "Gerard Malanga (Photographie)."
+    },
     {
       "title": "Bruxelles 1900",
       "venue": "Petit Palais",
