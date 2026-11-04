@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -181,6 +181,15 @@
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/musee-du-luxembourg-2626/andy-warhol-la-ligne-et-limage-106543.html",
       "description": "La production graphique de l'artiste américain."
+    },
+    {
+      "title": "Gerard Malanga",
+      "venue": "Agnès B.",
+      "start": "2026-11-04",
+      "end": "2027-01-10",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/galerie-du-jour-agnes-b-4569/gerard-malanga-3376975.html",
+      "description": "Gerard Malanga (Photographie)."
     },
     {
       "title": "Céleste Richard-Zimmermann. Toutes les colonnes n’ont pas un cœur de pierre",
@@ -504,7 +513,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "22 événements"
+      "description": "23 événements"
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -513,19 +522,10 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "22 événements"
+      "description": "23 événements"
     }
   ],
   "upcoming": [
-    {
-      "title": "Gerard Malanga",
-      "venue": "Agnès B.",
-      "start": "2026-11-04",
-      "end": "2027-01-10",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/galerie-du-jour-agnes-b-4569/gerard-malanga-3376975.html",
-      "description": "Gerard Malanga (Photographie)."
-    },
     {
       "title": "Bruxelles 1900",
       "venue": "Petit Palais",
