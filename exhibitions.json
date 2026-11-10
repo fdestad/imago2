@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09",
+  "updated": "2026-11-10",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -498,6 +498,15 @@
       "description": "Une immersion dans les multiples vies du vêtement."
     },
     {
+      "title": "Bruxelles 1900",
+      "venue": "Petit Palais",
+      "start": "2026-11-10",
+      "end": "2027-04-25",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/bruxelles-1900-108154.html",
+      "description": "Plongée dans la scène artistique de la capitale belge."
+    },
+    {
       "title": "Rafael Pavarotti, photographe",
       "venue": "MAD",
       "start": "2026-10-02",
@@ -513,7 +522,7 @@
       "end": "2027-05-03",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/musee-du-louvre-2615/louvre-photo-108690.html",
-      "description": ""
+      "description": "Les liens complexes qui unissent l'institution muséale au médium photographique depuis près de 200 ans."
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -522,7 +531,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "23 événements"
+      "description": "24 événements"
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -531,19 +540,10 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "23 événements"
+      "description": "24 événements"
     }
   ],
   "upcoming": [
-    {
-      "title": "Bruxelles 1900",
-      "venue": "Petit Palais",
-      "start": "2026-11-10",
-      "end": "2027-04-25",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/petit-palais-2991/bruxelles-1900-108154.html",
-      "description": "Plongée dans la scène artistique de la capitale belge."
-    },
     {
       "title": "Alicia Penalba, la sculpture entre terre et ciel",
       "venue": "Zadkine",
