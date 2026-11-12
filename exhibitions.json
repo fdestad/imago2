@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11",
+  "updated": "2026-11-12",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -119,6 +119,15 @@
     }
   },
   "current": [
+    {
+      "title": "Paris Photo",
+      "venue": "Grand Palais",
+      "start": "2026-11-12",
+      "end": "2026-11-15",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/grand-palais-nef-2405/paris-photo-46820.html",
+      "description": "Foire internationale dédiée à la photographie et à l’image."
+    },
     {
       "title": "François Morellet, traits d'esprit",
       "venue": "Cité de l’architecture",
@@ -531,7 +540,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "24 événements"
+      "description": "25 événements"
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -540,19 +549,10 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "24 événements"
+      "description": "25 événements"
     }
   ],
   "upcoming": [
-    {
-      "title": "Alicia Penalba, la sculpture entre terre et ciel",
-      "venue": "Zadkine",
-      "start": "2026-11-18",
-      "end": "2027-04-25",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-zadkine-3398/alicia-penalba-la-sculpture-entre-terre-et-ciel-106797.html",
-      "description": "Alicia Penalba (1913-1982), artiste de renommée internationale, est née en Argentine mais a passé l'essentiel de sa carrière en France. Alternant sections chronologiques et propos thématiques, l'exposition replace son œuvre dans le contexte artistique des années 1950-1960. Elle évoque les liens noués avec d'autres artistes comme Zadkine, Brancusi ou Matisse."
-    },
     {
       "title": "Corée. Le Royaume des lettrés 1600-1900",
       "venue": "Cernuschi",
@@ -579,6 +579,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/grand-palais-5399/girls-adolescence-mode-et-rebellion-107375.html",
       "description": "Les multiples représentations de l'adolescence féminine."
+    },
+    {
+      "title": "En volume !",
+      "venue": "Galliera",
+      "start": "2026-12-12",
+      "end": "2027-10-17",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/musee-galliera-2366/en-volume-108381.html",
+      "description": "Les techniques qui donnent corps au vêtement."
     }
   ]
 }
