@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18",
+  "updated": "2026-11-19",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -570,6 +570,15 @@
       "status": "upcoming",
       "url": "https://www.offi.fr/expositions-musees/institut-du-monde-arabe-2504/les-secrets-de-lalhambra-107189.html",
       "description": "L'exposition propose une immersion dans l'histoire de ce joyau de l'art islamique, unique complexe palatial musulman conservé en Occident et l'un des monuments les plus visités au monde. C'est l'Alhambra telle que bâtie par les sultans nasrides – bien différente de la forteresse actuelle – que l’exposition met en lumière, en dévoilant et en décryptant certains de ses secrets à l’apogée de sa splendeur, sous le règne du sultan Muhammad V, au XIVe siècle."
+    },
+    {
+      "title": "David Gilbert, Apparitions",
+      "venue": "MEP",
+      "start": "2026-12-04",
+      "end": "2027-01-17",
+      "status": "upcoming",
+      "url": "https://www.offi.fr/expositions-musees/maison-europeenne-de-la-photographie-2699/david-gilbert-apparitions-108824.html",
+      "description": "La MEP présente la première exposition personnelle en France de l’artiste américain David Gilbert, réunissant une sélection d’œuvres réalisées au cours des quinze dernières années. À la croisée de la photographie, de la sculpture, du dessin, de la peinture et de l’installation, son œuvre explore les possibilités narratives et poétiques de la mise en scène."
     },
     {
       "title": "Girls : Adolescence, mode et rébellion",
