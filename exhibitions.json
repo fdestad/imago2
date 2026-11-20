@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19",
+  "updated": "2026-11-20",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -498,6 +498,15 @@
       "description": "Une immersion dans les multiples vies du vêtement."
     },
     {
+      "title": "Corée. Le Royaume des lettrés 1600-1900",
+      "venue": "Cernuschi",
+      "start": "2026-11-20",
+      "end": "2027-04-04",
+      "status": "current",
+      "url": "https://www.offi.fr/expositions-musees/musee-cernuschi-1751/coree-le-royaume-des-lettres-1600-1900-107316.html",
+      "description": "Une immersion dans l’univers des yangban."
+    },
+    {
       "title": "Bruxelles 1900",
       "venue": "Petit Palais",
       "start": "2026-11-10",
@@ -553,15 +562,6 @@
     }
   ],
   "upcoming": [
-    {
-      "title": "Corée. Le Royaume des lettrés 1600-1900",
-      "venue": "Cernuschi",
-      "start": "2026-11-20",
-      "end": "2027-04-04",
-      "status": "upcoming",
-      "url": "https://www.offi.fr/expositions-musees/musee-cernuschi-1751/coree-le-royaume-des-lettres-1600-1900-107316.html",
-      "description": "Une immersion dans l’univers des yangban."
-    },
     {
       "title": "Les secrets de l'Alhambra",
       "venue": "IMA",
