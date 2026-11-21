@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20",
+  "updated": "2026-11-21",
   "venues": {
     "Louvre": {
       "hours": "LUN 09:00–18:00 · MAR fermé · MER 09:00–21:00 · JEU 09:00–18:00 · VEN 09:00–21:00 · SAM–DIM 09:00–18:00",
@@ -540,7 +540,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "25 événements"
+      "description": "26 événements"
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -549,7 +549,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "25 événements"
+      "description": "26 événements"
     },
     {
       "title": "Bicentenaire de la photographie",
@@ -558,7 +558,7 @@
       "end": "2027-09-30",
       "status": "current",
       "url": "https://www.offi.fr/expositions-musees/festival/bicentenaire-de-la-photographie-9208.html",
-      "description": "25 événements"
+      "description": "26 événements"
     }
   ],
   "upcoming": [
@@ -572,7 +572,7 @@
       "description": "L'exposition propose une immersion dans l'histoire de ce joyau de l'art islamique, unique complexe palatial musulman conservé en Occident et l'un des monuments les plus visités au monde. C'est l'Alhambra telle que bâtie par les sultans nasrides – bien différente de la forteresse actuelle – que l’exposition met en lumière, en dévoilant et en décryptant certains de ses secrets à l’apogée de sa splendeur, sous le règne du sultan Muhammad V, au XIVe siècle."
     },
     {
-      "title": "David Gilbert, Apparitions",
+      "title": "David Gilbert, apparitions",
       "venue": "MEP",
       "start": "2026-12-04",
       "end": "2027-01-17",
